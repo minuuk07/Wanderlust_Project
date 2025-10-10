@@ -1,0 +1,18 @@
+ <!-- this for success -->
+<% if(success && success.length){ %>
+<div class="alert alert-success alert alert-dismissible fade show col-6 offset-2"  role="alert">
+  <%=success%>
+
+ <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<%}%>
+
+<!-- this is for failure -->
+ 
+<% if(error && error.length){ %>
+<div class="alert alert-danger alert alert-dismissible fade show col-6 offset-2"  role="alert">
+  <%=error%>
+
+ <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<%}%>
