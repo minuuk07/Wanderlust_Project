@@ -1,7 +1,10 @@
 // controllers/homeController.js
 const initData = require("../init/data.js");
 const Listing = require("../models/listing");
+const express = require("express");
+const router = express.Router();
 
+const wrapAsync = require("../utils/wrapAsync");
 // Home Page Controller
 module.exports.home = async (req, res) => {
   let allListings = [];
@@ -17,17 +20,28 @@ module.exports.home = async (req, res) => {
 
 // Filter by Category Controller
 module.exports.filterByCategory = async (req, res) => {
-  const category = String(req.params.category || "").toLowerCase().trim();
-  let listings = [];
+  // const category = String(req.params.category || "").toLowerCase().trim();
+  // let listings = [];
 
-  try {
-    listings = await Listing.find({ category: category });
-  } catch (err) {
-    listings = (initData.data || []).filter(
-      (item) => item.category && item.category.toLowerCase() === category
-    );
+  // try {
+  //   listings = await Listing.find({ category: category });
+  // } catch (err) {
+  //   listings = (initData.data || []).filter(
+  //     (item) => item.category && item.category.toLowerCase() === category
+  //   );
+  // }
+
+  // // Render the view that exists at views/listings/filterResult.ejs
+  // res.render("listings/filterResult.ejs", { listings, category });
+
+   const { category } = req.params;
+  const listings = await Listing.find({ category: { $regex: new RegExp(category, "i") } });
+
+  if (!listings || listings.length === 0) {
+    req.flash("error", "No listings found for this category");
+    return res.redirect("/listings");
   }
 
-  // Render the view that exists at views/listings/filterResult.ejs
   res.render("listings/filterResult.ejs", { listings, category });
 };
+
