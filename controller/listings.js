@@ -130,12 +130,7 @@ module.exports.deleteListing=async(req, res)=>{
 
   res.redirect("/listings");
 };
-// ata icon r part
-module.exports.filterByCategory = async (req, res) => {
-  const category = req.params.category.toLowerCase();
-  const listings = await Listing.find({ category });
-  res.render("filterResult.ejs", { listings, category });
-};
+
 
 // work search btn
 module.exports.index = async (req, res) => {
