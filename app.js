@@ -6,6 +6,8 @@ console.log(process.env.SECRET);
 const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
+const indexRouter = require("./router/index.js");
+
 const mongo="mongodb://127.0.0.1:27017/wanderlust";
 const dburl=process.env.ATLASDB_URL;
 const listing=require("./models/listing.js");
@@ -96,6 +98,7 @@ app.use("/listings", listingrouter);
 
 app.use("/listings/:id/reviews", reviewrouter);
 app.use("/", userRouter);
+app.use("/", indexRouter);
 
 // this is root route
 
