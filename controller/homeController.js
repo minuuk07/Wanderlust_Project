@@ -34,8 +34,9 @@ module.exports.filterByCategory = async (req, res) => {
 
  
  
- res.render("listings/filterResult.ejs", { listings, category });
+ res.render("views/listings/filterResult.ejs", { listings, category });
 
 };
+
 
 
