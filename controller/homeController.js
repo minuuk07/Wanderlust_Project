@@ -19,21 +19,30 @@ module.exports.home = async (req, res) => {
 };
 
 //  Filter by Category Controller
-module.exports.filterByCategory = async (req, res) => {
-  const category = req.params.category.toLowerCase();
-  let listings = [];
+// module.exports.filterByCategory = async (req, res) => {
+  // const category = req.params.category.toLowerCase();
+  // let listings = [];
 
-  try {
-    listings = await Listing.find({ category: category });
-  } catch (err) {
-    listings = (initData.data || []).filter(
-      (item) => item.category && item.category.toLowerCase() === category
-    );
-  }
+  // try {
+  //   listings = await Listing.find({ category: category });
+  // } catch (err) {
+  //   listings = (initData.data || []).filter(
+  //     (item) => item.category && item.category.toLowerCase() === category
+  //   );
+  // }
 
-  // ✅ filter result page
-  res.send("page working successfully);
+  // // ✅ filter result page
+  // res.send("page working successfully);
            
-  // res.render("listings/filterResult.ejs", { listings, category });
+  // // res.render("listings/filterResult.ejs", { listings, category });
+
+
+// };
+
+  module.exports.filterByCategory = async (req, res) => {
+  const category = req.params.category.toLowerCase();
+  const listings = await Listing.find({ category });
+  res.render("listings/filterResult.ejs", { listings, category });
 };
+
 
