@@ -1,4 +1,3 @@
-// ✅ public/js/filters.js
 document.addEventListener("DOMContentLoaded", () => {
   const filters = document.querySelectorAll(".filter");
 
@@ -8,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!category) return;
 
       const baseUrl = window.location.origin;
-      // ✅ FIXED: add /listings before /filter
       window.location.href = `${baseUrl}/listings/filter/${encodeURIComponent(category)}`;
     });
   });
