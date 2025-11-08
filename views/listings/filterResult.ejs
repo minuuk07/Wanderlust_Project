@@ -1,55 +1,126 @@
-<div id="filters">
-  <% const categories = ["trending","room","iconic-city","mountain","custless","pool","camping","farms","arctic","doms","boats"]; %>
-  <% categories.forEach(cat => { %>
-    <div class="filter" data-category="<%= cat %>">
-      <i class="fa-solid fa-<%= 
-        cat === 'room' ? 'bed' : 
-        cat === 'mountain' ? 'mountain-sun' :
-        cat === 'iconic-city' ? 'mountain-city' :
-        cat === 'custless' ? 'chess-rook' :
-        cat === 'pool' ? 'person-swimming' :
-        cat === 'camping' ? 'campground' :
-        cat === 'farms' ? 'cow' :
-        cat === 'arctic' ? 'snowflake' :
-        cat === 'doms' ? 'igloo' :
-        cat === 'boats' ? 'sailboat' : 'fire'
-      %>"></i>
-      <p><%= cat.charAt(0).toUpperCase() + cat.slice(1) %></p>
-    </div>
-  <% }) %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Listings Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* তোমার CSS এখানে আছে, আগের মতোই */
+    #filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
 
-  <div class="tax-switch">
-    <input class="form-check-input" type="checkbox" id="switchCheckDefault">
-    <label for="switchCheckDefault">Display total after taxes</label>
-  </div>
-</div>
+    .filter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      opacity: 0.6;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 80px;
+    }
 
-<!-- Listings -->
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3 g-4">
-  <% if(allListings && allListings.length > 0){ %>
-    <% allListings.forEach(listing => { %>
-      <div class="col">
-        <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
-          <div class="card listing-card h-100">
-            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem; object-fit: cover;">
-            <div class="card-body">
-              <h5 class="card-title"><%= listing.title %></h5>
-              <p class="card-text mb-1">
-                <strong>₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %></strong> / Night
-                <i class="tax-info">&nbsp;+18% GST</i>
-              </p>
-            </div>
-          </div>
-        </a>
+    .filter:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .filter i {
+      font-size: 1.8rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .listing-card:hover {
+      transform: translateY(-5px);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .tax-switch {
+      display: flex;
+      align-items: center;
+      margin-left: 1rem;
+      border: 2px solid black;
+      border-radius: 2.2rem;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      height: 3rem;
+    }
+
+    .tax-switch label {
+      margin-left: 0.5rem;
+      margin-bottom: 0;
+    }
+
+    .back-btn {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-4">
+    <div id="filters">
+      <% const categories = ["trending","room","iconic-city","mountain","custless","pool","camping","farms","arctic","doms","boats"]; %>
+      <% categories.forEach(cat => { %>
+        <div class="filter" data-category="<%= cat %>">
+          <i class="fa-solid fa-<%= 
+            cat === 'room' ? 'bed' : 
+            cat === 'mountain' ? 'mountain-sun' :
+            cat === 'iconic-city' ? 'mountain-city' :
+            cat === 'custless' ? 'chess-rook' :
+            cat === 'pool' ? 'person-swimming' :
+            cat === 'camping' ? 'campground' :
+            cat === 'farms' ? 'cow' :
+            cat === 'arctic' ? 'snowflake' :
+            cat === 'doms' ? 'igloo' :
+            cat === 'boats' ? 'sailboat' : 'fire'
+          %>"></i>
+          <p><%= cat.charAt(0).toUpperCase() + cat.slice(1) %></p>
+        </div>
+      <% }) %>
+
+      <div class="tax-switch">
+        <input class="form-check-input" type="checkbox" id="switchCheckDefault">
+        <label for="switchCheckDefault">Display total after taxes</label>
       </div>
-    <% }) %>
-  <% } else { %>
-    <p class="text-center mt-4">No listings available.</p>
-  <% } %>
-</div>
+    </div>
 
-<div class="text-center back-btn">
-  <a href="/listings" class="btn btn-primary">
-    <i class="fa-solid fa-arrow-left"></i> Back to All Listings
-  </a>
-</div>
+    <!-- Listings -->
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3 g-4">
+      <% if(allListings && allListings.length > 0){ %>
+        <% allListings.forEach(listing => { %>
+          <div class="col">
+            <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+              <div class="card listing-card h-100">
+                <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem; object-fit: cover;">
+                <div class="card-body">
+                  <h5 class="card-title"><%= listing.title %></h5>
+                  <p class="card-text mb-1">
+                    <strong>₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %></strong> / Night
+                    <i class="tax-info">&nbsp;+18% GST</i>
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p class="text-center mt-4">No listings available.</p>
+      <% } %>
+    </div>
+
+    <div class="text-center back-btn">
+      <a href="/listings" class="btn btn-primary">
+        <i class="fa-solid fa-arrow-left"></i> Back to All Listings
+      </a>
+    </div>
+  </div>
+</body>
+</html>
