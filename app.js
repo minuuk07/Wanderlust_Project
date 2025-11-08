@@ -29,7 +29,7 @@ const LocalStratigy=require("passport-local");
 const user=require("./models/user.js");
 const userRouter=require("./router/user.js");
 const { error } = require('console');
-const indexRouter = require("./router/index.js");
+
 // this is create when you using ejs file
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -99,7 +99,7 @@ app.use("/listings", listingrouter);
 
 app.use("/listings/:id/reviews", reviewrouter);
 app.use("/", userRouter);
-app.use("/", indexRouter);
+
 
 // this is root route
 
