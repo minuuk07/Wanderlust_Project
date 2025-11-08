@@ -2,7 +2,7 @@
 
 const initData = require("../init/data.js");
 const Listing = require("../models/listing");
-
+const listings=require("../models/listing.js");
 module.exports.home = async (req, res) => {
   let allListings = [];
 
@@ -31,4 +31,5 @@ module.exports.filterByCategory = async (req, res) => {
 
   res.render("filterResult.ejs", { listings, category });
 };
+
 
