@@ -32,7 +32,8 @@ router.get("/:id/edit", isLoggedin,isOwner,wrapAsync(listingController.editListi
 
 
 // filter route
-router.get("/filter/:category", listingController.filterByCategory);
+router.get("/listings/filter/:category", listingController.filterByCategory);
+
 
 
 
