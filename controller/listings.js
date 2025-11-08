@@ -137,7 +137,9 @@ module.exports.deleteListing=async(req, res)=>{
 module.exports.filterByCategory = async (req, res) => {
   try {
     const { category } = req.params;
-    const listings = await Listing.find({ category: category.toLowerCase() });
+    const listings = await Listing.find({
+      category: new RegExp(`^${category}$`, 'i')
+    });
 
     if (listings.length === 0) {
       return res.render("listings/filterResult.ejs", {
@@ -147,12 +149,17 @@ module.exports.filterByCategory = async (req, res) => {
       });
     }
 
-    res.render("listings/filterResult.ejs", { listings, category, message: null });
+    res.render("listings/filterResult.ejs", {
+      listings,
+      category,
+      message: null
+    });
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error");
   }
 };
+
 
 // work search btn
 module.exports.index = async (req, res) => {
