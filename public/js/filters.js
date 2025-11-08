@@ -1,3 +1,4 @@
+// ✅ public/js/filters.js
 document.addEventListener("DOMContentLoaded", () => {
   const filters = document.querySelectorAll(".filter");
 
@@ -5,8 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
     filter.addEventListener("click", () => {
       const category = filter.dataset.category;
       if (!category) return;
+
       const baseUrl = window.location.origin;
-      window.location.href = `${baseUrl}/filter/${encodeURIComponent(category)}`;
+      // ✅ FIXED: add /listings before /filter
+      window.location.href = `${baseUrl}/listings/filter/${encodeURIComponent(category)}`;
     });
   });
 });
