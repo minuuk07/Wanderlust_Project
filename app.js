@@ -38,7 +38,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(method("_method"));
 app.engine('ejs', ejsmate);
 app.use(express.static(path.join(__dirname,"public")));
-
+app.use(express.json());
  
 const store=MongoStore.create({
   // change here full change
