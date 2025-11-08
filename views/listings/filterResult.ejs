@@ -1,25 +1,130 @@
 <% layout("/layout/boilerplate") %>
 
 <div class="container mt-4">
-  <h2>Category: <%= category %></h2>
+  <h2 class="text-center mb-4">
+    <i class="fa-solid fa-filter"></i> Category: <%= category.charAt(0).toUpperCase() + category.slice(1) %>
+  </h2>
 
   <% if (message) { %>
-    <div class="alert alert-warning"><%= message %></div>
+    <div class="alert alert-warning text-center"><%= message %></div>
   <% } %>
 
-  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-    <% listings.forEach(listing => { %>
-      <a href="/listings/<%= listing._id %>" class="listing-list">
-        <div class="card col listing-card">
-          <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem;">
-          <div class="card-body">
-            <p class="card-text">
-              <b><%= listing.title %></b><br>
-              ₹<%= listing.price %>/Night
-            </p>
-          </div>
+  <% if (listings.length > 0) { %>
+    <div class="row g-4">
+      <% listings.forEach(listing => { %>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+            <div class="card shadow-sm listing-card h-100">
+              <img 
+                src="<%= listing.image.url %>" 
+                class="card-img-top" 
+                alt="<%= listing.title %>" 
+                style="height: 18rem; object-fit: cover;"
+              >
+              <div class="card-body">
+                <h5 class="card-title"><%= listing.title %></h5>
+                <p class="card-text mb-1"><strong>₹<%= listing.price %></strong> / Night</p>
+                <small class="text-muted"><i class="fa-solid fa-location-dot"></i> <%= listing.location %>, <%= listing.country %></small>
+              </div>
+            </div>
+          </a>
         </div>
-      </a>
-    <% }) %>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <div class="text-center mt-5">
+    <a href="/listings" class="btn btn-primary">
+      <i class="fa-solid fa-arrow-left"></i> Back to All Listings
+    </a>
   </div>
 </div>
+
+<!-- Category Filter Section -->
+<hr class="mt-5 mb-4">
+<div id="filters" class="d-flex flex-wrap justify-content-center gap-3">
+  <div class="filter text-center" data-category="trending">
+    <div><i class="fa-solid fa-fire fa-2x text-danger"></i></div>
+    <p>Trending</p>
+  </div>
+
+  <div class="filter text-center" data-category="room">
+    <div><i class="fa-solid fa-bed fa-2x text-primary"></i></div>
+    <p>Room</p>
+  </div>
+
+  <div class="filter text-center" data-category="iconic-city">
+    <div><i class="fa-solid fa-mountain-city fa-2x text-secondary"></i></div>
+    <p>Iconic City</p>
+  </div>
+
+  <div class="filter text-center" data-category="mountain">
+    <div><i class="fa-solid fa-mountain-sun fa-2x text-success"></i></div>
+    <p>Mountain</p>
+  </div>
+
+  <div class="filter text-center" data-category="custless">
+    <div><i class="fa-solid fa-chess-rook fa-2x text-warning"></i></div>
+    <p>Custless</p>
+  </div>
+
+  <div class="filter text-center" data-category="pool">
+    <div><i class="fa-solid fa-person-swimming fa-2x text-info"></i></div>
+    <p>Pool</p>
+  </div>
+
+  <div class="filter text-center" data-category="camping">
+    <div><i class="fa-solid fa-campground fa-2x text-success"></i></div>
+    <p>Camping</p>
+  </div>
+
+  <div class="filter text-center" data-category="farms">
+    <div><i class="fa-solid fa-cow fa-2x text-brown"></i></div>
+    <p>Farms</p>
+  </div>
+
+  <div class="filter text-center" data-category="arctic">
+    <div><i class="fa-solid fa-snowflake fa-2x text-primary"></i></div>
+    <p>Arctic</p>
+  </div>
+
+  <div class="filter text-center" data-category="doms">
+    <div><i class="fa-solid fa-igloo fa-2x text-secondary"></i></div>
+    <p>Doms</p>
+  </div>
+
+  <div class="filter text-center" data-category="boats">
+    <div><i class="fa-solid fa-sailboat fa-2x text-info"></i></div>
+    <p>Boats</p>
+  </div>
+</div>
+
+<script>
+  // Handle filter click
+  document.addEventListener("DOMContentLoaded", () => {
+    const filters = document.querySelectorAll(".filter");
+    filters.forEach(filter => {
+      filter.addEventListener("click", () => {
+        const category = filter.dataset.category;
+        if (!category) return;
+        const baseUrl = window.location.origin;
+        window.location.href = `${baseUrl}/listings/filter/${encodeURIComponent(category)}`;
+      });
+    });
+  });
+</script>
+
+<style>
+  #filters .filter {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 120px;
+  }
+  #filters .filter:hover {
+    transform: scale(1.1);
+  }
+  .listing-card:hover {
+    transform: translateY(-5px);
+    transition: all 0.3s ease-in-out;
+  }
+</style>
