@@ -31,8 +31,9 @@ const userRouter=require("./router/user.js");
 const { error } = require('console');
 const indexRouter = require("./router/index.js");
 // this is create when you using ejs file
-app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 app.use(express.urlencoded({extended:true}));
 app.use(method("_method"));
 app.engine('ejs', ejsmate);
