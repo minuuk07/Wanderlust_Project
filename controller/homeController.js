@@ -1,42 +1,33 @@
 // controllers/homeController.js
-
 const initData = require("../init/data.js");
 const Listing = require("../models/listing");
 
-//  Home Page Controller
+// Home Page Controller
 module.exports.home = async (req, res) => {
   let allListings = [];
-
   try {
     allListings = await Listing.find({}).limit(12);
   } catch (err) {
     console.log("DB not connected, using sample data.");
     allListings = initData.data;
   }
-
-  // ✅ এখন সঠিক path
+  // NOTE: your view lives in views/listings/index.ejs
   res.render("listings/index.ejs", { allListings });
 };
 
-//  Filter by Category Controller
- module.exports.filterByCategory = async (req, res) => {
-   const category = req.params.category.toLowerCase();
+// Filter by Category Controller
+module.exports.filterByCategory = async (req, res) => {
+  const category = String(req.params.category || "").toLowerCase().trim();
   let listings = [];
 
-   try {
-     listings = await Listing.find({ category: category });
-   } catch (err) {
-     listings = (initData.data || []).filter(
-       (item) => item.category && item.category.toLowerCase() === category
-     );
-   }
+  try {
+    listings = await Listing.find({ category: category });
+  } catch (err) {
+    listings = (initData.data || []).filter(
+      (item) => item.category && item.category.toLowerCase() === category
+    );
+  }
 
-  ✅ filter result page
-   res.send("page working successfully);
-           
-   res.render("listings/filterResult.ejs", { listings, category });
-
- };
-
- 
-
+  // Render the view that exists at views/listings/filterResult.ejs
+  res.render("listings/filterResult.ejs", { listings, category });
+};
