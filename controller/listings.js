@@ -135,29 +135,28 @@ module.exports.deleteListing=async(req, res)=>{
 // const Listing = require("../models/listing");
 
 module.exports.filterByCategory = async (req, res) => {
-  try {
-    const { category } = req.params;
-    const listings = await Listing.find({
-      category: new RegExp(`^${category}$`, 'i')
-    });
+ try {
+        const category = req.params.category; // Clean URL: /listings/filter/electronics
 
-    if (listings.length === 0) {
-      return res.render("listings/filterResult.ejs", {
-        listings: [],
-        category,
-        message: `No listings found for category "${category}"`,
-      });
+        if (!category) {
+            return res.status(400).send("Category is required");
+        }
+
+        const listings = await Listing.find({ category: category });
+
+        if (listings.length === 0) {
+            return res.render("filter", {
+                category,
+                listings: [],
+                message: "No listings found in this category"
+            });
+        }
+
+        res.render("filter", { category, listings, message: null });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server Error");
     }
-
-    res.render("listings/filterResult.ejs", {
-      listings,
-      category,
-      message: null
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("Server Error");
-  }
 
 
 
