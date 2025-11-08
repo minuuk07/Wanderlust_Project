@@ -1,9 +1,9 @@
 // routes/index.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const homeController = require('../controllers/homeController');
+const homeController = require("../controllers/homeController");
 
-// GET /  -> home page
-router.get('/', homeController.home);
+router.get("/", homeController.home);
+router.get("/filter/:category", homeController.filterByCategory);
 
 module.exports = router;
