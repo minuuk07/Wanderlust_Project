@@ -36,7 +36,7 @@ module.exports.filterByCategory = async (req, res) => {
   // // Render the view that exists at views/listings/filterResult.ejs
   // res.render("listings/filterResult.ejs", { listings, category });
 
-   const { category } = req.params;
+   const { category:category } = req.params;
   const listings = await Listing.find({ category: { $regex: new RegExp(category, "i") } });
 
   if (!listings || listings.length === 0) {
@@ -46,5 +46,6 @@ module.exports.filterByCategory = async (req, res) => {
 
   res.render("listings/filterResult.ejs", { listings, category });
 };
+
 
 
