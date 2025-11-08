@@ -1,39 +1,115 @@
 <% layout("/layout/boilerplate") %>
 
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-pE2d8h3..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  /* Filter styling */
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  .filter {
+    text-align: center;
+    margin-top: 1rem;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100px;
+  }
+  .filter:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  /* Listing cards */
+  .listing-card:hover {
+    transform: translateY(-5px);
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Tax toggle */
+  .tax-switch {
+    border: 2px solid black;
+    border-radius: 2.2rem;
+    height: 3.5rem;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    cursor: pointer;
+  }
+
+  .tax-info {
+    display: none;
+  }
+</style>
+
 <div class="container mt-4">
   <h2 class="text-center mb-4">
-    <i class="fa-solid fa-filter"></i> Category: <%= category.charAt(0).toUpperCase() + category.slice(1) %>
+    <i class="fa-solid fa-filter"></i> Category: <%= category ? category.charAt(0).toUpperCase() + category.slice(1) : "All" %>
   </h2>
 
   <% if (message) { %>
     <div class="alert alert-warning text-center"><%= message %></div>
   <% } %>
 
-  <% if (listings.length > 0) { %>
-    <div class="row g-4">
-      <% listings.forEach(listing => { %>
-        <div class="col-lg-4 col-md-6 col-sm-12">
+  <!-- Category Filters -->
+  <div id="filters">
+    <% const categories = ["trending","room","iconic-city","mountain","custless","pool","camping","farms","arctic","doms","boats"]; %>
+    <% categories.forEach(cat => { %>
+      <div class="filter" data-category="<%= cat %>">
+        <div>
+          <i class="fa-solid fa-<%= 
+            cat === 'room' ? 'bed' : 
+            cat === 'mountain' ? 'mountain-sun' :
+            cat === 'iconic-city' ? 'mountain-city' :
+            cat === 'custless' ? 'chess-rook' :
+            cat === 'pool' ? 'person-swimming' :
+            cat === 'camping' ? 'campground' :
+            cat === 'farms' ? 'cow' :
+            cat === 'arctic' ? 'snowflake' :
+            cat === 'doms' ? 'igloo' :
+            cat === 'boats' ? 'sailboat' : 'fire'
+          %> fa-2x"></i>
+        </div>
+        <p><%= cat.charAt(0).toUpperCase() + cat.slice(1) %></p>
+      </div>
+    <% }) %>
+
+    <!-- Tax toggle -->
+    <div class="tax-switch">
+      <input class="form-check-input me-2" type="checkbox" id="switchCheckDefault">
+      <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+    </div>
+  </div>
+
+  <!-- Listings -->
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3 g-4">
+    <% if(allListings && allListings.length > 0){ %>
+      <% allListings.forEach(listing => { %>
+        <div class="col">
           <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
-            <div class="card shadow-sm listing-card h-100">
-              <img 
-                src="<%= listing.image.url %>" 
-                class="card-img-top" 
-                alt="<%= listing.title %>" 
-                style="height: 18rem; object-fit: cover;"
-              >
+            <div class="card listing-card h-100">
+              <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem; object-fit: cover;">
               <div class="card-body">
                 <h5 class="card-title"><%= listing.title %></h5>
-                <p class="card-text mb-1"><strong>₹<%= listing.price %></strong> / Night</p>
-                <small class="text-muted">
-                  <i class="fa-solid fa-location-dot"></i> <%= listing.location %>, <%= listing.country %>
-                </small>
+                <p class="card-text mb-1">
+                  <strong>₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %></strong> / Night
+                  <i class="tax-info">&nbsp;+18% GST</i>
+                </p>
               </div>
             </div>
           </a>
         </div>
       <% }) %>
-    </div>
-  <% } %>
+    <% } else { %>
+      <p class="text-center mt-4">No listings available.</p>
+    <% } %>
+  </div>
 
   <div class="text-center mt-5">
     <a href="/listings" class="btn btn-primary">
@@ -42,21 +118,8 @@
   </div>
 </div>
 
-<!-- Category Filter Section -->
-<hr class="mt-5 mb-4">
-<div id="filters" class="d-flex flex-wrap justify-content-center gap-3">
-  <% const categories = ["trending","room","iconic-city","mountain","custless","pool","camping","farms","arctic","doms","boats"]; %>
-  <% categories.forEach(cat => { %>
-    <div class="filter text-center" data-category="<%= cat %>">
-      <div>
-        <i class="fa-solid fa-<%= cat === 'room' ? 'bed' : cat === 'mountain' ? 'mountain-sun' : 'fire' %> fa-2x"></i>
-      </div>
-      <p><%= cat.charAt(0).toUpperCase() + cat.slice(1) %></p>
-    </div>
-  <% }) %>
-</div>
-
 <script>
+  // Category click redirect
   document.addEventListener("DOMContentLoaded", () => {
     const filters = document.querySelectorAll(".filter");
     filters.forEach(filter => {
@@ -67,20 +130,14 @@
         window.location.href = `${baseUrl}/listings/filter/${encodeURIComponent(category)}`;
       });
     });
+
+    // Tax toggle
+    const taxSwitch = document.getElementById("switchCheckDefault");
+    taxSwitch.addEventListener("change", () => {
+      const taxinfo = document.querySelectorAll(".tax-info");
+      taxinfo.forEach(info => {
+        info.style.display = taxSwitch.checked ? "inline" : "none";
+      });
+    });
   });
 </script>
-
-<style>
-  #filters .filter {
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 120px;
-  }
-  #filters .filter:hover {
-    transform: scale(1.1);
-  }
-  .listing-card:hover {
-    transform: translateY(-5px);
-    transition: all 0.3s ease-in-out;
-  }
-</style>
