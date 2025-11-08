@@ -135,48 +135,33 @@ module.exports.deleteListing=async(req, res)=>{
 // const Listing = require("../models/listing");
 
 module.exports.filterByCategory = async (req, res) => {
-  // try {
-  //   const { category } = req.params;
-  //   const listings = await Listing.find({
-  //     category: new RegExp(`^${category}$`, 'i')
-  //   });
+  try {
+    const { category } = req.params;
+    const listings = await Listing.find({
+      category: new RegExp(`^${category}$`, 'i')
+    });
 
-  //   if (listings.length === 0) {
-  //     return res.render("listings/filterResult.ejs", {
-  //       listings: [],
-  //       category,
-  //       message: `No listings found for category "${category}"`,
-  //     });
-  //   }
-
-  //   res.render("listings/filterResult.ejs", {
-  //     listings,
-  //     category,
-  //     message: null
-  //   });
-  // } catch (err) {
-  //   console.log(err);
-  //   res.status(500).send("Server Error");
-  // }
-
-
-
-module.exports.filterByCategory = async (req, res) => {
-    try {
-        const category = req.query.category; // URL: /filter/category?category=electronics
-
-        if (!category) {
-            return res.status(400).json({ error: "Category is required" });
-        }
-
-        const listings = await Listing.find({ category: category });
-
-        res.status(200).json(listings);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Server error" });
+    if (listings.length === 0) {
+      return res.render("listings/filterResult.ejs", {
+        listings: [],
+        category,
+        message: `No listings found for category "${category}"`,
+      });
     }
-};
+
+    res.render("listings/filterResult.ejs", {
+      listings,
+      category,
+      message: null
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+
+
+
+
 
  
 };
