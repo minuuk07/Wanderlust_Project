@@ -14,8 +14,8 @@ module.exports.home = async (req, res) => {
     allListings = initData.data;
   }
 
-  //  home.ejs ফাইল render হবে
-  res.render("index.ejs", { allListings });
+  // ✅ এখন সঠিক path
+  res.render("listings/index.ejs", { allListings });
 };
 
 //  Filter by Category Controller
@@ -26,18 +26,11 @@ module.exports.filterByCategory = async (req, res) => {
   try {
     listings = await Listing.find({ category: category });
   } catch (err) {
-    
     listings = (initData.data || []).filter(
       (item) => item.category && item.category.toLowerCase() === category
     );
   }
 
- 
- 
- res.render("/listings/filterResult.ejs", { listings, category });
-
+  // ✅ filter result page
+  res.render("listings/filterResult.ejs", { listings, category });
 };
-
-
-
-
