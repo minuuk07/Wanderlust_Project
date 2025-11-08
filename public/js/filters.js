@@ -1,15 +1,12 @@
-// public/js/filters.js
 document.addEventListener("DOMContentLoaded", () => {
   const filters = document.querySelectorAll(".filter");
 
   filters.forEach(filter => {
     filter.addEventListener("click", () => {
-      const raw = (filter.dataset.category || " ");
-      if (!raw) return;
-      const category = encodeURIComponent(raw.toLowerCase());
-      const baseUrl = window.location.origin; // dynamic base
-      window.location.href = `${baseUrl}/filter/${category}`;
+      const category = filter.dataset.category;
+      if (!category) return;
+      const baseUrl = window.location.origin;
+      window.location.href = `${baseUrl}/filter/${encodeURIComponent(category)}`;
     });
   });
 });
-
