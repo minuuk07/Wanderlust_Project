@@ -49,6 +49,11 @@ geometry: {
       type: [Number],
       required: true
     }
+  
+  },
+   category: {
+    type: String,
+    required: true,
   }
 });
 
