@@ -28,6 +28,7 @@ router.route("/:id")
 // here create edit route
 router.get("/:id/edit", isLoggedin,isOwner,wrapAsync(listingController.editListing));
 
+router.get("/filter/:category", listingController.filterByCategory);
 
 
 module.exports=router;
