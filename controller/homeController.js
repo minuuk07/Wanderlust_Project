@@ -6,6 +6,8 @@ const router = express.Router();
 
 const wrapAsync = require("../utils/wrapAsync");
 // Home Page Controller
+
+res.send("page worked successfylly");
 module.exports.home = async (req, res) => {
   let allListings = [];
   try {
@@ -44,4 +46,5 @@ module.exports.filterByCategory = async (req, res) => {
 
   res.render("listings/filterResult.ejs", { listings, category });
 };
+
 
