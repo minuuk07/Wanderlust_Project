@@ -53,6 +53,7 @@ geometry: {
   },
    category: {
     type: String,
+     // here a new add database
    required:true,
   }
 });
