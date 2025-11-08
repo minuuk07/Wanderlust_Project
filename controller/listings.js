@@ -134,36 +134,24 @@ module.exports.deleteListing=async(req, res)=>{
 // ata icon r jonno
 // const Listing = require("../models/listing");
 
+
 module.exports.filterByCategory = async (req, res) => {
- try {
-        const category = req.params.category; // Clean URL: /listings/filter/electronics
-
-        if (!category) {
-            return res.status(400).send("Category is required");
-        }
-
-        const listings = await Listing.find({ category: category });
-
-        if (listings.length === 0) {
-            return res.render("filter", {
-                category,
-                listings: [],
-                message: "No listings found in this category"
-            });
-        }
-
-        res.render("filter", { category, listings, message: null });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Server Error");
-    }
+  try {
+    const category = req.params.category;
+    const listings = await Listing.find({ category });
+    const message = listings.length === 0 ? "No listings found in this category" : null;
+    res.render("listings/filter", { allListings: listings, category, message });
+  } catch(err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+};
 
 
 
 
 
  
-};
 
 
 // work search btn
