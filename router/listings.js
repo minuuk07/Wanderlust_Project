@@ -10,6 +10,8 @@ const {storage}=require("../cloudeconfig.js");
 const upload = multer({ storage });
 // multer cannot take nested name like listing[image][url] this type
 // this is restructring router.route
+router.get("/filter/:category", listingController.filterByCategory);
+
 router.route("/")
 // index route
   .get(wrapAsync(listingController.index))
@@ -32,7 +34,6 @@ router.get("/:id/edit", isLoggedin,isOwner,wrapAsync(listingController.editListi
 
 
 // filter route
-router.get("/filter/:category", listingController.filterByCategory);
 
 
 
