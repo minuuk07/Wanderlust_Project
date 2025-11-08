@@ -53,7 +53,7 @@ geometry: {
   },
    category: {
     type: String,
-    required: true,
+   
   }
 });
 
