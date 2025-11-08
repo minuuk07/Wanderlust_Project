@@ -32,5 +32,8 @@ module.exports.filterByCategory = async (req, res) => {
   }
 
   // ✅ filter result page
-  res.render("listings/filterResult.ejs", { listings, category });
+  res.send("page working successfully);
+           
+  // res.render("listings/filterResult.ejs", { listings, category });
 };
+
