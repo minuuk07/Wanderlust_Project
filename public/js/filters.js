@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   filters.forEach(filter => {
     filter.addEventListener("click", () => {
-      const raw = (filter.dataset.category || "").trim();
+      const raw = (filter.dataset.category || " ");
       if (!raw) return;
       const category = encodeURIComponent(raw.toLowerCase());
       const baseUrl = window.location.origin; // dynamic base
@@ -12,3 +12,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
