@@ -1,27 +1,33 @@
 // controllers/homeController.js
-// Show a front/home page using sample data as fallback
 
-const initData = require('../init/data.js'); // adjust path if your data file sits elsewhere
-const Listing = require('../models/listing'); // optional: real DB model
+const initData = require("../init/data.js");
+const Listing = require("../models/listing");
 
-module.exports.home = async (req, res, next) => {
+module.exports.home = async (req, res) => {
+  let allListings = [];
+
   try {
-    // Try DB first (if you want live listings), otherwise fall back to init data
-    let allListings = [];
-    try {
-      allListings = await Listing.find({}).limit(12).exec();
-    } catch (err) {
-      // If DB not available or empty, use sample data
-      allListings = initData.data || [];
-    }
-
-    // If DB returned empty, fallback to sample data as well
-    if (!allListings || allListings.length === 0) {
-      allListings = initData.data || [];
-    }
-
-    res.render('home.ejs', { allListings });
+    allListings = await Listing.find({}).limit(12);
   } catch (err) {
-    next(err);
+    console.log("DB not connected, using sample data.");
+    allListings = initData.data;
   }
+
+  res.render("home.ejs", { allListings });
+};
+
+// 🔍 Filter by Category
+module.exports.filterByCategory = async (req, res) => {
+  const category = req.params.category.toLowerCase();
+  let listings = [];
+
+  try {
+    listings = await Listing.find({ category: category });
+  } catch (err) {
+    listings = (initData.data || []).filter(
+      (item) => item.category && item.category.toLowerCase() === category
+    );
+  }
+
+  res.render("filterResult.ejs", { listings, category });
 };
