@@ -1,33 +1,25 @@
-<% layout("layout/boilerplate") %>
+<% layout("/layout/boilerplate") %>
 
-<div class="row mt-4 text-center">
-  <h2>Showing "<%= category.toUpperCase() %>" Listings</h2>
-</div>
+<div class="container mt-4">
+  <h2>Category: <%= category %></h2>
 
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-  <% if(listings.length === 0) { %>
-    <p class="text-center text-danger">No listings found for this category.</p>
-  <% } else { %>
-    <% for(let listing of listings) { %>
+  <% if (message) { %>
+    <div class="alert alert-warning"><%= message %></div>
+  <% } %>
+
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+    <% listings.forEach(listing => { %>
       <a href="/listings/<%= listing._id %>" class="listing-list">
         <div class="card col listing-card">
-          <img
-            src="<%= listing.image && listing.image.url ? listing.image.url : '/images/placeholder.jpg' %>"
-            class="card-img-top"
-            alt="listing image"
-            style="height: 20rem;"
-          />
+          <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem;">
           <div class="card-body">
-            <b><p class="card-text"><%= listing.title %></b><br/>
-            ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> / Night
+            <p class="card-text">
+              <b><%= listing.title %></b><br>
+              ₹<%= listing.price %>/Night
             </p>
           </div>
         </div>
       </a>
-    <% } %>
-  <% } %>
+    <% }) %>
+  </div>
 </div>
-
-<script src="/js/filters.js"></script>
-
-
