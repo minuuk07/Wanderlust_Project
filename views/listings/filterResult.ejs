@@ -65,27 +65,7 @@
   </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <div id="filters">
-      <% const categories = ["trending","room","iconic-city","mountain","custless","pool","camping","farms","arctic","doms","boats"]; %>
-      <% categories.forEach(cat => { %>
-        <div class="filter" data-category="<%= cat %>">
-          <i class="fa-solid fa-<%= 
-            cat === 'room' ? 'bed' : 
-            cat === 'mountain' ? 'mountain-sun' :
-            cat === 'iconic-city' ? 'mountain-city' :
-            cat === 'custless' ? 'chess-rook' :
-            cat === 'pool' ? 'person-swimming' :
-            cat === 'camping' ? 'campground' :
-            cat === 'farms' ? 'cow' :
-            cat === 'arctic' ? 'snowflake' :
-            cat === 'doms' ? 'igloo' :
-            cat === 'boats' ? 'sailboat' : 'fire'
-          %>"></i>
-          <p><%= cat.charAt(0).toUpperCase() + cat.slice(1) %></p>
-        </div>
-      <% }) %>
-
+  
       <div class="tax-switch">
         <input class="form-check-input" type="checkbox" id="switchCheckDefault">
         <label for="switchCheckDefault">Display total after taxes</label>
@@ -124,3 +104,4 @@
   </div>
 </body>
 </html>
+
