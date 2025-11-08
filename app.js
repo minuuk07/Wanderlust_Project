@@ -7,7 +7,7 @@ const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
 const indexRouter = require("./router/index.js");
-const indexRouter = require("./routes/index.js");
+
 
 const mongo="mongodb://127.0.0.1:27017/wanderlust";
 const dburl=process.env.ATLASDB_URL;
