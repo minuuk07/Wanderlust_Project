@@ -3,7 +3,7 @@
 const initData = require("../init/data.js");
 const Listing = require("../models/listing");
 
-// 🏠 Home Page Controller
+//  Home Page Controller
 module.exports.home = async (req, res) => {
   let allListings = [];
 
@@ -14,11 +14,11 @@ module.exports.home = async (req, res) => {
     allListings = initData.data;
   }
 
-  // 👉 home.ejs ফাইল render হবে
-  res.render("home.ejs", { allListings });
+  //  home.ejs ফাইল render হবে
+  res.render("index.ejs", { allListings });
 };
 
-// 🔍 Filter by Category Controller
+//  Filter by Category Controller
 module.exports.filterByCategory = async (req, res) => {
   const category = req.params.category.toLowerCase();
   let listings = [];
@@ -26,13 +26,14 @@ module.exports.filterByCategory = async (req, res) => {
   try {
     listings = await Listing.find({ category: category });
   } catch (err) {
-    // যদি database error হয়, sample data থেকে খোঁজ করবে
+    
     listings = (initData.data || []).filter(
       (item) => item.category && item.category.toLowerCase() === category
     );
   }
 
-  // ✅ এখানেই তুমি এই লাইনটা রাখবে:
-  // filterResult.ejs ফাইল render করার জন্য
+ 
+ 
   res.render("filterResult.ejs", { listings, category });
 };
+
