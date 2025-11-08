@@ -4,9 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   filters.forEach(filter => {
     filter.addEventListener("click", () => {
-      const category = filter.getAttribute("data-category");
-      if (!category) return;
-      const baseUrl = window.location.origin; // https://wanderlust-project-r7lz.onrender.com
+      const raw = (filter.dataset.category || "").trim();
+      if (!raw) return;
+      const category = encodeURIComponent(raw.toLowerCase());
+      const baseUrl = window.location.origin; // dynamic base
       window.location.href = `${baseUrl}/filter/${category}`;
     });
   });
