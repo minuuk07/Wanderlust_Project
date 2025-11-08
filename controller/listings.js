@@ -140,7 +140,7 @@ module.exports.filterByCategory = async (req, res) => {
     const category = req.params.category;
     const listings = await Listing.find({ category });
     const message = listings.length === 0 ? "No listings found in this category" : null;
-    res.render("listings/filter", { allListings: listings, category, message });
+    res.render("listings/filterResult.ejs", { allListings: listings, category, message });
   } catch(err) {
     console.error(err);
     res.status(500).send("Server Error");
