@@ -131,6 +131,28 @@ module.exports.deleteListing=async(req, res)=>{
   res.redirect("/listings");
 };
 
+// ata icon r jonno
+// const Listing = require("../models/listing");
+
+module.exports.filterByCategory = async (req, res) => {
+  try {
+    const { category } = req.params;
+    const listings = await Listing.find({ category: category.toLowerCase() });
+
+    if (listings.length === 0) {
+      return res.render("listings/filterResult.ejs", {
+        listings: [],
+        category,
+        message: `No listings found for category "${category}"`,
+      });
+    }
+
+    res.render("listings/filterResult.ejs", { listings, category, message: null });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+};
 
 // work search btn
 module.exports.index = async (req, res) => {
