@@ -116,3 +116,12 @@ body{
    height: 400px;
    width: 80vh;
  }
+.minuuu{
+    padding: 10px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #ff4d4d;
+    color: white;
+   
+}
