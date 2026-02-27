@@ -66,17 +66,7 @@ const sessionOption = {
 };
 
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  proxy: true,   // IMPORTANT
-  cookie: {
-    httpOnly: true,
-    secure: true,   // Render HTTPS use করে
-    sameSite: "none"
-  }
-}));
+
 // app.get("/",  (req, res)=>{
 //     res.send("success");
 // });
@@ -96,7 +86,7 @@ passport.deserializeUser(user.deserializeUser());
 app.use((req,res,next)=>{
 res.locals.success=req.flash("success");
 res.locals.error=req.flash("error");
-res.locals.currUSer=req.user;
+res.locals.currUser=req.user;
 next();
 });
 // this create mongo db server 
