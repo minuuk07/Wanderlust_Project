@@ -2,11 +2,12 @@
 const Listing = require("../models/listing");
 // const listing=require("../models/listing");
 const booking = require("../models/booking");
-// const listing = require("../models/listing")
 const listing = require("../models/listing");
 const listings=require("../models/listing.js");
 const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const Booking = require("../models/booking");
+// const Listing = require("../models/listing");
 const mapToken=process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken});
 module.exports.index=async(req,res)=>{
@@ -133,29 +134,6 @@ module.exports.deleteListing=async(req, res)=>{
   res.redirect("/listings");
 };
 
-// ata icon r jonno
-// const Listing = require("../models/listing");
-
-
-module.exports.filterByCategory = async (req, res) => {
-  try {
-    const category = req.params.category;
-    const listings = await Listing.find({ category });
-    const message = listings.length === 0 ? "No listings found in this category" : null;
-    res.render("listings/filterResult.ejs", { allListings: listings, category, message });
-  } catch(err) {
-    console.error(err);
-    res.status(500).send("Server Error");
-  }
-};
-
-
-
-
-
- 
-
-
 // work search btn
 module.exports.index = async (req, res) => {
   try {
@@ -182,8 +160,8 @@ module.exports.index = async (req, res) => {
   }
 };
 
-// here booking system code
-
+// here booking funtion work
+// Show Booking Form
 module.exports.renderBookingForm = async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -227,4 +205,3 @@ module.exports.createBooking = async (req, res) => {
     req.flash("success", "Booking successful!");
     res.redirect(`/listings`);
 };
-
