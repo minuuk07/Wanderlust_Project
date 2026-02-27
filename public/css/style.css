@@ -118,7 +118,6 @@ body{
  }
 
 /*booking system css  */
-
 .minuuu{
    background-color: #ff4d4d;
   color: white;
@@ -129,12 +128,15 @@ body{
   cursor: pointer;
   height: 40px;
     width:100px;
-    margin-left: 100px;
+    margin-left: 500px;
+   margin-top: 100px;
     text-decoration: none;
+
   display: flex;
   justify-content: center;  /* horizontal center */
   align-items: center;   
  }
+
 /* Container */
 .booking-container {
     max-width: 500px;
