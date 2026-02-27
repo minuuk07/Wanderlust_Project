@@ -11,7 +11,7 @@ const upload = multer({ storage });
 // multer cannot take nested name like listing[image][url] this type
 // this is restructring router.route
 router.get("/filter/:category", listingController.filterByCategory);
-router.get("/upi", (listingController.showUpi));
+router.get("/:id/upi", (listingController.showUpi));
 router.get(
     "/:id/success",
     isLoggedin,
