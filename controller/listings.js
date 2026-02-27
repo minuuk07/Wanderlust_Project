@@ -255,14 +255,60 @@ module.exports.createBooking = async (req, res) => {
         req.flash("success", "Booking successful!");
 
         // ✅ FORCE absolute redirect
-        res.render("listings/upi", { totalPrice });
-
+        // res.render("listings/upi", { totalPrice });
+        // res.render("listings/success");
+        return res.redirect(`/listings/${newBooking._id}/success`);
     } catch (err) {
         console.log("BOOKING ERROR:", err);
         req.flash("error", "Booking failed!");
         return res.redirect("/listings");
     }
 };
-module.exports.showUpi = (req, res) => {
-  res.render("/listings/upi");
+module.exports.showUpi = async (req, res) => {
+    const { id } = req.params;
+
+    const booking = await Booking.findById(id).populate("listing");
+   const { name, email, adults, children, checkIn, checkOut } = req.body;
+
+        const totalDays = Math.ceil(
+            (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
+        );
+
+        const totalPrice = totalDays * listing.price;
+    if (!booking) {
+        req.flash("error", "Booking not found!");
+        return res.redirect("/listings");
+    }
+
+    res.render("listings/upi", { 
+    booking,
+    totalPrice 
+});
+};
+
+
+// success booking page
+
+module.exports.bookingSuccess = async (req, res) => {
+    const { id } = req.params;
+
+    const booking = await Booking.findById(id)
+        .populate("listing")
+        .populate("user");
+const { name, email, adults, children, checkIn, checkOut } = req.body;
+
+        const totalDays = Math.ceil(
+            (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
+        );
+
+        const totalPrice = totalDays * listing.price;
+    if (!booking) {
+        req.flash("error", "Booking not found!");
+        return res.redirect("/listings");
+    }
+
+    res.render("listings/success", { 
+    booking,
+    totalPrice 
+});
 };
