@@ -176,32 +176,51 @@ module.exports.renderBookingForm = async (req, res) => {
 
 // Create Booking
 module.exports.createBooking = async (req, res) => {
-    const { id } = req.params;
-    const listing = await Listing.findById(id);
+    try {
+        const { id } = req.params;
 
-    const { name, email, adults, children, checkIn, checkOut } = req.body;
+        const listing = await Listing.findById(id);
+        if (!listing) {
+            req.flash("error", "Listing not found!");
+            return res.redirect("/listings");
+        }
 
-    const totalDays = Math.ceil(
-        (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
-    );
+        if (!req.user) {
+            req.flash("error", "You must be logged in!");
+            return res.redirect("/login");
+        }
 
-    const totalPrice = totalDays * listing.price;
+        const { name, email, adults, children, checkIn, checkOut } = req.body;
 
-    const newBooking = new Booking({
-        listing: listing._id,
-        user: req.user._id,
-        name,
-        email,
-        adults,
-        children,
-        checkIn,
-        checkOut,
-        totalDays,
-        totalPrice
-    });
+        const totalDays = Math.ceil(
+            (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
+        );
 
-    await newBooking.save();
+        const totalPrice = totalDays * listing.price;
 
-    req.flash("success", "Booking successful!");
-    res.redirect(`/listings`);
+        const newBooking = new Booking({
+            listing: listing._id,
+            user: req.user._id,
+            name,
+            email,
+            adults,
+            children,
+            checkIn,
+            checkOut,
+            totalDays,
+            totalPrice
+        });
+
+        await newBooking.save();
+
+        req.flash("success", "Booking successful!");
+
+        // ✅ FORCE absolute redirect
+        return res.redirect("/listings");
+
+    } catch (err) {
+        console.log("BOOKING ERROR:", err);
+        req.flash("error", "Booking failed!");
+        return res.redirect("/listings");
+    }
 };
