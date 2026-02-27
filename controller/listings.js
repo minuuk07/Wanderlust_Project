@@ -197,7 +197,7 @@ module.exports.renderBookingForm = async (req, res) => {
         return res.redirect("/listings");
     }
 
-    res.render("listings/booking.ejs", { listing });
+    res.render("listings/booking.ejs", { listing  });
 };
 
 // Create Booking
