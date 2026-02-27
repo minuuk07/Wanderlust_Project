@@ -22,7 +22,13 @@ router.get(
     isLoggedin,
     wrapAsync(listingController.showMyLatestBooking)
 );
+// after payment success
 
+router.get(
+    "/:id/payment-success",
+    isLoggedin,
+    wrapAsync(listingController.paymentSuccess)
+);
 
 router.route("/")
 // index route
