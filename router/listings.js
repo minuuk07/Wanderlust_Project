@@ -12,7 +12,11 @@ const upload = multer({ storage });
 // this is restructring router.route
 router.get("/filter/:category", listingController.filterByCategory);
 router.get("/upi", (listingController.showUpi));
-
+router.get(
+    "/:id/success",
+    isLoggedin,
+    wrapAsync(listingController.bookingSuccess)
+);
 
 
 router.route("/")
