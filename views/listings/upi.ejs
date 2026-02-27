@@ -10,9 +10,10 @@
 <div class="card">
     <h2>Scan & Pay</h2>
 
-    <% let finalAmount = totalPrice && totalPrice > 0 ? totalPrice : 500; %>
-
-    <p>Total Amount: ₹<%= finalAmount %></p>
+    <h5 class="text-danger fw-bold mb-0">
+            Total Paid: ₹
+            <%= totalPrice && totalPrice > 0 ? totalPrice : 500 %>
+          </h5>
 
     <div class="upi-id">UPI ID: m74777abc@okicici</div>
     <div id="qrcode"></div>
@@ -40,3 +41,4 @@
 
 </body>
 </html>
+
