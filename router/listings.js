@@ -17,6 +17,11 @@ router.get(
     isLoggedin,
     wrapAsync(listingController.bookingSuccess)
 );
+router.get(
+    "/mybooking",
+    isLoggedin,
+    wrapAsync(listingController.showMyLatestBooking)
+);
 
 
 router.route("/")
