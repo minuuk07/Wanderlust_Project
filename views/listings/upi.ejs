@@ -9,7 +9,10 @@
 
 <div class="card">
     <h2>Scan & Pay</h2>
-    <p>Total Amount: ₹<%= totalPrice %></p>
+   <p>
+Total Amount: ₹
+<%= totalPrice && totalPrice > 0 ? totalPrice : 500 %>
+</p>
     <div class="upi-id">UPI ID: m74777abc@okicici</div>
     <div id="qrcode"></div>
 </div>
@@ -20,4 +23,5 @@
 </button>
 <script src="/js/qr.js"></script>
 </body>
+
 </html>
