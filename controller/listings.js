@@ -10,11 +10,37 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 // const Listing = require("../models/listing");
 const mapToken=process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken});
-module.exports.index=async(req,res)=>{
-  const allListings= await listing.find({});
-  // folder name dite hole ./ dite hobe
-  res.render("./listings/index.ejs", {allListings});
+// module.exports.index=async(req,res)=>{
+//   const allListings= await listing.find({});
+//   // folder name dite hole ./ dite hobe
+//   res.render("./listings/index.ejs", {allListings});
+// };
+// index updated vertion
+module.exports.index = async (req, res) => {
+  try {
+    const { search } = req.query;
+    let allListings;
+
+    if (search && search.trim() !== "") {
+      const regex = new RegExp(search, "i");
+      allListings = await Listing.find({
+        $or: [
+          { title: regex },
+          { location: regex },
+          { country: regex }
+        ],
+      });
+    } else {
+      allListings = await Listing.find({});
+    }
+
+    res.render("listings/index.ejs", { allListings });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error");
+  }
 };
+
 // this is new form
 module.exports.randerNewForm=(req, res)=>{
   
