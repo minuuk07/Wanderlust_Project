@@ -263,3 +263,6 @@ module.exports.createBooking = async (req, res) => {
         return res.redirect("/listings");
     }
 };
+module.exports.showUpi = (req, res) => {
+  res.render("/listings/upi");
+};
