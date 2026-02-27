@@ -43,11 +43,14 @@ const listing = <%- JSON.stringify(listing) %>;
 <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
     <button class="btn btn-dark add-btn  offset-4 minuu">Delete</button>
      </form>
+
+  </div>
+ <% } %>
+<div class=rak>
  <a href="/listings/<%= listing._id %>/booking" class="minuuu">
     Booking
 </a>
-  </div>
- <% } %>
+</div>
   <!-- here create reviews sections -->
  
 <div class="col-8 offset-2 mb-3">
