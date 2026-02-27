@@ -1,63 +1,154 @@
 <% layout("/layout/boilerplate") %>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+<style>
+  .booking-card {
+    border-radius: 20px;
+    overflow: hidden;
+  }
 
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-body p-4">
+  .booking-header {
+    background: linear-gradient(135deg, #fe424d, #ff6b6b);
+    color: white;
+    padding: 1.5rem;
+  }
 
-                    <h3 class="text-center mb-4 fw-bold">
-                        Book <%= listing.title %>
-                    </h3>
+  .booking-header h3 {
+    margin: 0;
+  }
 
-                    <form action="/listings/<%= listing._id %>/booking" method="POST">
+  .form-control {
+    border-radius: 12px;
+  }
 
-                        <div class="mb-3">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" name="name" class="form-control" required>
-                        </div>
+  .form-control:focus {
+    border-color: #fe424d;
+    box-shadow: 0 0 0 0.2rem rgba(254,66,77,0.25);
+  }
 
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
+  .btn-book {
+    background: linear-gradient(135deg, #fe424d, #e63946);
+    border: none;
+    padding: 0.8rem;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: 0.3s ease;
+  }
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Adults</label>
-                                <input type="number" name="adults" class="form-control" min="1" required>
-                            </div>
+  .btn-book:hover {
+    transform: scale(1.03);
+  }
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Children</label>
-                                <input type="number" name="children" class="form-control" min="0">
-                            </div>
-                        </div>
+  .listing-preview img {
+    height: 200px;
+    object-fit: cover;
+  }
+</style>
 
-                        <div class="mb-3">
-                            <label class="form-label">Check In</label>
-                            <input type="date" name="checkIn" class="form-control" required>
-                        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Check Out</label>
-                            <input type="date" name="checkOut" class="form-control" required>
-                        </div>
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
 
-                        <div class="d-grid mt-4">
-                            <button type="submit" class="btn btn-danger btn-lg rounded-3">
-                                Confirm Booking
-                            </button>
-                        </div>
+      <div class="card shadow-lg border-0 booking-card">
 
-                    </form>
+        <!-- Listing Image -->
+        <div class="listing-preview">
+          <img src="<%= listing.image.url %>"
+               class="w-100"
+               alt="listing image">
+        </div>
 
-                </div>
+        <!-- Header -->
+        <div class="booking-header text-center">
+          <h3>Book <%= listing.title %></h3>
+          <p class="mb-0">₹ <%= listing.price %> / night</p>
+        </div>
+
+        <!-- Form Body -->
+        <div class="card-body p-4">
+
+          <form action="/listings/<%= listing._id %>/booking"
+                method="POST">
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                Full Name
+              </label>
+              <input type="text"
+                     name="name"
+                     class="form-control"
+                     placeholder="Enter your full name"
+                     required>
             </div>
 
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                Email Address
+              </label>
+              <input type="email"
+                     name="email"
+                     class="form-control"
+                     placeholder="Enter your email"
+                     required>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">
+                  Adults
+                </label>
+                <input type="number"
+                       name="adults"
+                       class="form-control"
+                       min="1"
+                       value="1"
+                       required>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">
+                  Children
+                </label>
+                <input type="number"
+                       name="children"
+                       class="form-control"
+                       min="0"
+                       value="0">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                Check In
+              </label>
+              <input type="date"
+                     name="checkIn"
+                     class="form-control"
+                     required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                Check Out
+              </label>
+              <input type="date"
+                     name="checkOut"
+                     class="form-control"
+                     required>
+            </div>
+
+            <div class="d-grid mt-4">
+              <button type="submit"
+                      class="btn btn-book btn-lg text-white">
+                Confirm Booking
+              </button>
+            </div>
+
+          </form>
+
         </div>
+      </div>
+
     </div>
-
+  </div>
 </div>
-
