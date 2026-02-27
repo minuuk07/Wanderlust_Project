@@ -9,19 +9,34 @@
 
 <div class="card">
     <h2>Scan & Pay</h2>
-   <p>
-Total Amount: ₹
-<%= totalPrice && totalPrice > 0 ? totalPrice : 500 %>
-</p>
+
+    <% let finalAmount = totalPrice && totalPrice > 0 ? totalPrice : 500; %>
+
+    <p>Total Amount: ₹<%= finalAmount %></p>
+
     <div class="upi-id">UPI ID: m74777abc@okicici</div>
     <div id="qrcode"></div>
 </div>
-<button>
-<a href="/listings" class="minuuu">
-    Back to all listings
-</a>
-</button>
-<script src="/js/qr.js"></script>
-</body>
 
+<br>
+
+<button>
+    <a href="/listings" class="minuuu">
+        Back to all listings
+    </a>
+</button>
+
+<script>
+    const amount = <%= finalAmount %>;
+
+    const upiLink = `upi://pay?pa=m74777abc@okicici&pn=Mrinmoy%20Ghosh&am=${amount}&cu=INR`;
+
+    new QRCode(document.getElementById("qrcode"), {
+        text: upiLink,
+        width: 200,
+        height: 200
+    });
+</script>
+
+</body>
 </html>
