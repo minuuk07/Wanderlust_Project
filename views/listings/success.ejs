@@ -1,0 +1,39 @@
+
+<link rel="stylesheet" href="/css/style2.css">
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+
+        <h2 class="text-success text-center">
+            🎉 Booking Confirmed!
+        </h2>
+
+        <hr>
+
+        <h4>Booking Details:</h4>
+
+        <p><b>Listing:</b> <%= booking.listing.title %></p>
+        <p><b>Name:</b> <%= booking.name %></p>
+        <p><b>Email:</b> <%= booking.email %></p>
+        <p><b>Check In:</b> <%= booking.checkIn.toDateString() %></p>
+        <p><b>Check Out:</b> <%= booking.checkOut.toDateString() %></p>
+        <p><b>Total Nights:</b> <%= booking.totalDays %></p>
+
+        <h3 class="text-danger">
+            Total Paid:  ₹
+<%= totalPrice && totalPrice > 0 ? totalPrice : 500 %>
+</p>
+        </h3>
+
+        <br>
+
+        <a href="/listings" class="btn btn-primary minuuu">
+            Back to Listings
+        </a>
+        <br>
+
+        <a href="/listings/<%= booking._id %>/upi" 
+   class="btn btn-primary minuuu">
+    Payment
+</a>
+    </div>
+</div>
