@@ -1,96 +1,124 @@
+<% layout("/layout/boilerplate")%>
 
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
 
-<% layout("/layout/boilerplate")%>;
-<div class="row mt-2">
-    <div class="col-8 offset-2">
-<h1>Edit this listings</h1>
-<br>
-    <form method="POST" action="/listings/<%=listing._id%>?_method=PUT"
-         novalidate class="needs-validation" enctype="multipart/form-data">
-        <div class="mb-3"> 
-            <label for="title" class="form-label"></label><b>Title</b></label>
-             <input name="listing[title]" required value="<%=listing.title%>" type="text"  class="form-control">
-             <div class="valid-feedback">
-    Title Looks Good
+      <div class="card shadow-lg border-0 rounded-4 p-4">
+
+        <h2 class="text-center fw-bold text-warning mb-4">
+          ✏️ Edit Listing
+        </h2>
+
+        <form method="POST"
+              action="/listings/<%=listing._id%>?_method=PUT"
+              novalidate
+              class="needs-validation"
+              enctype="multipart/form-data">
+
+          <!-- Title -->
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Title</label>
+            <input name="listing[title]"
+                   required
+                   value="<%=listing.title%>"
+                   type="text"
+                   class="form-control rounded-3 shadow-sm">
+            <div class="valid-feedback">Title Looks Good</div>
+            <div class="invalid-feedback">Please Enter a Valid Title</div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Description</label>
+            <textarea name="listing[description]"
+                      required
+                      rows="5"
+                      class="form-control rounded-3 shadow-sm"><%=listing.description%></textarea>
+            <div class="invalid-feedback">Please Enter Description</div>
+          </div>
+
+          <!-- Original Image -->
+          <div class="mb-4">
+            <h6 class="fw-semibold">Original Listing Image</h6>
+            <img src="<%=originalImage%>"
+                 class="img-fluid rounded-4 shadow-sm mb-3"
+                 style="max-height: 250px; object-fit: cover;">
+          </div>
+
+          <!-- Upload New Image -->
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Upload New Image</label>
+            <input name="listing[image]"
+                   type="file"
+                   class="form-control rounded-3 shadow-sm">
+          </div>
+
+          <!-- Price & Country -->
+          <div class="row">
+            <div class="mb-4 col-md-4">
+              <label class="form-label fw-semibold">Price</label>
+              <input name="listing[price]"
+                     required
+                     value="<%=listing.price%>"
+                     type="number"
+                     class="form-control rounded-3 shadow-sm">
+              <div class="invalid-feedback">Please Enter a Valid Price</div>
+            </div>
+
+            <div class="mb-4 col-md-8">
+              <label class="form-label fw-semibold">Country</label>
+              <input name="listing[country]"
+                     required
+                     value="<%=listing.country%>"
+                     type="text"
+                     class="form-control rounded-3 shadow-sm">
+              <div class="invalid-feedback">Please Enter a Country</div>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Location</label>
+            <input name="listing[location]"
+                   required
+                   value="<%=listing.location%>"
+                   type="text"
+                   class="form-control rounded-3 shadow-sm">
+            <div class="invalid-feedback">Please Enter a Location</div>
+          </div>
+
+          <!-- Category -->
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Category</label>
+            <select name="listing[category]"
+                    class="form-select rounded-3 shadow-sm"
+                    required>
+              <option value="">Select Category</option>
+              <option value="trending" <%= listing.category==="trending"?"selected":"" %>>🔥 Trending</option>
+              <option value="room" <%= listing.category==="room"?"selected":"" %>>🛏️ Room</option>
+              <option value="iconic-city" <%= listing.category==="iconic-city"?"selected":"" %>>🏙️ Iconic City</option>
+              <option value="mountain" <%= listing.category==="mountain"?"selected":"" %>>🏔️ Mountain</option>
+              <option value="custless" <%= listing.category==="custless"?"selected":"" %>>🏰 Custless</option>
+              <option value="pool" <%= listing.category==="pool"?"selected":"" %>>🏊 Pool</option>
+              <option value="camping" <%= listing.category==="camping"?"selected":"" %>>🏕️ Camping</option>
+              <option value="farms" <%= listing.category==="farms"?"selected":"" %>>🐄 Farms</option>
+              <option value="arctic" <%= listing.category==="arctic"?"selected":"" %>>❄️ Arctic</option>
+              <option value="doms" <%= listing.category==="doms"?"selected":"" %>>🏠 Doms</option>
+              <option value="boats" <%= listing.category==="boats"?"selected":"" %>>🚤 Boats</option>
+            </select>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-grid mt-4">
+            <button class="btn btn-warning btn-lg rounded-pill shadow">
+              Update Listing
+            </button>
+          </div>
+
+        </form>
+
+      </div>
     </div>
-    <div class="invalid-feedback">Please Enter a Valid Title</div>
-             </div>
-
-    <div class="mb-3">
-                    <label for="Description" class="form-label"></label><b>Description</b></label>
-                     <textarea name="listing[description]" required rows="5" cols="50" type="text" value="<%=listing.description%>"  class="form-control"><%=listing.description%></textarea>
-     
-             <div class="invalid-feedback">Please Enter Description</div>
-
-         </div>
-    
-    <div class="mb-3">
-        <h5> Original Listing Image</h5>
-         <img src="<%=originalImage%>" class="imagg">
-         </div>
-     
-     
-         <div class="mb-3">
-         <label for="Image" class="form-label"></label><b>Upload new Image</b></label>
-         <input name="listing[image]"   type="file"  class="form-control">
-               
-
-         </div>
-     
-     <div class="row">
-<div class="mb-3 col-md-4">
-         <label for="Price" class="form-label"></label><b>Price</b></label>
-         <input name="listing[price]" required value="<%=listing.price%>" type="number"  class="form-control">
-             <div class="invalid-feedback">Please Enter a Valid Price</div>
-
-        </div>
-
-
-    <div class="mb-3 col-md-8">
-        <label for="Country" class="form-label"></label><b>Country</b></label>
-          <input name="listing[country]" required value="<%=listing.country%>" type="text"  class="form-control">
-         <div class="invalid-feedback">Please Enter a  Country</div>
-
-    </div>
-     </div>
-        
-    
-    <div class="mb-3">
-        <label for="Location" class="form-label"></label><b>Location</b></label>
-        <input name="listing[location]" required value="<%=listing.location%>" type="text"  class="form-control">
-        <div class="invalid-feedback">Please Enter a  Loaction</div>
-
-    </div>
-
-    
-    
-  
-    
-    <br>
-
-<div class="mb-3">
-    <label for="category" required><b>Category<b></label>
-    <select name="listing[category]" class="form-select" >
-      <option value="">Select Category</option>
-      <option value="trending">🔥 Trending</option>
-      <option value="room">🛏️ Room</option>
-      <option value="iconic-city">🏙️ iconic-city</option>
-      <option value="mountain">🏔️ Mountain</option>
-      <option value="custless">🏰custless</option>
-      <option value="pool">🏊 Pool</option>
-      <option value="camping">🏕️ Camping</option>
-      <option value="farms">🐄 Farms</option>
-      <option value="arctic">❄️ Arctic</option>
-      <option value="doms">🏠 Doms</option>
-      <option value="boats">🚤 Boats</option>
-    </select>
   </div>
-    <button class="btn btn-dark add-btn">submit</button>
-    <br> <br>
-    </form>
-</body>
-
-    </div>
 </div>
-
-    
