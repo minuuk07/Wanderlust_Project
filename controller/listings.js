@@ -255,7 +255,7 @@ module.exports.createBooking = async (req, res) => {
         req.flash("success", "Booking successful!");
 
         // ✅ FORCE absolute redirect
-        return res.redirect("/listings");
+        res.render("listings/upi", { totalPrice });
 
     } catch (err) {
         console.log("BOOKING ERROR:", err);
