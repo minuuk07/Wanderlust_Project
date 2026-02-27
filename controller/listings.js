@@ -1,7 +1,7 @@
 // this is index route
 const Listing = require("../models/listing");
 // const listing=require("../models/listing");
-const booking = require("../models/booking");
+const Booking = require("../models/booking");
 const listing = require("../models/listing");
 const listings=require("../models/listing.js");
 const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
