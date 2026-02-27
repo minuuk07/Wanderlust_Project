@@ -1,45 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>UPI QR</title>
-    <link rel="stylesheet" href="/css/style2.css">
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
-</head>
-<body>
+<% layout("/layout/boilerplate") %>
 
-<div class="card">
-    <h2>Scan & Pay</h2>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 
-    <h5 class="text-danger fw-bold mb-0">
-            Total Paid: ₹
-            <%= totalPrice && totalPrice > 0 ? totalPrice : 500 %>
-          </h5>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
 
-    <div class="upi-id">UPI ID: m74777abc@okicici</div>
-    <div id="qrcode"></div>
+      <div class="card shadow-lg border-0 rounded-4 p-4 text-center">
+
+        <h3 class="fw-bold text-success mb-3">
+          💳 Scan & Pay
+        </h3>
+
+        <hr>
+
+        <% const finalAmount = (typeof totalPrice !== "undefined" && totalPrice > 0) 
+            ? totalPrice 
+            : (booking ? booking.totalPrice : 500); %>
+
+        <h4 class="text-danger fw-bold mb-3">
+          Total Amount: ₹ <%= finalAmount %>
+        </h4>
+
+        <div class="mb-3">
+          <span class="badge bg-dark fs-6 px-3 py-2 rounded-pill">
+            UPI ID: m74777abc@okicici
+          </span>
+        </div>
+
+        <div id="qrcode" class="d-flex justify-content-center mb-4"></div>
+
+        <div class="d-grid gap-3">
+          <a href="/listings"
+             class="btn btn-outline-secondary rounded-pill">
+             Back to Listings
+          </a>
+
+          <a href="/listings/<%= booking ? booking._id : '' %>/success"
+             class="btn btn-success rounded-pill shadow">
+             Payment Completed
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 </div>
 
-<br>
-
-<button>
-    <a href="/listings" class="minuuu">
-        Back to all listings
-    </a>
-</button>
-
 <script>
-    const amount = <%=   totalPrice%>;
+  const amount = <%= finalAmount %>;
 
-    const upiLink = `upi://pay?pa=m74777abc@okicici&pn=Mrinmoy%20Ghosh&am=${amount}&cu=INR`;
+  const upiLink = `upi://pay?pa=m74777abc@okicici&pn=Mrinmoy%20Ghosh&am=${amount}&cu=INR`;
 
-    new QRCode(document.getElementById("qrcode"), {
-        text: upiLink,
-        width: 200,
-        height: 200
-    });
+  new QRCode(document.getElementById("qrcode"), {
+      text: upiLink,
+      width: 220,
+      height: 220
+  });
 </script>
-
-</body>
-</html>
-
-
