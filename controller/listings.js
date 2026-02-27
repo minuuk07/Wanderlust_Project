@@ -6,7 +6,7 @@ const listing = require("../models/listing");
 const listings=require("../models/listing.js");
 const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); 
-const Booking = require("../models/booking");
+
 // const Listing = require("../models/listing");
 const mapToken=process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken});
