@@ -2,51 +2,85 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-lg-6 col-md-8">
 
             <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-body p-4">
+                <div class="card-body p-5">
 
-                    <h3 class="text-center mb-4 fw-bold">
-                        Book <%= listing.title %>
+                    <h3 class="text-center mb-4 fw-bold text-primary">
+                        🏨 Book <%= listing.title %>
                     </h3>
 
                     <form action="/listings/<%= listing._id %>/booking" method="POST">
 
-                        <div class="mb-3">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" name="name" class="form-control" required>
+                        <!-- Full Name -->
+                        <div class="form-floating mb-3">
+                            <input type="text" 
+                                   name="name" 
+                                   class="form-control rounded-3" 
+                                   placeholder="Full Name" 
+                                   required>
+                            <label>Full Name</label>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" required>
+                        <!-- Email -->
+                        <div class="form-floating mb-3">
+                            <input type="email" 
+                                   name="email" 
+                                   class="form-control rounded-3" 
+                                   placeholder="Email"
+                                   required>
+                            <label>Email Address</label>
                         </div>
 
+                        <!-- Adults & Children -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Adults</label>
-                                <input type="number" name="adults" class="form-control" min="1" required>
+                                <div class="form-floating">
+                                    <input type="number" 
+                                           name="adults" 
+                                           class="form-control rounded-3" 
+                                           placeholder="Adults"
+                                           min="1"
+                                           required>
+                                    <label>Adults</label>
+                                </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Children</label>
-                                <input type="number" name="children" class="form-control" min="0">
+                                <div class="form-floating">
+                                    <input type="number" 
+                                           name="children" 
+                                           class="form-control rounded-3" 
+                                           placeholder="Children"
+                                           min="0">
+                                    <label>Children</label>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Check In</label>
-                            <input type="date" name="checkIn" class="form-control" required>
+                        <!-- Check In -->
+                        <div class="form-floating mb-3">
+                            <input type="date" 
+                                   name="checkIn" 
+                                   class="form-control rounded-3"
+                                   required>
+                            <label>Check In</label>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Check Out</label>
-                            <input type="date" name="checkOut" class="form-control" required>
+                        <!-- Check Out -->
+                        <div class="form-floating mb-3">
+                            <input type="date" 
+                                   name="checkOut" 
+                                   class="form-control rounded-3"
+                                   required>
+                            <label>Check Out</label>
                         </div>
 
+                        <!-- Submit Button -->
                         <div class="d-grid mt-4">
-                            <button type="submit" class="btn btn-danger btn-lg rounded-3">
+                            <button type="submit" 
+                                    class="btn btn-danger btn-lg rounded-pill shadow">
                                 Confirm Booking
                             </button>
                         </div>
@@ -58,6 +92,4 @@
 
         </div>
     </div>
-
 </div>
-
