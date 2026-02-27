@@ -33,7 +33,7 @@ const listing = <%- JSON.stringify(listing) %>;
 <br> <br>
   
 
-<% if(currUSer && listing.owner._id.equals(currUSer._id)) { %>
+<% if(currUser && listing.owner._id.equals(currUser._id)) { %>
 <div class="btns">
     <a href="/listings/<%=listing._id%>/edit" class="btn btn-dark add-btn col-1  offset-2 minu">Edit</a>
     
@@ -51,7 +51,7 @@ const listing = <%- JSON.stringify(listing) %>;
   <!-- here create reviews sections -->
  
 <div class="col-8 offset-2 mb-3">
-    <% if(currUSer) { %>
+    <% if(currUser) { %>
       <hr>
   <h4>Leave a Review</h4>
   
