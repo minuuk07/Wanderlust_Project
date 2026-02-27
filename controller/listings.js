@@ -312,3 +312,31 @@ const { name, email, adults, children, checkIn, checkOut } = req.body;
     totalPrice 
 });
 };
+module.exports.showMyLatestBooking = async (req, res) => {
+    if (!req.user) {
+        req.flash("error", "Please login first!");
+        return res.redirect("/login");
+    }
+const { name, email, adults, children, checkIn, checkOut } = req.body;
+
+        const totalDays = Math.ceil(
+            (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
+        );
+
+        const totalPrice = totalDays * listing.price;
+    
+    const booking = await Booking.findOne({ user: req.user._id })
+        .sort({ createdAt: -1 })   // newest first
+        .populate("listing");
+
+    if (!booking) {
+        req.flash("error", "No booking found!");
+        return res.redirect("/listings");
+    }
+
+    // res.render("listings/summary", { booking });
+    res.render("listings/summary", { 
+    booking,
+    totalPrice 
+});
+};
