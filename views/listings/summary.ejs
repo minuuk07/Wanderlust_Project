@@ -1,35 +1,65 @@
 <% layout("/layout/boilerplate") %>
 
 <div class="container mt-5">
-    <div class="card shadow-lg p-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
 
-        <h2 class="text-success text-center">
-            🧾 Booking Summary
-        </h2>
+            <div class="card shadow-lg border-0 rounded-4 p-4">
 
-        <hr>
+                <h2 class="text-success text-center mb-3">
+                    🧾 Booking Summary
+                </h2>
 
-        <p><b>Listing:</b> <%= booking.listing.title %></p>
-        <p><b>Name:</b> <%= booking.name %></p>
-        <p><b>Email:</b> <%= booking.email %></p>
-        <p><b>Check In:</b> <%= booking.checkIn.toDateString() %></p>
-        <p><b>Check Out:</b> <%= booking.checkOut.toDateString() %></p>
-        <p><b>Total Nights:</b> <%= booking.totalDays>1 ? totalDays:1 %></p>
+                <hr>
 
-        <h4>Total Amount: ₹
-<%= totalPrice && totalPrice > 0 ? totalPrice : 500 %>
-</p>
+                <div class="mb-2">
+                    <strong>Listing:</strong> <%= booking.listing.title %>
+                </div>
 
-        <br>
+                <div class="mb-2">
+                    <strong>Name:</strong> <%= booking.name %>
+                </div>
 
-        <a href="/listings/<%= booking._id %>/upi"
-           class="btn btn-success">
-           Proceed to Payment
-        </a>
-<a href="/listings"
-           class="btn btn-success">
-          back to all listings
-        </a>
+                <div class="mb-2">
+                    <strong>Email:</strong> <%= booking.email %>
+                </div>
+
+                <div class="mb-2">
+                    <strong>Check In:</strong> 
+                    <%= booking.checkIn.toDateString() %>
+                </div>
+
+                <div class="mb-2">
+                    <strong>Check Out:</strong> 
+                    <%= booking.checkOut.toDateString() %>
+                </div>
+
+                <div class="mb-2">
+                    <strong>Total Nights:</strong> 
+                    <%= booking.totalDays > 0 ? booking.totalDays : 1 %>
+                </div>
+
+                <h4 class="text-danger mt-3">
+                    Total Amount: ₹
+                    <%= booking.totalPrice > 0 ? booking.totalPrice : 500 %>
+                </h4>
+
+                <!-- ✅ Buttons Section -->
+                <div class="d-flex justify-content-center gap-3 mt-4">
+
+                    <a href="/listings/<%= booking._id %>/upi"
+                       class="btn btn-success px-4">
+                       Proceed to Payment
+                    </a>
+
+                    <a href="/listings"
+                       class="btn btn-outline-secondary px-4">
+                       Back to Listings
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
     </div>
-
 </div>
