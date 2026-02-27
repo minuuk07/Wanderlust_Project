@@ -1,150 +1,122 @@
-<% layout("/layout/boilerplate")%>
+<% layout("/layout/boilerplate") %>
 
-    <!-- <h1>All Listings</h1> -->
-     <style>
-        #filters{
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .filter{
-            text-align: center;
-            margin-right: 2rem;
-            margin-top: 2rem;
-            opacity: 0.6;
-        }
-        .filter:hover{
-            opacity: 1;
-            cursor: pointer;
-            font-size: 15px;
-        }
-        .tax-info{
-            display: none;
-        }
-        .tax-switch{
-            border: 2px, solid, black;
-            border-radius: 2.2rem;
-            height: 3.5rem;
-            padding: 1rem;
-          margin-left: 5rem;   
-          display: flex;
-          align-items: center;  
-        }
-     </style>
-   
-     <div id="filters">
-   
-     <div class="filter" data-category="trending">
-    <div><i class="fa-solid fa-fire"></i></div>
-    <p>Trending</p>
-  </div>
+<style>
+  body{
+    background: linear-gradient(to right,#f8f9fa,#eef2f7);
+  }
 
-  <div class="filter" data-category="room">
-    <div><i class="fa-solid fa-bed"></i></div>
-    <p>Room</p>
-  </div>
+  /* FILTER BAR */
+  #filters{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:stretch;
+    gap:1.5rem;
+    padding:2rem 0;
+  }
 
-  <div class="filter" data-category="iconic-city">
-    <div><i class="fa-solid fa-mountain-city"></i></div>
-    <p>Iconic City</p>
-  </div>
+  /* Equal Filter Box */
+  .filter{
+    width:120px;
+    height:120px;
+    background:#fff;
+    border-radius:1.25rem;        /* Bootstrap rounded-4 feel */
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:1rem;
+    box-shadow:0 .5rem 1rem rgba(0,0,0,.08);
+    transition:all .3s ease;
+    cursor:pointer;
+  }
 
-  <div class="filter" data-category="mountain">
-    <div><i class="fa-solid fa-mountain-sun"></i></div>
-    <p>Mountain</p>
-  </div>
+  .filter i{
+    font-size:26px;
+    width:45px;
+    height:45px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fe424d;
+    margin-bottom:.5rem;
+  }
 
-  <div class="filter" data-category="custless">
-    <div><i class="fa-solid fa-chess-rook"></i></div>
-    <p>Custless</p>
-  </div>
+  .filter p{
+    margin:0;
+    font-size:.85rem;
+    font-weight:500;
+  }
 
-  <div class="filter" data-category="pool">
-    <div><i class="fa-solid fa-person-swimming"></i></div>
-    <p>Amazing Pool</p>
-  </div>
+  .filter:hover{
+    transform:translateY(-6px);
+    box-shadow:0 1rem 2rem rgba(0,0,0,.15);
+  }
 
-  <div class="filter" data-category="camping">
-    <div><i class="fa-solid fa-campground"></i></div>
-    <p>Camping</p>
-  </div>
+  /* Booking Button Same Size */
+  .booking-btn{
+    height:120px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:1.25rem;
+    padding:0 1.5rem;
+    box-shadow:0 .5rem 1rem rgba(0,0,0,.08);
+  }
 
-  <div class="filter" data-category="farms">
-    <div><i class="fa-solid fa-cow"></i></div>
-    <p>Farms</p>
-  </div>
+  /* Tax Switch Same Size */
+  .tax-switch{
+    height:120px;
+    display:flex;
+    align-items:center;
+    padding:0 1.5rem;
+    border-radius:1.25rem;
+    background:#fff;
+    box-shadow:0 .5rem 1rem rgba(0,0,0,.08);
+  }
+</style>
 
-  <div class="filter" data-category="arctic">
-    <div><i class="fa-solid fa-snowflake"></i></div>
-    <p>Arctic</p>
-  </div>
 
-  <div class="filter" data-category="doms">
-    <div><i class="fa-solid fa-igloo"></i></div>
-    <p>Doms</p>
-  </div>
+<!-- FILTER SECTION -->
+<div id="filters">
 
-  <div class="filter" data-category="boats">
-    <div><i class="fa-solid fa-sailboat"></i></div>
-    <p>Boats</p>
-  </div>
-<a class=" btn btn-primary"
-       href="/listings/mybooking">
-       <b><h5>Your Booking</h5></b>
-    </a>
-       <div class="tax-switch">
-        <div class="form-check-reverse form-switch">
-  <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-  <label class="form-check-label" for="switchCheckDefault">display total after taxs</label>
-</div>
-       </div>
-     </div>
-    
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-        <% for(let listing of allListings){ %>
-          <a href="/listings/<%=listing._id%>" class="listing-list" >
-        <div class="card col listing-card" >
-            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem;">
-            <div class="card-img-overlay"></div>
-            <div class="card-body">
-                <b>
-                    <p class="card-text"><%= listing.title %> <br></b>
-                &#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>/Night
-                <i class="tax-info"> &nbsp; &nbsp +18% GST</i>
+  <% const categories=[
+    {name:"Trending",icon:"fa-fire",value:"trending"},
+    {name:"Room",icon:"fa-bed",value:"room"},
+    {name:"Iconic City",icon:"fa-mountain-city",value:"iconic-city"},
+    {name:"Mountain",icon:"fa-mountain-sun",value:"mountain"},
+    {name:"Pool",icon:"fa-person-swimming",value:"pool"},
+    {name:"Camping",icon:"fa-campground",value:"camping"},
+    {name:"Farms",icon:"fa-cow",value:"farms"},
+    {name:"Arctic",icon:"fa-snowflake",value:"arctic"},
+    {name:"Boats",icon:"fa-sailboat",value:"boats"}
+  ]; %>
 
-                </p>
-            </div>
-        </div>
-        </a>
-        <% } %>
+  <% categories.forEach(cat=>{ %>
+    <div class="filter">
+      <i class="fa-solid <%=cat.icon%>"></i>
+      <p><%=cat.name%></p>
     </div>
-</body>
+  <% }) %>
 
-<script>
-    let taxSwitch=document.getElementById("switchCheckDefault");
+  <!-- Your Booking -->
+  <a href="/listings/mybooking"
+     class="btn btn-dark booking-btn">
+     <i class="fa-solid fa-calendar-check me-2"></i>
+     Your Booking
+  </a>
 
-    taxSwitch.addEventListener("click", ()=>{
-     let taxinfo=document.getElementsByClassName("tax-info");
-     for( info of taxinfo){
-        if(info.style.display!="inline"){
-        info.style.display="inline";
-        }else{
-             info.style.display="none";
-        }
-     }
-    })
-</script>
+  <!-- Tax Toggle -->
+  <div class="tax-switch">
+    <div class="form-check form-switch m-0">
+      <input class="form-check-input"
+             type="checkbox"
+             id="switchCheckDefault">
+      <label class="form-check-label ms-2">
+        Show GST
+      </label>
+    </div>
+  </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const filters = document.querySelectorAll(".filter");
-    filters.forEach(filter => {
-      filter.addEventListener("click", () => {
-        const category = filter.dataset.category;
-        if (!category) return;
-        const baseUrl = window.location.origin;
-        window.location.href = `${baseUrl}/listings/filter/${encodeURIComponent(category)}`;
-      });
-    });
-  });
-</script>
+</div>
