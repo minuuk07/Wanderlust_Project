@@ -33,9 +33,9 @@ const { error } = require('console');
 // this is create when you using ejs file
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
-app.use(express.urlencoded({extended:true}));
 app.set("trust proxy", 1);
+app.use(express.urlencoded({extended:true}));
+
 app.use(method("_method"));
 app.engine('ejs', ejsmate);
 app.use(express.static(path.join(__dirname,"public")));
@@ -64,6 +64,19 @@ const sessionOption = {
   httpOnly:true
   },
 };
+
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  proxy: true,   // IMPORTANT
+  cookie: {
+    httpOnly: true,
+    secure: true,   // Render HTTPS use করে
+    sameSite: "none"
+  }
+}));
 // app.get("/",  (req, res)=>{
 //     res.send("success");
 // });
