@@ -9,71 +9,95 @@
   #filters{
     display:flex;
     flex-wrap:wrap;
+    align-items:center;
+    gap:1.2rem;
+    padding:1rem 0;
     justify-content:center;
-    align-items:stretch;
-    gap:1.5rem;
-    padding:2rem 0;
   }
 
-  /* Equal Filter Box */
   .filter{
-    width:120px;
-    height:120px;
-    background:#fff;
-    border-radius:1.25rem;        /* Bootstrap rounded-4 feel */
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
     text-align:center;
-    padding:1rem;
-    box-shadow:0 .5rem 1rem rgba(0,0,0,.08);
-    transition:all .3s ease;
+    padding:0.7rem 1rem;
+    border-radius:15px;
+    background:white;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
     cursor:pointer;
+    transition:0.3s ease;
+    width:90px;
   }
 
   .filter i{
-    font-size:26px;
-    width:45px;
-    height:45px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    font-size:1.4rem;
+    margin-bottom:4px;
     color:#fe424d;
-    margin-bottom:.5rem;
+  }
+
+  .filter:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
   }
 
   .filter p{
     margin:0;
-    font-size:.85rem;
+    font-size:0.8rem;
     font-weight:500;
   }
 
-  .filter:hover{
-    transform:translateY(-6px);
-    box-shadow:0 1rem 2rem rgba(0,0,0,.15);
-  }
-
-  /* Booking Button Same Size */
-  .booking-btn{
-    height:120px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:1.25rem;
-    padding:0 1.5rem;
-    box-shadow:0 .5rem 1rem rgba(0,0,0,.08);
-  }
-
-  /* Tax Switch Same Size */
+  /* TAX SWITCH */
   .tax-switch{
-    height:120px;
+    background:white;
+    padding:0.6rem 1.2rem;
+    border-radius:30px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
     display:flex;
     align-items:center;
-    padding:0 1.5rem;
-    border-radius:1.25rem;
-    background:#fff;
-    box-shadow:0 .5rem 1rem rgba(0,0,0,.08);
+  }
+
+  /* BOOKING BUTTON */
+  .booking-btn{
+    border-radius:30px;
+    padding:0.6rem 1.4rem;
+    font-weight:600;
+  }
+
+  /* CARDS */
+  .listing-card{
+    border:none;
+    border-radius:20px;
+    overflow:hidden;
+    transition:0.4s ease;
+  }
+
+  .listing-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.2);
+  }
+
+  .listing-card img{
+    height:18rem;
+    object-fit:cover;
+    transition:0.4s ease;
+  }
+
+  .listing-card:hover img{
+    transform:scale(1.05);
+  }
+
+  .price-tag{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#fe424d;
+    color:white;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:0.85rem;
+  }
+
+  .tax-info{
+    display:none;
+    font-size:0.85rem;
+    color:#6c757d;
   }
 </style>
 
@@ -94,20 +118,20 @@
   ]; %>
 
   <% categories.forEach(cat=>{ %>
-    <div class="filter">
+    <div class="filter" data-category="<%=cat.value%>">
       <i class="fa-solid <%=cat.icon%>"></i>
       <p><%=cat.name%></p>
     </div>
   <% }) %>
 
-  <!-- Your Booking -->
+  <!-- Your Booking Button -->
   <a href="/listings/mybooking"
      class="btn btn-dark booking-btn">
-     <i class="fa-solid fa-calendar-check me-2"></i>
+     <i class="fa-solid fa-calendar-check"></i>
      Your Booking
   </a>
 
-  <!-- Tax Toggle -->
+  <!-- TAX TOGGLE -->
   <div class="tax-switch">
     <div class="form-check form-switch m-0">
       <input class="form-check-input"
@@ -120,3 +144,72 @@
   </div>
 
 </div>
+
+
+<!-- LISTINGS GRID -->
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4 mt-3">
+
+  <% for(let listing of allListings){ %>
+
+    <div class="col">
+      <a href="/listings/<%=listing._id%>"
+         class="text-decoration-none text-dark">
+
+        <div class="card listing-card shadow-sm position-relative">
+
+          <div class="price-tag">
+            ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>
+          </div>
+
+          <img src="<%= listing.image.url %>"
+               class="card-img-top">
+
+          <div class="card-body">
+            <h5 class="fw-semibold">
+              <%= listing.title %>
+            </h5>
+
+            <p class="mb-1">
+              ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> / Night
+              <span class="tax-info"> +18% GST</span>
+            </p>
+          </div>
+
+        </div>
+
+      </a>
+    </div>
+
+  <% } %>
+
+</div>
+
+
+<!-- TAX SCRIPT -->
+<script>
+  let taxSwitch=document.getElementById("switchCheckDefault");
+
+  taxSwitch.addEventListener("click", ()=>{
+    let taxinfo=document.getElementsByClassName("tax-info");
+    for(let info of taxinfo){
+      info.style.display =
+        info.style.display==="inline" ? "none" : "inline";
+    }
+  });
+</script>
+
+
+<!-- FILTER SCRIPT -->
+<script>
+  document.addEventListener("DOMContentLoaded",()=>{
+    const filters=document.querySelectorAll(".filter");
+    filters.forEach(filter=>{
+      filter.addEventListener("click",()=>{
+        const category=filter.dataset.category;
+        if(!category) return;
+        window.location.href=
+          `/listings/filter/${encodeURIComponent(category)}`;
+      });
+    });
+  });
+</script>
