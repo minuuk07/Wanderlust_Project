@@ -32,7 +32,8 @@ router.route("/:id")
 // here create edit route
 router.get("/:id/edit", isLoggedin,isOwner,wrapAsync(listingController.editListing));
 
-
+router.get("/:id/booking", isLoggedin,wrapAsync(listingController.renderBookingForm));
+router.post("/:id/booking", isLoggedin, wrapAsync(listingController.createBooking));
 
 
 // filter route
