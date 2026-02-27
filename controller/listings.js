@@ -185,6 +185,19 @@ module.exports.index = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+// filter function work
+// Add this to your controller/listings.js file
+module.exports.filterByCategory = async (req, res) => {
+  try {
+    const { category } = req.params;
+    const allListings = await listing.find({ category: category });
+    res.render("listings/index.ejs", { allListings });
+  } catch (err) {
+    console.error("Category filter error:", err);
+    req.flash("error", "Something went wrong!");
+    res.redirect("/listings");
+  }
+};
 
 // here booking funtion work
 // Show Booking Form
