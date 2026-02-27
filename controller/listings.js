@@ -340,3 +340,20 @@ const { name, email, adults, children, checkIn, checkOut } = req.body;
     totalPrice 
 });
 };
+// Payment Success Controller
+module.exports.paymentSuccess = async (req, res) => {
+    const { id } = req.params;
+
+    const booking = await Booking.findById(id);
+
+    if (!booking) {
+        req.flash("error", "Booking not found!");
+        return res.redirect("/listings");
+    }
+
+    booking.paymentStatus = "Paid";
+    await booking.save();
+
+    req.flash("success", "Payment Successful!");
+    res.redirect("/listings");
+};
