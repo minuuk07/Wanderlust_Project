@@ -1,67 +1,121 @@
 <link rel="stylesheet" href="/css/style2.css">
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
+<style>
+  body{
+    background: linear-gradient(135deg,#e9f7ef,#f8f9fa);
+  }
 
-            <div class="card shadow-lg border-0 rounded-4 p-4">
+  .confirm-card{
+    border:none;
+    border-radius:1.5rem;
+    overflow:hidden;
+  }
 
-                <h2 class="text-success text-center mb-3">
-                    🎉 Booking Confirmed!
-                </h2>
+  .confirm-header{
+    background: linear-gradient(135deg,#198754,#20c997);
+    color:white;
+    padding:2rem 1rem;
+    text-align:center;
+  }
 
-                <hr>
+  .confirm-icon{
+    font-size:60px;
+    margin-bottom:10px;
+  }
 
-                <div class="mb-2">
-                    <strong>Listing:</strong> <%= booking.listing.title %>
-                </div>
+  .detail-item{
+    padding:.6rem 0;
+    border-bottom:1px dashed #dee2e6;
+  }
 
-                <div class="mb-2">
-                    <strong>Name:</strong> <%= booking.name %>
-                </div>
+  .total-box{
+    background:#fff3cd;
+    border-radius:1rem;
+    padding:1rem;
+    margin-top:1rem;
+  }
 
-                <div class="mb-2">
-                    <strong>Email:</strong> <%= booking.email %>
-                </div>
+  .btn-pill{
+    border-radius:50rem;
+    padding:.6rem 1.8rem;
+    font-weight:500;
+  }
 
-                <div class="mb-2">
-                    <strong>Check In:</strong> 
-                    <%= booking.checkIn.toDateString() %>
-                </div>
+  .btn-success{
+    box-shadow:0 .5rem 1rem rgba(0,0,0,.15);
+  }
+</style>
 
-                <div class="mb-2">
-                    <strong>Check Out:</strong> 
-                    <%= booking.checkOut.toDateString() %>
-                </div>
 
-                <div class="mb-2">
-                    <strong>Total Nights:</strong> 
-                    <%= booking.totalDays %>
-                </div>
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
 
-                <h4 class="text-danger mt-3 text-center">
-                    Total Paid: ₹
-                    <%= booking.totalPrice > 0 ? booking.totalPrice : 500 %>
-                </h4>
+      <div class="card shadow-lg confirm-card">
 
-                <!-- Buttons Section -->
-                <div class="d-flex justify-content-center gap-3 mt-4">
-
-                    <a href="/listings"
-                       class="btn btn-outline-primary px-4 rounded-pill minuuu">
-                        Back to Listings
-                    </a>
-            <br>
-                    <a href="/listings/<%= booking._id %>/upi"
-                       class="btn btn-success px-4 rounded-pill shadow minuuu">
-                        Payment
-                    </a>
-
-                </div>
-
-            </div>
+        <!-- Header -->
+        <div class="confirm-header">
+          <div class="confirm-icon">✔</div>
+          <h3 class="mb-0">Booking Confirmed!</h3>
+          <small>Your reservation is successfully completed 🎉</small>
         </div>
+
+        <div class="card-body p-4">
+
+          <!-- Details -->
+          <div class="detail-item">
+            <strong>Listing:</strong> <%= booking.listing.title %>
+          </div>
+
+          <div class="detail-item">
+            <strong>Name:</strong> <%= booking.name %>
+          </div>
+
+          <div class="detail-item">
+            <strong>Email:</strong> <%= booking.email %>
+          </div>
+
+          <div class="detail-item">
+            <strong>Check In:</strong>
+            <%= booking.checkIn.toDateString() %>
+          </div>
+
+          <div class="detail-item">
+            <strong>Check Out:</strong>
+            <%= booking.checkOut.toDateString() %>
+          </div>
+
+          <div class="detail-item border-0">
+            <strong>Total Nights:</strong>
+            <%= booking.totalDays %>
+          </div>
+
+          <!-- Total Paid -->
+          <div class="total-box text-center">
+            <h4 class="text-danger mb-0">
+              Total Paid: ₹
+              <%= booking.totalPrice > 0 ? booking.totalPrice : 500 %>
+            </h4>
+          </div>
+
+          <!-- Buttons -->
+          <div class="d-flex justify-content-center gap-3 mt-4">
+
+            <a href="/listings"
+               class="btn btn-outline-dark btn-pill">
+              Back to Listings
+            </a>
+
+            <a href="/listings/<%= booking._id %>/upi"
+               class="btn btn-success btn-pill">
+              Proceed to Payment
+            </a>
+
+          </div>
+
+        </div>
+      </div>
+
     </div>
+  </div>
 </div>
-
-
