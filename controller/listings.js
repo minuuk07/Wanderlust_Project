@@ -1,6 +1,8 @@
 // this is index route
 const Listing = require("../models/listing");
 // const listing=require("../models/listing");
+const booking = require("../models/booking");
+// const listing = require("../models/listing")
 const listing = require("../models/listing");
 const listings=require("../models/listing.js");
 const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
@@ -179,3 +181,50 @@ module.exports.index = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+// here booking system code
+
+module.exports.renderBookingForm = async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+
+    if (!listing) {
+        req.flash("error", "Listing not found!");
+        return res.redirect("/listings");
+    }
+
+    res.render("listings/booking.ejs", { listing });
+};
+
+// Create Booking
+module.exports.createBooking = async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+
+    const { name, email, adults, children, checkIn, checkOut } = req.body;
+
+    const totalDays = Math.ceil(
+        (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
+    );
+
+    const totalPrice = totalDays * listing.price;
+
+    const newBooking = new Booking({
+        listing: listing._id,
+        user: req.user._id,
+        name,
+        email,
+        adults,
+        children,
+        checkIn,
+        checkOut,
+        totalDays,
+        totalPrice
+    });
+
+    await newBooking.save();
+
+    req.flash("success", "Booking successful!");
+    res.redirect(`/listings`);
+};
+
