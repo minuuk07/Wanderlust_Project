@@ -38,6 +38,8 @@ router.get("/contact", listingController.contactPage);
 
 // POST Contact Form
 router.post("/contact", listingController.sendContact);
+// this is for terms
+router.get("/terms", listingController.renderTerms);
 router.route("/")
 // index route
   .get(wrapAsync(listingController.index))
