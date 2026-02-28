@@ -32,6 +32,12 @@ router.get(
 // this is for about page
 
 router.get("/about", listingController.aboutPage);
+
+// this is for contact
+router.get("/contact", listingController.contactPage);
+
+// POST Contact Form
+router.post("/contact", listingController.sendContact);
 router.route("/")
 // index route
   .get(wrapAsync(listingController.index))
