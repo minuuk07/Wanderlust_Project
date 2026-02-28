@@ -1,67 +1,101 @@
-<!-- Bootstrap CSS (if not added already) -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+/* ===== Wanderlust Footer Safe Styling ===== */
 
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+.wl-footer {
+    background: #111;
+    font-size: 14px;
+}
 
-<footer class="bg-dark text-light pt-5 pb-4 mt-5">
-  <div class="container text-md-left">
-    <div class="row text-md-left">
+.wl-footer h5,
+.wl-footer h6 {
+    letter-spacing: 1px;
+}
 
-      <!-- Company Info -->
-      <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-        <h5 class="text-uppercase mb-4 fw-bold text-warning">Wanderlust</h5>
-        <p>
-          Discover the world with Wanderlust. Book unique stays, explore new places,
-          and create unforgettable memories.
+.wl-footer .wl-link {
+    color: #ccc;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.wl-footer .wl-link:hover {
+    color: #ffc107;
+    padding-left: 6px;
+}
+
+.wl-footer .wl-social {
+    color: #ccc;
+    font-size: 18px;
+    transition: 0.3s ease;
+}
+
+.wl-footer .wl-social:hover {
+    color: #ffc107;
+    transform: scale(1.2);
+}
+
+.wl-footer hr {
+    opacity: 0.2;
+}
+</style>
+
+
+<footer class="wl-footer text-light pt-5 pb-4 mt-5">
+  <div class="container">
+    <div class="row">
+
+      <!-- About -->
+      <div class="col-md-3 mb-4">
+        <h5 class="text-warning fw-bold">Wanderlust</h5>
+        <p class="small">
+          Explore the world with comfort and trust.
+          Book amazing stays and create unforgettable memories.
         </p>
       </div>
 
       <!-- Quick Links -->
-      <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-        <h5 class="text-uppercase mb-4 fw-bold text-warning">Quick Links</h5>
-        <p><a href="/" class="text-light text-decoration-none">Home</a></p>
-        <p><a href="/listings" class="text-light text-decoration-none">Explore</a></p>
-        <p><a href="/about" class="text-light text-decoration-none">About Us</a></p>
-        <p><a href="/contact" class="text-light text-decoration-none">Contact</a></p>
+      <div class="col-md-3 mb-4">
+        <h6 class="text-warning">Quick Links</h6>
+        <ul class="list-unstyled small">
+          <li><a href="/" class="wl-link">Home</a></li>
+          <li><a href="/listings" class="wl-link">Explore</a></li>
+          <li><a href="/about" class="wl-link">About</a></li>
+          <li><a href="/contact" class="wl-link">Contact</a></li>
+        </ul>
       </div>
 
       <!-- Support -->
-      <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-        <h5 class="text-uppercase mb-4 fw-bold text-warning">Support</h5>
-        <p><a href="/privacy" class="text-light text-decoration-none">Privacy Policy</a></p>
-        <p><a href="/terms" class="text-light text-decoration-none">Terms & Conditions</a></p>
-        <p><a href="/custom" class="text-light text-decoration-none">Custom Booking</a></p>
-        <p><a href="/help" class="text-light text-decoration-none">Help Center</a></p>
+      <div class="col-md-3 mb-4">
+        <h6 class="text-warning">Support</h6>
+        <ul class="list-unstyled small">
+          <li><a href="/privacy" class="wl-link">Privacy Policy</a></li>
+          <li><a href="/terms" class="wl-link">Terms & Conditions</a></li>
+          <li><a href="/custom" class="wl-link">Custom Booking</a></li>
+          <li><a href="/help" class="wl-link">Help Center</a></li>
+        </ul>
       </div>
 
-      <!-- Contact Info -->
-      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-        <h5 class="text-uppercase mb-4 fw-bold text-warning">Contact</h5>
-        <p><i class="fas fa-home me-3"></i> Kolkata, India</p>
-        <p><i class="fas fa-envelope me-3"></i> m74777abcd@wanderlust.com</p>
-        <p><i class="fas fa-phone me-3"></i> +91 7477706215</p>
-      </div>
+      <!-- Contact -->
+      <div class="col-md-3 mb-4">
+        <h6 class="text-warning">Contact</h6>
+        <p class="small mb-1"><i class="fas fa-map-marker-alt me-2"></i> Siliguri, India</p>
+        <p class="small mb-1"><i class="fas fa-envelope me-2"></i> support@wanderlust.com</p>
+        <p class="small"><i class="fas fa-phone me-2"></i> +91 9876543210</p>
 
-    </div>
-
-    <hr class="mb-4">
-
-    <!-- Social Media -->
-    <div class="row align-items-center">
-
-      <div class="col-md-7 col-lg-8">
-        <p> © 2026 Wanderlust Private Limited | Designed by Mrinmoy Ghosh ❤️ </p>
-      </div>
-
-      <div class="col-md-5 col-lg-4 text-md-end">
-        <a href="#" class="text-light me-4 fs-5"><i class="fab fa-facebook"></i></a>
-        <a href="#" class="text-light me-4 fs-5"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="text-light me-4 fs-5"><i class="fab fa-linkedin"></i></a>
-        <a href="#" class="text-light fs-5"><i class="fab fa-twitter"></i></a>
+        <!-- Social -->
+        <div class="mt-3">
+          <a href="#" class="wl-social me-3"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="wl-social me-3"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="wl-social me-3"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="wl-social"><i class="fab fa-twitter"></i></a>
+        </div>
       </div>
 
     </div>
 
+    <hr>
+
+    <div class="text-center small">
+      © 2026 Wanderlust Private Limited | Designed by Mrinmoy Ghosh ❤️
+    </div>
   </div>
 </footer>
