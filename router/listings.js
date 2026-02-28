@@ -10,8 +10,8 @@ const {storage}=require("../cloudeconfig.js");
 const upload = multer({ storage });
 // multer cannot take nested name like listing[image][url] this type
 // this is restructring router.route
-router.get("/filter/:category", listingController.filterByCategory);
-router.get("/:id/upi", (listingController.showUpi));
+router.get("/filter/:category",  isLoggedin,wrapAsync(listingController.filterByCategory));
+router.get("/:id/upi",  isLoggedin,wrapAsync (listingController.showUpi));
 router.get(
     "/:id/success",
     isLoggedin,
@@ -31,15 +31,15 @@ router.get(
 );
 // this is for about page
 
-router.get("/about", listingController.aboutPage);
+router.get("/about",  isLoggedin,wrapAsync( listingController.aboutPage));
 
 // this is for contact
-router.get("/contact", listingController.contactPage);
+router.get("/contact",  isLoggedin,wrapAsync(listingController.contactPage));
 
 // POST Contact Form
-router.post("/contact", listingController.sendContact);
+router.post("/contact", isLoggedin,wrapAsync( listingController.sendContact));
 // this is for terms
-router.get("/terms", listingController.renderTerms);
+router.get("/terms", isLoggedin,wrapAsync (listingController.renderTerms));
 router.route("/")
 // index route
   .get(wrapAsync(listingController.index))
