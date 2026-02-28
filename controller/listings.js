@@ -389,3 +389,8 @@ module.exports.sendContact = async (req, res) => {
         res.redirect("/listings");
     }
 };
+
+// this is for trams
+module.exports.renderTerms = (req, res) => {
+    res.render("listings/terms");
+};
