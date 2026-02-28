@@ -1,59 +1,102 @@
 <% layout("/layout/boilerplate")%>
-<div class="row mt-3">
-    <h1 class="col-6 offset-3">Signup for Wanderlust</h1>
-<div class="col-6 offset-3">
-    <form action="/signup" method="POST" novalidate class="needs-validation">
 
-<div class="mb-3">
-            <label for="username" class="form-label"></label><b>username</b></label>
-    <input name="username"
-     id="username"
-     type="text" class="form-control"
-     required
-    >
-    <div class="valid-feedback">
-    Looks Good
-    </div>
-    <div class="invalid-feedback">Please Enter a Valid username</div>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 85vh;">
+  <div class="row w-100">
+
+    <div class="col-md-6 col-lg-5 mx-auto">
+
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+
+          <h1 class="text-center mb-4 text-warning fw-bold">
+            Signup for Wanderlust
+          </h1>
+
+          <form action="/signup" method="POST" novalidate class="needs-validation">
+
+            <!-- Username -->
+
+            <div class="mb-3">
+              <label for="username" class="form-label fw-semibold">
+                Username
+              </label>
+
+              <input 
+                name="username"
+                id="username"
+                type="text" 
+                class="form-control form-control-lg"
+                required
+              >
+
+              <div class="valid-feedback">
+                Looks Good
+              </div>
+
+              <div class="invalid-feedback">
+                Please Enter a Valid username
+              </div>
+            </div>
+
+            <!-- Email -->
+
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold">
+                Email
+              </label>
+
+              <input 
+                name="email"
+                id="email"
+                type="email" 
+                class="form-control form-control-lg"
+                required
+              >
+
+              <div class="valid-feedback">
+                Looks Good
+              </div>
+
+              <div class="invalid-feedback">
+                Please Enter a Valid Email
+              </div>
+            </div>
+
+            <!-- Password -->
+
+            <div class="mb-4">
+              <label for="password" class="form-label fw-semibold">
+                Password
+              </label>
+
+              <input 
+                name="password"
+                id="password"
+                type="password" 
+                class="form-control form-control-lg"
+                autocomplete="new-password"
+                required
+              >
+
+              <div class="invalid-feedback">
+                Please enter a valid password.
+              </div>
+            </div>
+
+            <!-- Button -->
+
+            <div class="d-grid">
+              <button class="btn btn-warning btn-lg fw-semibold shadow-sm">
+                Submit
+              </button>
+            </div>
+
+          </form>
+
         </div>
+      </div>
 
-
-        <!-- this is for email -->
-
-        <div class="mb-3">
-            <label for="email" class="form-label"></label><b>Email</b></label>
-    <input name="email"
-     id="email"
-     type="email" class="form-control"
-     required
-    >
-    <div class="valid-feedback">
-    Looks Good
     </div>
-    <div class="invalid-feedback">Please Enter a Valid Email</div>
-        </div>
 
-        <!-- this is for password -->
-
-        <div class="mb-3">
-  <label for="password" class="form-label"><b>Password</b></label>
-  <input 
-    name="password"
-    id="password"
-    type="password" 
-    class="form-control"
-    autocomplete="new-password"
-    required
-  >
-  
-  <div class="invalid-feedback">
-    Please enter a valid password.
   </div>
 </div>
-
-
-        <!-- this is button -->
-         <button class="btn btn-success">submit</button>
-    </form>
-    </div>
-    </div>
