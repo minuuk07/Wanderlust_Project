@@ -29,7 +29,9 @@ router.get(
     isLoggedin,
     wrapAsync(listingController.paymentSuccess)
 );
+// this is for about page
 
+router.get("/about", listingController.aboutPage);
 router.route("/")
 // index route
   .get(wrapAsync(listingController.index))
