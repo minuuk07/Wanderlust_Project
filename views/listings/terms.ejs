@@ -1,0 +1,56 @@
+<% layout("/layout/boilerplate") %>
+
+<div class="container mt-5 mb-5">
+    <div class="card shadow p-4">
+        <h1 class="mb-4 text-center">Terms & Conditions</h1>
+
+        <p>Welcome to Wanderlust. By accessing or using our platform, you agree to comply with these Terms & Conditions.</p>
+
+        <h4 class="mt-4">1. User Responsibilities</h4>
+        <ul>
+            <li>You must provide accurate booking information.</li>
+            <li>You are responsible for maintaining account security.</li>
+            <li>You agree not to misuse the platform.</li>
+        </ul>
+
+        <h4 class="mt-4">2. Booking & Payments</h4>
+        <ul>
+            <li>All bookings are subject to availability.</li>
+            <li>Payments must be completed before confirmation.</li>
+            <li>Cancellation policies apply as mentioned in each listing.</li>
+        </ul>
+
+        <h4 class="mt-4">3. Cancellation Policy</h4>
+        <p>Hosts may define their own cancellation policy. Refunds will be processed accordingly.</p>
+
+        <h4 class="mt-4">4. Liability</h4>
+        <p>Wanderlust is not responsible for damages, injuries, or disputes between hosts and guests.</p>
+
+        <h4 class="mt-4">5. Changes to Terms</h4>
+        <p>We reserve the right to update these terms at any time.</p>
+
+        <div class="form-check mt-4">
+            <input class="form-check-input" type="checkbox" id="agreeCheck">
+            <label class="form-check-label" for="agreeCheck">
+                I agree to the Terms & Conditions
+            </label>
+        </div>
+
+       <a href="/listings" class="btn btn-dark">
+    Continue
+</a>
+    </div>
+</div>
+
+<script>
+    const checkBox = document.getElementById("agreeCheck");
+    const btn = document.getElementById("continueBtn");
+
+    checkBox.addEventListener("change", function() {
+        btn.disabled = !this.checked;
+    });
+
+    btn.addEventListener("click", function() {
+        window.location.href = "/";
+    });
+</script>
