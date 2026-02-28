@@ -357,3 +357,7 @@ module.exports.paymentSuccess = async (req, res) => {
     req.flash("success", "Payment Successful!");
     res.redirect("/listings");
 };
+
+module.exports.aboutPage = (req, res) => {
+    res.render("listings/about");
+};
