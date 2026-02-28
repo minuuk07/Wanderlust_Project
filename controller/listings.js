@@ -361,3 +361,31 @@ module.exports.paymentSuccess = async (req, res) => {
 module.exports.aboutPage = (req, res) => {
     res.render("listings/about");
 };
+// this is for contact
+module.exports.contactPage = (req, res) => {
+    res.render("listings/contact");
+};
+
+const Message = require("../models/message");
+
+module.exports.sendContact = async (req, res) => {
+    try {
+        const { name, email, message } = req.body;
+
+        const newMessage = new Message({
+            name,
+            email,
+            message
+        });
+
+        await newMessage.save();
+
+        req.flash("success", "Message sent successfully!");
+        res.redirect("/listings");
+
+    } catch (err) {
+        console.log(err);
+        req.flash("error", "Something went wrong!");
+        res.redirect("/listings");
+    }
+};
