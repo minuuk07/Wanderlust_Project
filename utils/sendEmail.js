@@ -4,13 +4,13 @@ const sendEmail = async (to, otp) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "m74777abcd@gmail.com",
-      pass: "gwgniornhkfzimmd"
+      user: "m74777abc@gmail.com",
+      pass: "hkvuibvbgtfmsedu"
     }
   });
 
   await transporter.sendMail({
-    from: `Wanderlust <${"m74777abcd@gmail.com"}>`,
+    from: `Wanderlust <${"m74777abc@gmail.com"}>`,
     to,
     subject: "Reset Password OTP",
     html: `
@@ -20,5 +20,6 @@ const sendEmail = async (to, otp) => {
     `
   });
 };
+
 
 module.exports = sendEmail;
