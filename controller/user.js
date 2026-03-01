@@ -49,3 +49,71 @@ req.logOut((err)=>{
   res.redirect("/listings");
 })
  };
+
+// this is for forgot password
+const sendEmail = require("../utils/sendEmail");
+
+module.exports.renderForgotPassword = (req, res) => {
+  res.render("users/forgot");
+};
+
+module.exports.renderOtpPage = (req, res) => {
+  res.render("users/verifyOtp");
+};
+
+module.exports.renderSetPassword = (req, res) => {
+  res.render("users/setPassword");
+};
+
+module.exports.sendOtp = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    req.flash("error", "User not found");
+    return res.redirect("/forgot-password");
+  }
+
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  user.resetOtp = otp;
+  user.otpExpiry = Date.now() + 5 * 60 * 1000; // 5 minutes
+  await user.save();
+
+  await sendEmail(email, otp);
+
+  req.session.resetEmail = email;
+
+  req.flash("success", "OTP sent to your email");
+  res.redirect("/verify-otp");
+};
+
+module.exports.verifyOtp = async (req, res) => {
+  const { otp } = req.body;
+  const email = req.session.resetEmail;
+
+  const user = await User.findOne({ email });
+
+  if (!user || user.resetOtp !== otp || user.otpExpiry < Date.now()) {
+    req.flash("error", "Invalid or Expired OTP");
+    return res.redirect("/verify-otp");
+  }
+
+  res.redirect("/set-password");
+};
+
+module.exports.setNewPassword = async (req, res) => {
+  const { password } = req.body;
+  const email = req.session.resetEmail;
+
+  const user = await User.findOne({ email });
+
+  await user.setPassword(password);
+
+  user.resetOtp = null;
+  user.otpExpiry = null;
+  await user.save();
+
+  req.flash("success", "Password reset successful");
+  res.redirect("/login");
+};
