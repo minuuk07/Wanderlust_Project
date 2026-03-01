@@ -1,0 +1,40 @@
+<% layout("/layout/boilerplate") %>
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-lg border-0 rounded-4 p-4" style="width: 100%; max-width: 420px;">
+    
+    <div class="text-center mb-4">
+      <h2 class="fw-bold text-warning">Verify OTP</h2>
+      <p class="text-muted small">Enter the OTP sent to your registered email</p>
+    </div>
+
+    <form action="/verify-otp" method="POST" novalidate>
+
+      <div class="form-floating mb-3">
+        <input 
+          type="text" 
+          name="otp" 
+          class="form-control rounded-3 text-center fw-bold tracking-wide" 
+          id="otp" 
+          placeholder="Enter OTP" 
+          maxlength="6"
+          required>
+        <label for="otp">Enter OTP</label>
+      </div>
+
+      <div class="d-grid">
+        <button class="btn btn-warning btn-lg rounded-3 text-white">
+          Verify
+        </button>
+      </div>
+
+    </form>
+
+    <div class="text-center mt-3">
+      <a href="/forgot-password" class="text-decoration-none small text-secondary">
+        Resend OTP
+      </a>
+    </div>
+
+  </div>
+</div>
