@@ -1,58 +1,72 @@
-
- const User=require("../models/user");
-// this is  rander sign up
-module.exports.randerSignup=(req,res)=>{
-    res.render("users/signup.ejs")
-};
-// this is rander log in from
-
-module.exports.randerLogin=(req, res)=>{
-    res.render("users/login.ejs");
- };
-// post route
-module.exports.signup=async(req, res)=>{
-    try{
-const { username, email, password } = req.body;
-console.log(req.body); 
-const newUser = new User({ username, email });
-
-   const registerUser=await User.register(newUser, password);
-   console.log(registerUser);
-   req.login(registerUser,(err)=>{
-   if(err){
-    return next(err);
-   }
-   req.flash("success", "wellcome to wanderlust");
-   res.redirect("/listings");
-   })
-  
-        
-    } catch(err){
-        req.flash("error", err.message);
-        res.redirect("/signup");
-    }
-
- };
-
- module.exports.login=async(req, res)=>{
-  req.flash("success","wellcome back to wanderlust");
-  res.redirect(res.locals.redirectUrl || "/listings");
-
- };
-
- module.exports.logout=(req, res,next)=>{
-req.logOut((err)=>{
-  if(err){
-   return next(err);
-  }
-  req.flash("success", "you are logged out");
-  res.redirect("/listings");
-})
- };
-
-// this is for forgot password
+const User = require("../models/user");
 const sendEmail = require("../utils/sendEmail");
 
+
+// ===============================
+// Render Signup
+// ===============================
+module.exports.randerSignup = (req, res) => {
+  res.render("users/signup.ejs");
+};
+
+
+// ===============================
+// Render Login
+// ===============================
+module.exports.randerLogin = (req, res) => {
+  res.render("users/login.ejs");
+};
+
+
+// ===============================
+// Signup
+// ===============================
+module.exports.signup = async (req, res, next) => {
+  try {
+    const { username, email, password } = req.body;
+
+    const newUser = new User({ username, email });
+    const registeredUser = await User.register(newUser, password);
+
+    req.login(registeredUser, (err) => {
+      if (err) return next(err);
+
+      req.flash("success", "Welcome to Wanderlust");
+      res.redirect("/listings");
+    });
+
+  } catch (err) {
+    req.flash("error", err.message);
+    res.redirect("/signup");
+  }
+};
+
+
+// ===============================
+// Login
+// ===============================
+module.exports.login = async (req, res) => {
+  req.flash("success", "Welcome back to Wanderlust");
+  res.redirect(res.locals.redirectUrl || "/listings");
+};
+
+
+// ===============================
+// Logout
+// ===============================
+module.exports.logout = (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+
+    req.flash("success", "You are logged out");
+    res.redirect("/listings");
+  });
+};
+
+
+// ===============================
+// Forgot Password - Render Pages
+// ===============================
 module.exports.renderForgotPassword = (req, res) => {
   res.render("users/forgot");
 };
@@ -65,43 +79,75 @@ module.exports.renderSetPassword = (req, res) => {
   res.render("users/setPassword");
 };
 
+
+// ===============================
+// Send OTP
+// ===============================
 module.exports.sendOtp = async (req, res) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
+  try {
+    const { email } = req.body;
 
-  if (!user) {
-    req.flash("error", "User not found");
-    return res.redirect("/forgot-password");
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      req.flash("error", "User not found");
+      return res.redirect("/forgot-password");
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    user.resetOtp = otp;
+    user.otpExpiry = Date.now() + 5 * 60 * 1000; // 5 min
+    await user.save();
+
+    await sendEmail(email, otp);
+
+    req.session.resetEmail = email;
+
+    req.flash("success", "OTP sent to your email");
+    res.redirect("/verify-otp");
+
+  } catch (err) {
+    console.log("Send OTP Error:", err);
+    req.flash("error", "Something went wrong");
+    res.redirect("/forgot-password");
   }
-
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-  user.resetOtp = otp;
-  user.otpExpiry = Date.now() + 5 * 60 * 1000; // 5 minutes
-  await user.save();
-
-  await sendEmail(email, otp);
-
-  req.session.resetEmail = email;
-
-  req.flash("success", "OTP sent to your email");
-  res.redirect("/verify-otp");
 };
 
+
+// ===============================
+// Verify OTP
+// ===============================
 module.exports.verifyOtp = async (req, res) => {
-  const { otp } = req.body;
-  const email = req.session.resetEmail;
+  try {
+    const { otp } = req.body;
+    const email = req.session.resetEmail;
 
-  const user = await User.findOne({ email });
+    if (!email) {
+      req.flash("error", "Session expired");
+      return res.redirect("/forgot-password");
+    }
 
-  if (!user || user.resetOtp !== otp || user.otpExpiry < Date.now()) {
-    req.flash("error", "Invalid or Expired OTP");
-    return res.redirect("/verify-otp");
+    const user = await User.findOne({ email });
+
+    if (!user || user.resetOtp !== otp || user.otpExpiry < Date.now()) {
+      req.flash("error", "Invalid or Expired OTP");
+      return res.redirect("/verify-otp");
+    }
+
+    res.redirect("/set-password");
+
+  } catch (err) {
+    console.log("Verify OTP Error:", err);
+    req.flash("error", "Something went wrong");
+    res.redirect("/forgot-password");
   }
-
-  res.redirect("/set-password");
 };
 
+
+// ===============================
+// Set New Password (FIXED)
+// ===============================
 module.exports.setNewPassword = async (req, res) => {
   try {
     const { password } = req.body;
@@ -119,16 +165,16 @@ module.exports.setNewPassword = async (req, res) => {
       return res.redirect("/forgot-password");
     }
 
-   
+    // Update password using passport-local-mongoose
     await user.setPassword(password);
 
-    // Clear OTP fields
+    // Clear OTP
     user.resetOtp = null;
     user.otpExpiry = null;
 
     await user.save();
 
-    
+    // Clear session
     req.session.resetEmail = null;
 
     req.flash("success", "Password reset successful");
