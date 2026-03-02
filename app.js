@@ -29,6 +29,7 @@ const LocalStratigy=require("passport-local");
 const user=require("./models/user.js");
 const userRouter=require("./router/user.js");
 const { error } = require('console');
+const sendBookingMail = require("./utils/sendMail");
 
 // this is create when you using ejs file
 app.set("view engine", "ejs");
