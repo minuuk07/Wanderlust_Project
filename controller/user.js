@@ -103,17 +103,40 @@ module.exports.verifyOtp = async (req, res) => {
 };
 
 module.exports.setNewPassword = async (req, res) => {
-  const { password } = req.body;
-  const email = req.session.resetEmail;
+  try {
+    const { password } = req.body;
+    const email = req.session.resetEmail;
 
-  const user = await User.findOne({ email });
+    if (!email) {
+      req.flash("error", "Session expired. Try again.");
+      return res.redirect("/forgot-password");
+    }
 
-  await user.setPassword(password);
+    const user = await User.findOne({ email });
 
-  user.resetOtp = null;
-  user.otpExpiry = null;
-  await user.save();
+    if (!user) {
+      req.flash("error", "User not found");
+      return res.redirect("/forgot-password");
+    }
 
-  req.flash("success", "Password reset successful");
-  res.redirect("/login");
+   
+    await user.setPassword(password);
+
+    // Clear OTP fields
+    user.resetOtp = null;
+    user.otpExpiry = null;
+
+    await user.save();
+
+    
+    req.session.resetEmail = null;
+
+    req.flash("success", "Password reset successful");
+    res.redirect("/login");
+
+  } catch (err) {
+    console.log("Reset Password Error:", err);
+    req.flash("error", "Something went wrong");
+    res.redirect("/forgot-password");
+  }
 };
