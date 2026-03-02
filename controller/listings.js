@@ -6,7 +6,7 @@ const listing = require("../models/listing");
 const listings=require("../models/listing.js");
 const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); 
-
+const sendBookingMail = require("../utils/sendMail");
 // const Listing = require("../models/listing");
 const mapToken=process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken});
@@ -214,63 +214,107 @@ module.exports.renderBookingForm = async (req, res) => {
 };
 
 // Create Booking
-module.exports.createBooking = async (req, res) => {
-  try {
-    const { id } = req.params;
+// module.exports.createBooking = async (req, res) => {
+//     try {
+//         const { id } = req.params;
 
-    const listing = await Listing.findById(id);
-    if (!listing) {
-      req.flash("error", "Listing not found!");
-      return res.redirect("/listings");
-    }
+//         const listing = await Listing.findById(id);
+//         if (!listing) {
+//             req.flash("error", "Listing not found!");
+//             return res.redirect("/listings");
+//         }
 
-    if (!req.user) {
-      req.flash("error", "You must be logged in!");
-      return res.redirect("/login");
-    }
+//         if (!req.user) {
+//             req.flash("error", "You must be logged in!");
+//             return res.redirect("/login");
+//         }
 
-    const { name, email, adults, children, checkIn, checkOut } = req.body;
+//         const { name, email, adults, children, checkIn, checkOut } = req.body;
 
-    const totalDays = Math.ceil(
-      (new Date(checkOut) - new Date(checkIn)) /
-      (1000 * 60 * 60 * 24)
-    );
+//         const totalDays = Math.ceil(
+//             (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
+//         );
 
-    const totalPrice = totalDays * listing.price;
+//         const totalPrice = totalDays * listing.price;
 
-    const newBooking = new Booking({
-      listing: listing._id,
-      user: req.user._id,
-      name,
-      email,
-      adults,
-      children,
-      checkIn,
-      checkOut,
-      totalDays,
-      totalPrice
-    });
+//         const newBooking = new Booking({
+//             listing: listing._id,
+//             user: req.user._id,
+//             name,
+//             email,
+//             adults,
+//             children,
+//             checkIn,
+//             checkOut,
+//             totalDays,
+//             totalPrice
+//         });
 
-    await newBooking.save();
+//         await newBooking.save();
 
-    // 🔥 VERY IMPORTANT - Populate the booking before sending email
-    const populatedBooking = await Booking.findById(newBooking._id)
-      .populate("listing");
+//         req.flash("success", "Booking successful!");
 
-    // 🔥 SEND MAIL HERE
-    await sendBookingMail(populatedBooking);
+//         // ✅ FORCE absolute redirect
+//         // res.render("listings/upi", { totalPrice });
+//         // res.render("listings/success");
+//         return res.redirect(`/listings/${newBooking._id}/success`);
+//     } catch (err) {
+//         console.log("BOOKING ERROR:", err);
+//         req.flash("error", "Booking failed!");
+//         return res.redirect("/listings");
+//     }
+// };
+// Create Booking
+// module.exports.createBooking = async (req, res) => {
+//     try {
+//         const { id } = req.params;
 
-    req.flash("success", "Booking successful & Email Sent!");
+//         const listing = await Listing.findById(id);
+//         if (!listing) {
+//             req.flash("error", "Listing not found!");
+//             return res.redirect("/listings");
+//         }
 
-    return res.redirect(`/listings/${newBooking._id}/success`);
+//         if (!req.user) {
+//             req.flash("error", "You must be logged in!");
+//             return res.redirect("/login");
+//         }
 
-  } catch (err) {
-    console.log("BOOKING ERROR:", err);
-    req.flash("error", "Booking failed!");
-    return res.redirect("/listings");
-  }
-};
-    
+//         const { name, email, adults, children, checkIn, checkOut } = req.body;
+
+//         const totalDays = Math.ceil(
+//             (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
+//         );
+
+//         const totalPrice = totalDays * listing.price;
+
+//         const newBooking = new Booking({
+//             listing: listing._id,
+//             user: req.user._id,
+//             name,
+//             email,
+//             adults,
+//             children,
+//             checkIn,
+//             checkOut,
+//             totalDays,
+//             totalPrice
+//         });
+
+//         await newBooking.save();
+
+//         req.flash("success", "Booking successful!");
+
+//         // ✅ FORCE absolute redirect
+//         // res.render("listings/upi", { totalPrice });
+//         // res.render("listings/success");
+//         return res.redirect(`/listings/${newBooking._id}/success`);
+//     } catch (err) {
+//         console.log("BOOKING ERROR:", err);
+//         req.flash("error", "Booking failed!");
+//         return res.redirect("/listings");
+//     }
+// };
 module.exports.showUpi = async (req, res) => {
     const { id } = req.params;
 
@@ -401,3 +445,66 @@ module.exports.sendContact = async (req, res) => {
 module.exports.renderTerms = (req, res) => {
     res.render("listings/terms");
 };
+ 
+
+// this is booking send mail
+
+// // this is booking send mail
+
+module.exports.createBooking = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const listing = await Listing.findById(id);
+    if (!listing) {
+      req.flash("error", "Listing not found!");
+      return res.redirect("/listings");
+    }
+
+    if (!req.user) {
+      req.flash("error", "You must be logged in!");
+      return res.redirect("/login");
+    }
+
+    const { name, email, adults, children, checkIn, checkOut } = req.body;
+
+    const totalDays = Math.ceil(
+      (new Date(checkOut) - new Date(checkIn)) /
+      (1000 * 60 * 60 * 24)
+    );
+
+    const totalPrice = totalDays * listing.price;
+
+    const newBooking = new Booking({
+      listing: listing._id,
+      user: req.user._id,
+      name,
+      email,
+      adults,
+      children,
+      checkIn,
+      checkOut,
+      totalDays,
+      totalPrice
+    });
+
+    await newBooking.save();
+
+    // 🔥 VERY IMPORTANT - Populate the booking before sending email
+    const populatedBooking = await Booking.findById(newBooking._id)
+      .populate("listing");
+
+    // 🔥 SEND MAIL HERE
+    await sendBookingMail(populatedBooking);
+
+    req.flash("success", "Booking successful & Email Sent!");
+
+    return res.redirect(`/listings/${newBooking._id}/success`);
+
+  } catch (err) {
+    console.log("BOOKING ERROR:", err);
+    req.flash("error", "Booking failed!");
+    return res.redirect("/listings");
+  }
+};
+    
