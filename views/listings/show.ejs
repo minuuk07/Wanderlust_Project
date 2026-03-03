@@ -1,5 +1,8 @@
 <% layout("/layout/boilerplate")%>
 
+<!-- Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
 <script>
   const mapToken = "<%= process.env.MAP_TOKEN %>";
   const listing = <%- JSON.stringify(listing) %>;
@@ -10,14 +13,16 @@
   <!-- Title -->
   <div class="row">
     <div class="col-lg-8 offset-lg-2">
-      <h2 class="fw-bold mb-3"><%= listing.title %></h2>
+      <h2 class="fw-bold mb-3 animate__animated animate__fadeInDown">
+        <%= listing.title %>
+      </h2>
     </div>
   </div>
 
   <!-- Listing Card -->
   <div class="row">
     <div class="col-lg-8 offset-lg-2">
-      <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+      <div class="card shadow-lg border-0 rounded-4 overflow-hidden animate__animated animate__zoomIn">
 
         <img src="<%= listing.image.url %>" 
              class="card-img-top img-fluid" 
@@ -44,7 +49,7 @@
 
           <!-- Edit/Delete Buttons -->
           <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
-            <div class="d-flex gap-3 mt-3">
+            <div class="d-flex gap-3 mt-3 animate__animated animate__fadeInUp">
               <a href="/listings/<%=listing._id%>/edit" 
                  class="btn btn-outline-dark rounded-pill px-4">
                  Edit
@@ -60,9 +65,9 @@
           <% } %>
 
           <!-- Booking Button -->
-          <div class="mt-4">
+          <div class="mt-4 text-center">
             <a href="/listings/<%= listing._id %>/booking" 
-               class="btn btn-danger btn-lg rounded-pill px-5 shadow">
+               class="btn btn-danger btn-lg rounded-pill px-5 shadow animate__animated animate__pulse animate__infinite">
                Book Now
             </a>
           </div>
@@ -78,11 +83,11 @@
 
       <% if(currUser) { %>
         <hr>
-        <h4 class="mb-3">Leave a Review</h4>
+        <h4 class="mb-3 animate__animated animate__fadeInLeft">Leave a Review</h4>
 
         <form method="POST" 
               action="/listings/<%=listing._id%>/reviews" 
-              class="card p-4 shadow-sm rounded-4">
+              class="card p-4 shadow-sm rounded-4 animate__animated animate__fadeInLeft">
 
           <div class="mb-3">
             <label class="form-label fw-semibold">Rating</label>
@@ -116,12 +121,12 @@
       <!-- All Reviews -->
       <% if (listing.reviews.length > 0) { %>
         <hr>
-        <h4 class="mb-3">All Reviews</h4>
+        <h4 class="mb-3 animate__animated animate__fadeInUp">All Reviews</h4>
 
         <div class="row">
           <% for(review of listing.reviews) { %>
             <div class="col-md-6 mb-3">
-              <div class="card shadow-sm rounded-4 p-3">
+              <div class="card shadow-sm rounded-4 p-3 animate__animated animate__fadeInUp">
 
                 <h6 class="fw-bold">
                   @<%= review.athor.username %>
@@ -151,8 +156,8 @@
   <!-- Map Section -->
   <div class="row mt-5">
     <div class="col-lg-8 offset-lg-2">
-      <h4 class="mb-3">Where you will be</h4>
-      <div id="map" class="rounded-4 shadow-sm" 
+      <h4 class="mb-3 animate__animated animate__fadeInUp">Where you will be</h4>
+      <div id="map" class="rounded-4 shadow-sm animate__animated animate__fadeInUp"
            style="height: 400px;"></div>
     </div>
   </div>
