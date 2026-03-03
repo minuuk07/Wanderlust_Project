@@ -98,7 +98,7 @@ We look forward to hosting you!
 
 <!-- Visit Website Button -->
 <div style="text-align:center; margin-top:30px;">
-<a href="https://wanderlust.onrender.com"
+<a href="https://wanderlust.onrender.com/listings"
 style="
 background:#fe424d;
 color:#ffffff;
@@ -167,4 +167,5 @@ display:inline-block;">
 };
 
 module.exports = sendBookingMail;
+
 
