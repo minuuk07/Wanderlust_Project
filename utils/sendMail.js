@@ -114,7 +114,7 @@ display:inline-block;">
 
 <!-- View Booking Button -->
 <div style="text-align:center; margin-top:15px;">
-<a href="https://wanderlust.onrender.com/listings/${booking._id}"
+<a href="https://wanderlust.onrender.com/listings/mybooking"
 style="
 background:#0d6efd;
 color:#ffffff;
@@ -167,3 +167,4 @@ display:inline-block;">
 };
 
 module.exports = sendBookingMail;
+
