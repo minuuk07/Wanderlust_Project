@@ -2,10 +2,17 @@
 
 <style>
   body{
-    background: linear-gradient(to right,#f8f9fa,#eef2f7);
+    background: linear-gradient(-45deg,#f8f9fa,#eef2f7,#fdfbfb,#e2ebf0);
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease infinite;
   }
 
-  /* FILTER BAR */
+  @keyframes gradientBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+
   #filters{
     display:flex;
     flex-wrap:wrap;
@@ -13,6 +20,12 @@
     gap:1.2rem;
     padding:1rem 0;
     justify-content:center;
+    animation: fadeDown 1s ease;
+  }
+
+  @keyframes fadeDown{
+    from{opacity:0; transform:translateY(-30px);}
+    to{opacity:1; transform:translateY(0);}
   }
 
   .filter{
@@ -22,28 +35,58 @@
     background:white;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     cursor:pointer;
-    transition:0.3s ease;
+    transition:all 0.4s ease;
     width:90px;
+    position:relative;
+    overflow:hidden;
   }
 
+  .filter::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(45deg,#fe424d,#ff7a7a);
+    top:0;
+    left:-100%;
+    transition:0.4s ease;
+    z-index:0;
+  }
+
+  .filter:hover::before{
+    left:0;
+  }
+
+  /* ICON SIZE REDUCED */
   .filter i{
-    font-size:1.4rem;
+    font-size:1rem;   /* আগে ছিল 1.4rem */
     margin-bottom:4px;
     color:#fe424d;
-  }
-
-  .filter:hover{
-    transform:translateY(-5px);
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    position:relative;
+    z-index:1;
+    transition:0.3s;
   }
 
   .filter p{
+    position:relative;
+    z-index:1;
+    transition:0.3s;
     margin:0;
     font-size:0.8rem;
     font-weight:500;
   }
 
-  /* TAX SWITCH */
+  .filter:hover i,
+  .filter:hover p{
+    color:white;
+    transform:scale(1.1);
+  }
+
+  .filter:hover{
+    transform:translateY(-8px) scale(1.05);
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  }
+
   .tax-switch{
     background:white;
     padding:0.6rem 1.2rem;
@@ -51,47 +94,74 @@
     box-shadow:0 4px 12px rgba(0,0,0,0.1);
     display:flex;
     align-items:center;
+    transition:0.3s;
   }
 
-  /* BOOKING BUTTON */
+  .tax-switch:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  }
+
   .booking-btn{
     border-radius:30px;
     padding:0.6rem 1.4rem;
     font-weight:600;
+    transition:0.3s ease;
   }
 
-  /* CARDS */
+  .booking-btn:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  }
+
   .listing-card{
     border:none;
     border-radius:20px;
     overflow:hidden;
-    transition:0.4s ease;
+    transition:0.5s ease;
+    opacity:0;
+    transform:translateY(40px);
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  @keyframes fadeUp{
+    to{
+      opacity:1;
+      transform:translateY(0);
+    }
   }
 
   .listing-card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 15px 35px rgba(0,0,0,0.2);
+    transform:translateY(-10px) scale(1.02);
+    box-shadow:0 20px 40px rgba(0,0,0,0.25);
   }
 
   .listing-card img{
     height:18rem;
     object-fit:cover;
-    transition:0.4s ease;
+    transition:0.5s ease;
   }
 
   .listing-card:hover img{
-    transform:scale(1.05);
+    transform:scale(1.08);
   }
 
   .price-tag{
     position:absolute;
     top:10px;
     right:10px;
-    background:#fe424d;
+    background:linear-gradient(45deg,#fe424d,#ff7a7a);
     color:white;
-    padding:5px 12px;
+    padding:6px 14px;
     border-radius:20px;
     font-size:0.85rem;
+    animation:pulse 2s infinite;
+  }
+
+  @keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.1);}
+    100%{transform:scale(1);}
   }
 
   .tax-info{
@@ -124,14 +194,12 @@
     </div>
   <% }) %>
 
-  <!-- Your Booking Button -->
   <a href="/listings/mybooking"
      class="btn btn-dark booking-btn">
      <i class="fa-solid fa-calendar-check"></i>
      Your Booking
   </a>
 
-  <!-- TAX TOGGLE -->
   <div class="tax-switch">
     <div class="form-check form-switch m-0">
       <input class="form-check-input"
@@ -145,8 +213,7 @@
 
 </div>
 
-
-<!-- LISTINGS GRID -->
+<!-- LISTINGS GRID (same as before) -->
 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4 mt-3">
 
   <% for(let listing of allListings){ %>
@@ -184,8 +251,6 @@
 
 </div>
 
-
-<!-- TAX SCRIPT -->
 <script>
   let taxSwitch=document.getElementById("switchCheckDefault");
 
@@ -198,8 +263,6 @@
   });
 </script>
 
-
-<!-- FILTER SCRIPT -->
 <script>
   document.addEventListener("DOMContentLoaded",()=>{
     const filters=document.querySelectorAll(".filter");
