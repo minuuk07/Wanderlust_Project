@@ -1,28 +1,64 @@
 <% layout("/layout/boilerplate") %>
 
 <style>
+  body{
+    background: linear-gradient(-45deg,#f8f9fa,#eef2f7,#ffffff,#f1f3f6);
+    background-size:400% 400%;
+    animation: gradientMove 12s ease infinite;
+  }
+
+  @keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+  }
+
   .booking-card {
     border-radius: 20px;
     overflow: hidden;
+    transform: translateY(40px);
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+  }
+
+  @keyframes fadeUp{
+    to{
+      transform: translateY(0);
+      opacity:1;
+    }
   }
 
   .booking-header {
     background: linear-gradient(135deg, #fe424d, #ff6b6b);
     color: white;
     padding: 1.5rem;
+    animation: fadeDown 1s ease;
+  }
+
+  @keyframes fadeDown{
+    from{opacity:0; transform:translateY(-30px);}
+    to{opacity:1; transform:translateY(0);}
   }
 
   .booking-header h3 {
     margin: 0;
+    animation: glowText 2s infinite alternate;
+  }
+
+  @keyframes glowText{
+    from{ text-shadow:0 0 5px rgba(255,255,255,0.3); }
+    to{ text-shadow:0 0 15px rgba(255,255,255,0.7); }
   }
 
   .form-control {
     border-radius: 12px;
+    transition:0.3s ease;
   }
 
   .form-control:focus {
     border-color: #fe424d;
-    box-shadow: 0 0 0 0.2rem rgba(254,66,77,0.25);
+    box-shadow: 0 0 12px rgba(254,66,77,0.4);
+    transform: scale(1.02);
   }
 
   .btn-book {
@@ -35,12 +71,18 @@
   }
 
   .btn-book:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
   }
 
   .listing-preview img {
     height: 200px;
     object-fit: cover;
+    transition:0.5s ease;
+  }
+
+  .listing-preview img:hover{
+    transform: scale(1.08);
   }
 </style>
 
