@@ -1,59 +1,158 @@
-
 <style>
-  .btn-search{
-    background-color: #fe424d;
-    color: #fff;
-    border-radius: 25px;
-    padding: 0 1rem 0 1rem;
+  body{
+    margin:0;
   }
-  .btn-search:hover{
-     background-color: #fe424d;
-    color: #fff;
+
+  /* 🔥 Floating Glass Navbar */
+  .navbar{
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.75) !important;
+    transition: all 0.4s ease;
+    animation: slideDown 0.8s ease;
   }
-  .btn-search i{
-    display: inline;
-    margin-right: 0.5rem;
+
+  @keyframes slideDown{
+    from{transform:translateY(-100%); opacity:0;}
+    to{transform:translateY(0); opacity:1;}
   }
+
+  .navbar:hover{
+    box-shadow:0 12px 35px rgba(0,0,0,0.15);
+  }
+
+  /* 🔥 Animated Compass Logo */
+  .navbar-brand i{
+    font-size:1.8rem;
+    color:#fe424d;
+    transition:0.5s ease;
+  }
+
+  .navbar-brand:hover i{
+    transform:rotate(360deg) scale(1.2);
+  }
+
+  /* 🔥 Nav Links */
+  .nav-link{
+    position:relative;
+    font-weight:500;
+    transition:0.3s ease;
+  }
+
+  .nav-link:hover{
+    color:#fe424d !important;
+    transform:translateY(-3px);
+  }
+
+  /* 🔥 Gradient Underline Animation */
+  .nav-link::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:0%;
+    height:2px;
+    background:linear-gradient(90deg,#fe424d,#ff7a7a);
+    transition:0.4s ease;
+  }
+
+  .nav-link:hover::after{
+    width:100%;
+  }
+
+  /* 🔥 Search Input Glow */
   .search-input{
-    border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem ;
-    font-size: 1rem;
+    border-radius:25px;
+    padding:0.5rem 3rem;
+    font-size:1rem;
+    transition:0.4s ease;
   }
+
+  .search-input:focus{
+    transform:scale(1.08);
+    box-shadow:0 0 20px rgba(254,66,77,0.4);
+    border-color:#fe424d;
+  }
+
+  /* 🔥 Search Button Animated */
+  .btn-search{
+    background:linear-gradient(45deg,#fe424d,#ff7a7a);
+    color:#fff;
+    border-radius:25px;
+    padding:0 1rem;
+    transition:0.4s ease;
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* Shine effect */
+  .btn-search::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,0.5),transparent);
+    transition:0.6s;
+  }
+
+  .btn-search:hover::before{
+    left:100%;
+  }
+
+  .btn-search:hover{
+    transform:scale(1.1);
+    box-shadow:0 12px 30px rgba(0,0,0,0.3);
+  }
+
+  .btn-search i{
+    margin-right:0.5rem;
+    transition:0.4s ease;
+  }
+
+  .btn-search:hover i{
+    transform:rotate(20deg);
+  }
+
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        
-        <a class="nav-link" href="/listings"><b><h4>Explore</h4></b></a>
-       
-      </div>
-        <div class="navbar-nav ms-auto"  >
-         <form class="d-flex" role="search" method="GET" action="/listings">
-      <input class="form-control me-2 search-input" name="search" type="search"
-       placeholder="Search Destinations" aria-label="Search"/>
-      <button class="btn  btn-search " type="submit"><i 
-        class="fa-solid fa-magnifying-glass"></i>Search</button>
-    </form>
-      </div>  
-       
 
-       <div class="navbar-nav ms-auto">
-         <a class="nav-link" href="/listings/new"><b>Airbnb your home</b></a>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings"><b><h4>Explore</h4></b></a>
+      </div>
+
+      <div class="navbar-nav ms-auto">
+        <form class="d-flex" role="search" method="GET" action="/listings">
+          <input class="form-control me-2 search-input"
+                 name="search"
+                 type="search"
+                 placeholder="Search Destinations"
+                 aria-label="Search"/>
+          <button class="btn btn-search" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>Search
+          </button>
+        </form>
+      </div>  
+
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listings/new"><b>Airbnb your home</b></a>
        <% if(!currUser){ %>
-        
-        <a class="nav-link "  href="/signup"><b>Sign Up</b></a>
+        <a class="nav-link" href="/signup"><b>Sign Up</b></a>
         <a class="nav-link" href="/login"><b>Login</b></a>
        <% }%>
        <% if(currUser){ %>
         <a class="nav-link" href="/logout"><b>Log Out</b></a>
-         <% }%>
+       <% }%>
       </div>
+
     </div>
   </div>
 </nav>
