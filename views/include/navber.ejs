@@ -1,158 +1,155 @@
 <style>
-  body{
-    margin:0;
-  }
+/* ===== Wanderlust Premium Animated Footer ===== */
 
-  /* 🔥 Floating Glass Navbar */
-  .navbar{
-    backdrop-filter: blur(15px);
-    background: rgba(255,255,255,0.75) !important;
-    transition: all 0.4s ease;
-    animation: slideDown 0.8s ease;
-  }
-
-  @keyframes slideDown{
-    from{transform:translateY(-100%); opacity:0;}
-    to{transform:translateY(0); opacity:1;}
-  }
-
-  .navbar:hover{
-    box-shadow:0 12px 35px rgba(0,0,0,0.15);
-  }
-
-  /* 🔥 Animated Compass Logo */
-  .navbar-brand i{
-    font-size:1.8rem;
-    color:#fe424d;
-    transition:0.5s ease;
-  }
-
-  .navbar-brand:hover i{
-    transform:rotate(360deg) scale(1.2);
-  }
-
-  /* 🔥 Nav Links */
-  .nav-link{
-    position:relative;
-    font-weight:500;
-    transition:0.3s ease;
-  }
-
-  .nav-link:hover{
-    color:#fe424d !important;
-    transform:translateY(-3px);
-  }
-
-  /* 🔥 Gradient Underline Animation */
-  .nav-link::after{
-    content:"";
-    position:absolute;
-    left:0;
-    bottom:0;
-    width:0%;
-    height:2px;
-    background:linear-gradient(90deg,#fe424d,#ff7a7a);
-    transition:0.4s ease;
-  }
-
-  .nav-link:hover::after{
-    width:100%;
-  }
-
-  /* 🔥 Search Input Glow */
-  .search-input{
-    border-radius:25px;
-    padding:0.5rem 3rem;
-    font-size:1rem;
-    transition:0.4s ease;
-  }
-
-  .search-input:focus{
-    transform:scale(1.08);
-    box-shadow:0 0 20px rgba(254,66,77,0.4);
-    border-color:#fe424d;
-  }
-
-  /* 🔥 Search Button Animated */
-  .btn-search{
-    background:linear-gradient(45deg,#fe424d,#ff7a7a);
-    color:#fff;
-    border-radius:25px;
-    padding:0 1rem;
-    transition:0.4s ease;
+.wl-footer {
+    background: linear-gradient(-45deg,#111,#1a1a1a,#000,#111);
+    background-size:400% 400%;
+    animation:footerBG 18s ease infinite;
+    font-size:14px;
     position:relative;
     overflow:hidden;
-  }
+}
 
-  /* Shine effect */
-  .btn-search::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:-100%;
-    width:100%;
-    height:100%;
-    background:linear-gradient(120deg,transparent,rgba(255,255,255,0.5),transparent);
-    transition:0.6s;
-  }
+/* Background animation */
+@keyframes footerBG{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
 
-  .btn-search:hover::before{
-    left:100%;
-  }
+/* Fade Up Animation */
+.wl-footer .row > div{
+    opacity:0;
+    transform:translateY(40px);
+    animation:fadeUp 1s ease forwards;
+}
 
-  .btn-search:hover{
-    transform:scale(1.1);
-    box-shadow:0 12px 30px rgba(0,0,0,0.3);
-  }
+.wl-footer .row > div:nth-child(1){animation-delay:0.2s;}
+.wl-footer .row > div:nth-child(2){animation-delay:0.4s;}
+.wl-footer .row > div:nth-child(3){animation-delay:0.6s;}
+.wl-footer .row > div:nth-child(4){animation-delay:0.8s;}
 
-  .btn-search i{
-    margin-right:0.5rem;
+@keyframes fadeUp{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Headings glow */
+.wl-footer h5,
+.wl-footer h6{
+    letter-spacing:1px;
+    transition:0.3s ease;
+}
+
+.wl-footer h5:hover,
+.wl-footer h6:hover{
+    text-shadow:0 0 10px #ffc107;
+}
+
+/* Quick Link Buttons */
+.wl-footer .btn{
+    transition:0.3s ease;
+}
+
+.wl-footer .btn:hover{
+    transform:translateX(6px) scale(1.05);
+    box-shadow:0 8px 20px rgba(255,193,7,0.3);
+}
+
+/* Social Icons */
+.wl-footer .wl-social{
+    color:#ccc;
+    font-size:18px;
     transition:0.4s ease;
-  }
+}
 
-  .btn-search:hover i{
-    transform:rotate(20deg);
-  }
+.wl-footer .wl-social:hover{
+    color:#ffc107;
+    transform:translateY(-5px) scale(1.3);
+    text-shadow:0 0 15px #ffc107;
+}
 
+/* Divider */
+.wl-footer hr{
+    opacity:0.2;
+    animation:expandLine 1.5s ease;
+}
+
+@keyframes expandLine{
+    from{width:0; opacity:0;}
+    to{width:100%; opacity:0.2;}
+}
+
+/* Bottom Text Glow */
+.wl-footer .text-center{
+    transition:0.3s ease;
+}
+
+.wl-footer .text-center:hover{
+    color:#ffc107;
+}
 </style>
 
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
-      <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+<footer class="wl-footer text-light pt-5 pb-4 mt-5">
+  <div class="container">
+    <div class="row">
 
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings"><b><h4>Explore</h4></b></a>
+      <!-- About -->
+      <div class="col-md-3 mb-4">
+        <h5 class="text-warning fw-bold">Wanderlust</h5>
+        <p class="small">
+          Explore the world with comfort and trust.
+          Book amazing stays and create unforgettable memories.
+        </p>
       </div>
 
-      <div class="navbar-nav ms-auto">
-        <form class="d-flex" role="search" method="GET" action="/listings">
-          <input class="form-control me-2 search-input"
-                 name="search"
-                 type="search"
-                 placeholder="Search Destinations"
-                 aria-label="Search"/>
-          <button class="btn btn-search" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>Search
-          </button>
-        </form>
-      </div>  
+      <!-- Quick Links -->
+      <div class="col-md-3 mb-4">
+        <h6 class="text-warning">Quick Links</h6>
+        <div class="d-grid gap-2">
+          <a href="/" class="btn btn-outline-warning btn-sm text-start">Home</a>
+          <a href="/listings" class="btn btn-outline-warning btn-sm text-start">Explore</a>
+          <a href="/listings/about" class="btn btn-outline-warning btn-sm text-start">About</a>
+          <a href="/listings/contact" class="btn btn-outline-warning btn-sm text-start">Contact</a>
+        </div>
+      </div>
 
-      <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="/listings/new"><b>Airbnb your home</b></a>
-       <% if(!currUser){ %>
-        <a class="nav-link" href="/signup"><b>Sign Up</b></a>
-        <a class="nav-link" href="/login"><b>Login</b></a>
-       <% }%>
-       <% if(currUser){ %>
-        <a class="nav-link" href="/logout"><b>Log Out</b></a>
-       <% }%>
+      <!-- Support -->
+      <div class="col-md-3 mb-4">
+        <h6 class="text-warning">Support</h6>
+        <div class="d-grid gap-2">
+          <a href="/privacy" class="btn btn-outline-warning btn-sm text-start">Privacy Policy</a>
+          <a href="/listings/terms" class="btn btn-outline-warning btn-sm text-start">Terms & Conditions</a>
+          <a href="/custom" class="btn btn-outline-warning btn-sm text-start">Custom Booking</a>
+          <a href="/listings/contact" class="btn btn-outline-warning btn-sm text-start">Help Center</a>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="col-md-3 mb-4">
+        <h6 class="text-warning">Contact</h6>
+        <p class="small mb-1"><i class="fas fa-map-marker-alt me-2"></i> Siliguri, India</p>
+        <p class="small mb-1"><i class="fas fa-envelope me-2"></i> support@wanderlust.com</p>
+        <p class="small"><i class="fas fa-phone me-2"></i> +91 9876543210</p>
+
+        <!-- Social -->
+        <div class="mt-3">
+          <a href="#" class="wl-social me-3"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="wl-social me-3"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="wl-social me-3"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="wl-social"><i class="fab fa-twitter"></i></a>
+        </div>
       </div>
 
     </div>
+
+    <hr>
+
+    <div class="text-center small">
+      © 2026 Wanderlust Private Limited | Designed by Mrinmoy Ghosh ❤️
+    </div>
   </div>
-</nav>
+</footer>
