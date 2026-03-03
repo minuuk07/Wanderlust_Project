@@ -1,16 +1,32 @@
-
-
 <link rel="stylesheet" href="/css/style2.css">
 
 <style>
   body{
-    background: linear-gradient(135deg,#e9f7ef,#f8f9fa);
+    background: linear-gradient(-45deg,#e9f7ef,#f8f9fa,#ffffff,#e6fffa);
+    background-size:400% 400%;
+    animation:bgMove 12s ease infinite;
+  }
+
+  @keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
   }
 
   .confirm-card{
     border:none;
     border-radius:1.5rem;
     overflow:hidden;
+    transform:translateY(40px);
+    opacity:0;
+    animation:fadeUp 1s ease forwards;
+  }
+
+  @keyframes fadeUp{
+    to{
+      transform:translateY(0);
+      opacity:1;
+    }
   }
 
   .confirm-header{
@@ -18,16 +34,35 @@
     color:white;
     padding:2rem 1rem;
     text-align:center;
+    animation:fadeDown 1s ease;
+  }
+
+  @keyframes fadeDown{
+    from{opacity:0; transform:translateY(-30px);}
+    to{opacity:1; transform:translateY(0);}
   }
 
   .confirm-icon{
     font-size:60px;
     margin-bottom:10px;
+    animation:pulse 1.5s infinite;
+  }
+
+  @keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.2);}
+    100%{transform:scale(1);}
   }
 
   .detail-item{
     padding:.6rem 0;
     border-bottom:1px dashed #dee2e6;
+    transition:0.3s ease;
+  }
+
+  .detail-item:hover{
+    transform:translateX(5px);
+    color:#198754;
   }
 
   .total-box{
@@ -35,12 +70,23 @@
     border-radius:1rem;
     padding:1rem;
     margin-top:1rem;
+    transition:0.3s ease;
+  }
+
+  .total-box:hover{
+    transform:scale(1.05);
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
   }
 
   .btn-pill{
     border-radius:50rem;
     padding:.6rem 1.8rem;
     font-weight:500;
+    transition:0.3s ease;
+  }
+
+  .btn-pill:hover{
+    transform:scale(1.07);
   }
 
   .btn-success{
@@ -121,8 +167,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
