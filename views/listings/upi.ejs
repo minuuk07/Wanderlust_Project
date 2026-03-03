@@ -2,6 +2,106 @@
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 
+<style>
+  body{
+    background: linear-gradient(-45deg,#f8f9fa,#e9f7ef,#ffffff,#eef2f7);
+    background-size:400% 400%;
+    animation:bgMove 15s ease infinite;
+  }
+
+  @keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+  }
+
+  .card{
+    border-radius:1.5rem;
+    transform:translateY(50px);
+    opacity:0;
+    animation:fadeUp 1s ease forwards;
+    transition:0.4s ease;
+  }
+
+  @keyframes fadeUp{
+    to{
+      transform:translateY(0);
+      opacity:1;
+    }
+  }
+
+  .card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 30px 60px rgba(0,0,0,0.2);
+  }
+
+  h3{
+    animation:glowText 2s infinite alternate;
+  }
+
+  @keyframes glowText{
+    from{ text-shadow:0 0 5px rgba(25,135,84,0.3); }
+    to{ text-shadow:0 0 20px rgba(25,135,84,0.8); }
+  }
+
+  h4{
+    animation:pulseAmount 2s infinite;
+  }
+
+  @keyframes pulseAmount{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(1);}
+  }
+
+  .badge{
+    animation:fadeIn 1.5s ease;
+  }
+
+  @keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+  }
+
+  #qrcode{
+    padding:15px;
+    border-radius:20px;
+    background:white;
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    animation:zoomIn 1.2s ease;
+    transition:0.4s ease;
+  }
+
+  @keyframes zoomIn{
+    from{transform:scale(0.7); opacity:0;}
+    to{transform:scale(1); opacity:1;}
+  }
+
+  #qrcode:hover{
+    transform:scale(1.08);
+    box-shadow:0 20px 50px rgba(0,0,0,0.25);
+  }
+
+  .btn{
+    transition:0.3s ease;
+  }
+
+  .btn:hover{
+    transform:scale(1.08);
+    box-shadow:0 12px 30px rgba(0,0,0,0.25);
+  }
+
+  hr{
+    animation:expandLine 1s ease;
+  }
+
+  @keyframes expandLine{
+    from{width:0; opacity:0;}
+    to{width:100%; opacity:1;}
+  }
+</style>
+
+
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-lg-5 col-md-7">
@@ -47,6 +147,7 @@
     </div>
   </div>
 </div>
+
 <script>
   setTimeout(() => {
       window.location.href = "/listings/<%= booking._id %>/payment-success";
@@ -55,7 +156,6 @@
 
 <script>
   const amount = <%= finalAmount %>;
-
   const upiLink = `upi://pay?pa=m74777abc@okicici&pn=Mrinmoy%20Ghosh&am=${amount}&cu=INR`;
 
   new QRCode(document.getElementById("qrcode"), {
@@ -64,4 +164,3 @@
       height: 220
   });
 </script>
-
