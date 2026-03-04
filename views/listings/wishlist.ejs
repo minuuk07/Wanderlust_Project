@@ -1,133 +1,392 @@
 <% layout("/layout/boilerplate") %>
 
 <style>
-/* ===== Wishlist Title ===== */
-.wishlist-title{
-  font-weight:700;
-  margin-bottom:25px;
-  text-align:center;
-  letter-spacing:1px;
-  animation:fadeDown 0.8s ease;
+/* Add all the wishlist styles here */
+.wishlist-container {
+    min-height: 70vh;
+    padding: 2rem 0;
 }
 
-/* ===== Card Design ===== */
-.wishlist-card{
-  border:none;
-  border-radius:15px;
-  overflow:hidden;
-  background:#fff;
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
-  transition:all 0.35s ease;
-  transform:translateY(0);
+.wishlist-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
 }
 
-.wishlist-card:hover{
-  transform:translateY(-10px) scale(1.02);
-  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+.wishlist-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #fe424d, #ff7a7a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
 }
 
-/* ===== Image ===== */
-.wishlist-img{
-  height:220px;
-  object-fit:cover;
-  transition:transform 0.4s ease;
+.wishlist-header i {
+    color: #fe424d;
+    margin: 0 10px;
+    animation: heartBeat 1.5s ease infinite;
 }
 
-.wishlist-card:hover .wishlist-img{
-  transform:scale(1.1);
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
 }
 
-/* ===== Title ===== */
-.wishlist-body{
-  padding:15px;
+/* Wishlist Card Styles */
+.wishlist-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    position: relative;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-.wishlist-body h5{
-  font-weight:600;
-  margin:0;
-  color:#333;
-  transition:color 0.3s;
+.wishlist-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(254, 66, 77, 0.3);
 }
 
-.wishlist-card:hover h5{
-  color:#ff385c;
+.wishlist-card img {
+    height: 250px;
+    object-fit: cover;
+    transition: 0.5s ease;
 }
 
-/* ===== Link remove style ===== */
-.wishlist-link{
-  text-decoration:none;
-  color:inherit;
+.wishlist-card:hover img {
+    transform: scale(1.1);
 }
 
-/* ===== Animation ===== */
-@keyframes fadeDown{
-  from{
-    opacity:0;
-    transform:translateY(-20px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+.wishlist-card .card-body {
+    padding: 1.5rem;
+    background: white;
+    position: relative;
+    z-index: 2;
 }
 
-/* ===== Card Appear Animation ===== */
-.col-4{
-  animation:cardAppear 0.8s ease;
+.wishlist-card .card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #333;
 }
 
-@keyframes cardAppear{
-  from{
-    opacity:0;
-    transform:translateY(30px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+.wishlist-card .location {
+    color: #666;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
 }
 
-/* ===== Mobile Responsive ===== */
-@media(max-width:992px){
-  .col-4{
-    width:50%;
-  }
+.wishlist-card .location i {
+    color: #fe424d;
+    margin-right: 5px;
 }
 
-@media(max-width:576px){
-  .col-4{
-    width:100%;
-  }
+.wishlist-card .price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fe424d;
+    margin-bottom: 1rem;
+}
+
+.wishlist-card .price small {
+    font-size: 0.9rem;
+    color: #888;
+    font-weight: normal;
+}
+
+/* Remove Button */
+.remove-wishlist {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    color: #fe424d;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.remove-wishlist:hover {
+    background: #fe424d;
+    color: white;
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* View Details Button */
+.view-details {
+    display: inline-block;
+    padding: 10px 25px;
+    background: linear-gradient(45deg, #fe424d, #ff7a7a);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    width: 100%;
+    text-align: center;
+}
+
+.view-details:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(254, 66, 77, 0.4);
+    color: white;
+}
+
+/* Empty Wishlist */
+.empty-wishlist {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    margin: 3rem 0;
+}
+
+.empty-wishlist i {
+    font-size: 5rem;
+    color: #fe424d;
+    margin-bottom: 1.5rem;
+    animation: heartBeat 2s ease infinite;
+}
+
+.empty-wishlist h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.empty-wishlist p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.empty-wishlist .explore-btn {
+    display: inline-block;
+    padding: 15px 40px;
+    background: linear-gradient(45deg, #fe424d, #ff7a7a);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.empty-wishlist .explore-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(254, 66, 77, 0.4);
+}
+
+/* Added Date */
+.added-date {
+    font-size: 0.85rem;
+    color: #999;
+    margin-top: 0.5rem;
+}
+
+.added-date i {
+    color: #fe424d;
+    margin-right: 5px;
+}
+
+/* Toast Notification */
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    color: #333;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    z-index: 9999;
+    animation: slideIn 0.3s ease;
+    border-left: 4px solid #fe424d;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .wishlist-header h1 {
+        font-size: 2rem;
+    }
+    
+    .wishlist-card img {
+        height: 200px;
+    }
 }
 </style>
 
+<div class="container wishlist-container">
+    
+    <!-- Header -->
+    <div class="wishlist-header">
+        <h1>
+            <i class="fa-solid fa-heart"></i>
+            My Wishlist
+            <i class="fa-solid fa-heart"></i>
+        </h1>
+        <p class="text-muted"><%= wishlist.length %> <%= wishlist.length === 1 ? 'item' : 'items' %> saved</p>
+    </div>
 
-<h2 class="wishlist-title">Your Wishlist ❤️</h2>
-
-<div class="container">
-<div class="row g-4">
-
-<% wishlist.forEach(item=>{ %>
-
-<div class="col-4">
-
-<a href="/listings/<%= item.listing._id %>" class="wishlist-link">
-
-<div class="wishlist-card">
-
-<img src="<%= item.listing.image.url %>" class="wishlist-img w-100">
-
-<div class="wishlist-body">
-<h5><%= item.listing.title %></h5>
+    <% if (wishlist.length === 0) { %>
+        <!-- Empty Wishlist -->
+        <div class="empty-wishlist">
+            <i class="fa-regular fa-heart"></i>
+            <h3>Your wishlist is empty</h3>
+            <p>Save your favorite places to visit later</p>
+            <a href="/listings" class="explore-btn">
+                <i class="fa-solid fa-compass me-2"></i>
+                Explore Listings
+            </a>
+        </div>
+    <% } else { %>
+        <!-- Wishlist Items -->
+        <div class="row g-4">
+            <% wishlist.forEach(item => { %>
+                <div class="col-lg-4 col-md-6" id="wishlist-<%= item._id %>">
+                    <div class="wishlist-card">
+                        <!-- Remove Button -->
+                        <button class="remove-wishlist" onclick="removeFromWishlist('<%= item._id %>', '<%= item.listing._id %>')">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                        
+                        <!-- Image -->
+                        <img src="<%= item.listing.image.url %>" class="card-img-top" alt="<%= item.listing.title %>">
+                        
+                        <!-- Details -->
+                        <div class="card-body">
+                            <h5 class="card-title"><%= item.listing.title %></h5>
+                            
+                            <div class="location">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <%= item.listing.location %>, <%= item.listing.country %>
+                            </div>
+                            
+                            <div class="price">
+                                ₹<%= item.listing.price ? item.listing.price.toLocaleString("en-IN") : "N/A" %>
+                                <small>/ night</small>
+                            </div>
+                            
+                            <!-- Added Date -->
+                            <div class="added-date">
+                                <i class="fa-regular fa-clock"></i>
+                                Added on <%= new Date(item.createdAt).toLocaleDateString('en-IN', { 
+                                    year: 'numeric', 
+                                    month: 'long', 
+                                    day: 'numeric' 
+                                }) %>
+                            </div>
+                            
+                            <!-- View Details Button -->
+                            <a href="/listings/<%= item.listing._id %>" class="view-details mt-3">
+                                <i class="fa-regular fa-eye me-2"></i>
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
 </div>
 
-</div>
+<!-- JavaScript for Remove Functionality -->
+<script>
+// Show toast notification
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.innerHTML = `
+        <i class="fa-${type === 'success' ? 'solid' : 'regular'} fa-circle-check me-2" style="color: #fe424d;"></i>
+        ${message}
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'slideIn 0.3s reverse';
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
 
-</a>
-
-</div>
-
-<% }) %>
-
-</div>
-</div>
+// Remove from wishlist function
+async function removeFromWishlist(wishlistId, listingId) {
+    try {
+        // Show loading state on button
+        const removeBtn = event.currentTarget;
+        const originalHTML = removeBtn.innerHTML;
+        removeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+        removeBtn.disabled = true;
+        
+        // Send request to remove
+        const res = await fetch(`/listings/wishlist/toggle/${listingId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        
+        const data = await res.json();
+        
+        if (data.status === "removed") {
+            // Remove card with animation
+            const card = document.getElementById(`wishlist-${wishlistId}`);
+            card.style.transition = 'all 0.3s ease';
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+                card.remove();
+                
+                // Update count
+                const items = document.querySelectorAll('.col-lg-4');
+                const count = items.length;
+                const header = document.querySelector('.wishlist-header p');
+                if (header) {
+                    header.textContent = `${count} ${count === 1 ? 'item' : 'items'} saved`;
+                }
+                
+                // Check if wishlist is empty
+                if (count === 0) {
+                    location.reload(); // Reload to show empty state
+                }
+            }, 300);
+            
+            // Show success message
+            showToast('Removed from wishlist!', 'success');
+        }
+        
+    } catch (err) {
+        console.error("Remove error:", err);
+        showToast('Failed to remove. Please try again.', 'error');
+        
+        // Reset button
+        const removeBtn = event.currentTarget;
+        removeBtn.innerHTML = '<i class="fa-solid fa-times"></i>';
+        removeBtn.disabled = false;
+    }
+}
+</script>
