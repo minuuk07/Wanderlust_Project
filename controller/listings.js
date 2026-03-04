@@ -2,6 +2,7 @@
 const Listing = require("../models/listing");
 // const listing=require("../models/listing");
 const Booking = require("../models/booking");
+const Wishlist = require("../models/wishlist"); 
 const listing = require("../models/listing");
 const listings=require("../models/listing.js");
 const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
