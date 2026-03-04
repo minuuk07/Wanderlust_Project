@@ -1,23 +1,84 @@
 const express = require("express");
 const router = express.Router();
+
 const wrapAsync = require("../utils/wrapAsync");
 const { isLoggedin } = require("../meddlewear");
 const profileController = require("../controller/profile");
-const multer = require('multer');
+
+const multer = require("multer");
 const { storage } = require("../cloudeconfig");
 const upload = multer({ storage });
 
-// Profile routes
-router.get("/", isLoggedin, wrapAsync(profileController.showProfile));
-router.get("/edit", isLoggedin, wrapAsync(profileController.editProfile));
-router.post("/update", isLoggedin, wrapAsync(profileController.updateProfile));
-router.post("/update-picture", isLoggedin, upload.single('profilePicture'), wrapAsync(profileController.updateProfilePicture));
+/* ==============================
+   PROFILE MAIN PAGE
+============================== */
 
-// User statistics
-router.get("/stats", isLoggedin, wrapAsync(profileController.getUserStats));
+router.get(
+"/",
+isLoggedin,
+wrapAsync(profileController.showProfile)
+);
 
-// User bookings and listings
-router.get("/bookings", isLoggedin, wrapAsync(profileController.showUserBookings));
-router.get("/listings", isLoggedin, wrapAsync(profileController.showUserListings));
+/* ==============================
+   EDIT PROFILE PAGE
+============================== */
+
+router.get(
+"/edit",
+isLoggedin,
+wrapAsync(profileController.editProfile)
+);
+
+/* ==============================
+   UPDATE PROFILE
+============================== */
+
+router.post(
+"/update",
+isLoggedin,
+upload.single("profilePicture"),
+wrapAsync(profileController.updateProfile)
+);
+
+/* ==============================
+   UPDATE PROFILE PICTURE
+============================== */
+
+router.post(
+"/update-picture",
+isLoggedin,
+upload.single("profilePicture"),
+wrapAsync(profileController.updateProfilePicture)
+);
+
+/* ==============================
+   USER STATISTICS
+============================== */
+
+router.get(
+"/stats",
+isLoggedin,
+wrapAsync(profileController.getUserStats)
+);
+
+/* ==============================
+   USER BOOKINGS
+============================== */
+
+router.get(
+"/bookings",
+isLoggedin,
+wrapAsync(profileController.showUserBookings)
+);
+
+/* ==============================
+   USER LISTINGS
+============================== */
+
+router.get(
+"/listings",
+isLoggedin,
+wrapAsync(profileController.showUserListings)
+);
 
 module.exports = router;
