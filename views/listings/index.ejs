@@ -1,5 +1,7 @@
 <% layout("/layout/boilerplate") %>
-
+<script>
+const username = "<%= currUser ? currUser.username : 'Guest' %>";
+</script>
 <style>
   body{
     background: linear-gradient(-45deg,#f8f9fa,#eef2f7,#fdfbfb,#e2ebf0);
@@ -275,4 +277,27 @@
       });
     });
   });
+</script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const hasWelcomed = sessionStorage.getItem("welcomed");
+
+  if(!hasWelcomed){
+
+    const message = new SpeechSynthesisUtterance(
+      `Welcome ${username} to Wanderlust`
+    );
+
+    message.lang="en-US";
+    message.rate=1;
+    message.pitch=1;
+
+    speechSynthesis.speak(message);
+
+    sessionStorage.setItem("welcomed", "true");
+  }
+
+});
+
 </script>
