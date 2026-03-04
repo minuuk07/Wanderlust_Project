@@ -507,4 +507,54 @@ module.exports.createBooking = async (req, res) => {
     return res.redirect("/listings");
   }
 };
-    
+
+
+module.exports.toggleWishlist = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user._id;
+
+        console.log("Toggling wishlist:", { userId, listingId: id });
+
+        // Check if already in wishlist
+        const existing = await Wishlist.findOne({
+            user: userId,
+            listing: id
+        });
+
+        if (existing) {
+            // Remove from wishlist
+            await Wishlist.findByIdAndDelete(existing._id);
+            console.log("Removed from wishlist");
+            return res.json({ status: "removed" });
+        } else {
+            // Add to wishlist
+            const newWish = new Wishlist({
+                user: userId,
+                listing: id
+            });
+            await newWish.save();
+            console.log("Added to wishlist");
+            return res.json({ status: "added" });
+        }
+    } catch (err) {
+        console.error("Wishlist toggle error:", err);
+        return res.status(500).json({ error: "Server error" });
+    }
+};
+
+// Show wishlist page
+module.exports.showWishlist = async (req, res) => {
+    try {
+        const wishlist = await Wishlist.find({
+            user: req.user._id
+        }).populate("listing");
+        
+        console.log("Wishlist items:", wishlist);
+        res.render("listings/wishlist", { wishlist });
+    } catch (err) {
+        console.error("Wishlist show error:", err);
+        req.flash("error", "Could not load wishlist");
+        res.redirect("/listings");
+    }
+};
