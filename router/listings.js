@@ -8,6 +8,9 @@ const listingController=require("../controller/listings.js");
 const multer  = require('multer')
 const {storage}=require("../cloudeconfig.js");
 const upload = multer({ storage });
+
+router.get("/wishlist", isLoggedin, wrapAsync(listingController.showWishlist));
+router.post("/wishlist/toggle/:id", isLoggedin, wrapAsync(listingController.toggleWishlist));
 // multer cannot take nested name like listing[image][url] this type
 // this is restructring router.route
 router.get("/filter/:category",  isLoggedin,wrapAsync(listingController.filterByCategory));
