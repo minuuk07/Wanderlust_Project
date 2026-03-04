@@ -1,0 +1,963 @@
+<% layout("/layout/boilerplate") %>
+
+<style>
+/* ===== Modern CSS with Professional Animations ===== */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --success-gradient: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+    --warning-gradient: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%);
+    --shadow-sm: 0 5px 15px rgba(0,0,0,0.08);
+    --shadow-md: 0 10px 30px rgba(0,0,0,0.12);
+    --shadow-lg: 0 20px 50px rgba(0,0,0,0.15);
+    --shadow-hover: 0 30px 70px rgba(102, 126, 234, 0.25);
+}
+
+/* ===== Profile Container ===== */
+.profile-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Profile Header with Animated Background ===== */
+.profile-header {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 4rem 2rem;
+    border-radius: 40px;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+/* Animated Background Shapes */
+.profile-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+    animation: rotateSlow 25s linear infinite;
+}
+
+.profile-header::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotateSlow 30s linear infinite reverse;
+}
+
+@keyframes rotateSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Floating Orbs */
+.floating-orb {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.orb-1 {
+    top: -100px;
+    right: -100px;
+    animation: float 8s ease-in-out infinite;
+}
+
+.orb-2 {
+    bottom: -150px;
+    left: -150px;
+    width: 400px;
+    height: 400px;
+    animation: float 12s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(10deg); }
+}
+
+/* ===== Profile Avatar with Glow Effect ===== */
+.profile-avatar-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+
+.profile-avatar {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.3);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    object-fit: cover;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: avatarGlow 3s ease-in-out infinite;
+}
+
+@keyframes avatarGlow {
+    0%, 100% { box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 25px 60px rgba(102, 126, 234, 0.5); }
+}
+
+.profile-avatar:hover {
+    transform: scale(1.1) rotate(5deg);
+    border-color: white;
+}
+
+/* Avatar Badge for Online Status */
+.avatar-badge {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 25px;
+    height: 25px;
+    background: #4ade80;
+    border: 3px solid white;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* ===== Profile Name with Typing Effect ===== */
+.profile-name {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    background: linear-gradient(to right, #fff, #f0f0f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+    background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+    0% { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.profile-email {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    animation: slideInLeft 0.8s ease;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ===== Statistics Cards with 3D Effect ===== */
+.profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem 2.5rem;
+    border-radius: 30px;
+    min-width: 180px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255,255,255,0.2);
+    animation: fadeInUp 0.8s ease backwards;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-item:nth-child(1) { animation-delay: 0.2s; }
+.stat-item:nth-child(2) { animation-delay: 0.4s; }
+.stat-item:nth-child(3) { animation-delay: 0.6s; }
+
+.stat-item::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    border-color: white;
+}
+
+.stat-item:hover::before {
+    opacity: 1;
+    animation: rotate 10s linear infinite;
+}
+
+.stat-number {
+    font-size: 2.8rem;
+    font-weight: 800;
+    display: block;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.stat-label {
+    font-size: 1rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ===== Profile Content Layout ===== */
+.profile-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2.5rem;
+    margin-top: 2rem;
+}
+
+/* ===== Sidebar Cards ===== */
+.profile-sidebar,
+.profile-main {
+    background: white;
+    border-radius: 30px;
+    padding: 2.5rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.4s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    animation: slideInRight 0.8s ease;
+}
+
+.profile-sidebar {
+    animation-name: slideInLeft;
+}
+
+.profile-main {
+    animation-name: slideInRight;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.profile-sidebar:hover,
+.profile-main:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ===== Section Titles with Underline Animation ===== */
+.section-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 3px solid #f0f0f0;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--primary-gradient);
+    transition: width 0.4s ease;
+}
+
+.section-title:hover::after {
+    width: 100%;
+}
+
+/* ===== Info Items with Hover Effect ===== */
+.info-item {
+    margin-bottom: 1.2rem;
+    padding: 0.8rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.info-item:hover {
+    background: #f8fafd;
+    transform: translateX(10px);
+    border-left-color: #667eea;
+    box-shadow: var(--shadow-sm);
+}
+
+.info-label {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 600;
+}
+
+/* ===== Social Links with Cool Hover ===== */
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.social-link {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #f0f0f0, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #667eea;
+    font-size: 1.3rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 5px 5px 10px #d9d9d9, -5px -5px 10px #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.social-link:hover {
+    transform: translateY(-8px) scale(1.1);
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+}
+
+.social-link:hover::before {
+    left: 100%;
+}
+
+/* ===== Edit Profile Button with Ripple Effect ===== */
+.edit-profile-btn {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    width: 100%;
+    margin-top: 2rem;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.edit-profile-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.edit-profile-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+}
+
+.edit-profile-btn:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+.edit-profile-btn:active {
+    transform: translateY(0);
+}
+
+/* ===== Recent Bookings Cards ===== */
+.recent-booking {
+    padding: 1.2rem;
+    border: 1px solid #f0f0f0;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    transition: all 0.4s ease;
+    background: white;
+    animation: slideInLeft 0.6s ease backwards;
+    position: relative;
+    overflow: hidden;
+}
+
+.recent-booking:nth-child(1) { animation-delay: 0.1s; }
+.recent-booking:nth-child(2) { animation-delay: 0.2s; }
+.recent-booking:nth-child(3) { animation-delay: 0.3s; }
+.recent-booking:nth-child(4) { animation-delay: 0.4s; }
+.recent-booking:nth-child(5) { animation-delay: 0.5s; }
+
+.recent-booking::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.recent-booking:hover {
+    transform: translateX(15px) scale(1.02);
+    border-color: #667eea;
+    box-shadow: var(--shadow-md);
+}
+
+.recent-booking:hover::before {
+    left: 100%;
+}
+
+.recent-booking-title {
+    font-weight: 700;
+    color: #333;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.recent-booking-date {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.recent-booking-date i {
+    margin-right: 5px;
+    color: #667eea;
+}
+
+.recent-booking-price {
+    color: #667eea;
+    font-weight: 700;
+    font-size: 1.2rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ===== Empty State Animation ===== */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    animation: bounceIn 1s ease;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: #667eea;
+    margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ===== Loading Skeleton Animation ===== */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 1024px) {
+    .profile-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .profile-stats {
+        gap: 1.5rem;
+    }
+    
+    .stat-item {
+        padding: 1.2rem 2rem;
+        min-width: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-header {
+        padding: 2.5rem 1rem;
+    }
+    
+    .profile-avatar {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .profile-name {
+        font-size: 2.2rem;
+    }
+    
+    .profile-stats {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .stat-item {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .profile-sidebar,
+    .profile-main {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .profile-name {
+        font-size: 1.8rem;
+    }
+    
+    .profile-email {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.2rem;
+    }
+}
+
+/* ===== Scrollbar Styling ===== */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+}
+
+/* ===== Print Styles ===== */
+@media print {
+    .profile-header {
+        background: #667eea;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .edit-profile-btn,
+    .social-links {
+        display: none;
+    }
+}
+</style>
+
+<!-- Floating Orbs -->
+<div class="floating-orb orb-1"></div>
+<div class="floating-orb orb-2"></div>
+
+<div class="profile-container">
+    <!-- Profile Header with Animation -->
+    <div class="profile-header text-center">
+        <div class="profile-avatar-container">
+            <img src="<%= profile.profilePicture.url %>" alt="Profile" class="profile-avatar">
+            <span class="avatar-badge"></span>
+        </div>
+        
+        <h1 class="profile-name"><%= profile.fullName || user.username %></h1>
+        <div class="profile-email">
+            <i class="far fa-envelope me-2"></i><%= user.email %>
+        </div>
+        
+        <div class="profile-stats">
+            <div class="stat-item">
+                <span class="stat-number"><%= totalBookings %></span>
+                <span class="stat-label">Total Bookings</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number"><%= totalListings %></span>
+                <span class="stat-label">Properties</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number"><%= profile.memberSince ? new Date(profile.memberSince).getFullYear() : '2024' %></span>
+                <span class="stat-label">Member Since</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Content with Cards -->
+    <div class="profile-content">
+        <!-- Sidebar -->
+        <div class="profile-sidebar">
+            <div class="info-section">
+                <h3 class="section-title">
+                    <i class="fas fa-user me-2"></i>Personal Information
+                </h3>
+                <div class="info-item">
+                    <div class="info-label">Full Name</div>
+                    <div class="info-value"><%= profile.fullName || 'Not provided' %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Phone Number</div>
+                    <div class="info-value"><%= profile.phone || 'Not provided' %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Date of Birth</div>
+                    <div class="info-value"><%= profile.dateOfBirth ? new Date(profile.dateOfBirth).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Not provided' %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Gender</div>
+                    <div class="info-value"><%= profile.gender || 'Not provided' %></div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3 class="section-title">
+                    <i class="fas fa-map-marker-alt me-2"></i>Address
+                </h3>
+                <% if (profile.address && (profile.address.street || profile.address.city)) { %>
+                    <div class="info-value">
+                        <i class="fas fa-home me-2" style="color: #667eea;"></i>
+                        <%= profile.address.street %><br>
+                        <span class="ms-4"><%= profile.address.city %>, <%= profile.address.state %></span><br>
+                        <span class="ms-4"><%= profile.address.country %> - <%= profile.address.zipCode %></span>
+                    </div>
+                <% } else { %>
+                    <div class="info-value text-muted">
+                        <i class="fas fa-exclamation-circle me-2"></i>No address provided
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="info-section">
+                <h3 class="section-title">
+                    <i class="fas fa-cog me-2"></i>Preferences
+                </h3>
+                <div class="info-item">
+                    <div class="info-label">Language</div>
+                    <div class="info-value"><%= profile.preferences?.language || 'English' %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Currency</div>
+                    <div class="info-value"><%= profile.preferences?.currency || 'INR' %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Email Notifications</div>
+                    <div class="info-value">
+                        <span class="badge <%= profile.preferences?.notifications?.email ? 'bg-success' : 'bg-secondary' %>">
+                            <%= profile.preferences?.notifications?.email ? 'Enabled' : 'Disabled' %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3 class="section-title">
+                    <i class="fas fa-share-alt me-2"></i>Social Links
+                </h3>
+                <div class="social-links">
+                    <% if (profile.socialLinks?.website) { %>
+                        <a href="<%= profile.socialLinks.website %>" target="_blank" class="social-link" title="Website">
+                            <i class="fas fa-globe"></i>
+                        </a>
+                    <% } %>
+                    <% if (profile.socialLinks?.facebook) { %>
+                        <a href="<%= profile.socialLinks.facebook %>" target="_blank" class="social-link" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    <% } %>
+                    <% if (profile.socialLinks?.twitter) { %>
+                        <a href="<%= profile.socialLinks.twitter %>" target="_blank" class="social-link" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    <% } %>
+                    <% if (profile.socialLinks?.instagram) { %>
+                        <a href="<%= profile.socialLinks.instagram %>" target="_blank" class="social-link" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    <% } %>
+                    <% if (!profile.socialLinks || (!profile.socialLinks.website && !profile.socialLinks.facebook && !profile.socialLinks.twitter && !profile.socialLinks.instagram)) { %>
+                        <span class="text-muted">No social links added</span>
+                    <% } %>
+                </div>
+            </div>
+
+            <a href="/profile/edit" class="edit-profile-btn">
+                <i class="fas fa-edit me-2"></i>Edit Profile
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="profile-main">
+            <div class="info-section">
+                <h3 class="section-title">
+                    <i class="fas fa-info-circle me-2"></i>About Me
+                </h3>
+                <p class="info-value"><%= profile.bio || 'No bio provided' %></p>
+            </div>
+
+            <div class="info-section">
+                <h3 class="section-title">
+                    <i class="fas fa-calendar-check me-2"></i>Recent Bookings
+                </h3>
+                <% if (recentBookings && recentBookings.length > 0) { %>
+                    <% recentBookings.forEach(booking => { %>
+                        <div class="recent-booking">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="recent-booking-title">
+                                        <i class="fas fa-home me-2" style="color: #667eea;"></i>
+                                        <%= booking.listing?.title || 'Unknown Listing' %>
+                                    </div>
+                                    <div class="recent-booking-date">
+                                        <i class="far fa-calendar-alt"></i>
+                                        <%= new Date(booking.checkIn).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %> - 
+                                        <%= new Date(booking.checkOut).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                                    </div>
+                                    <div class="recent-booking-date">
+                                        <i class="fas fa-user-friends"></i>
+                                        <%= booking.adults %> Adults <%= booking.children > 0 ? `, ${booking.children} Children` : '' %>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="recent-booking-price">
+                                        ₹<%= booking.totalPrice?.toLocaleString('en-IN') %>
+                                    </div>
+                                    <span class="badge <%= booking.paymentStatus === 'Paid' ? 'bg-success' : 'bg-warning' %>">
+                                        <%= booking.paymentStatus || 'Pending' %>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                    <div class="text-center mt-4">
+                        <a href="/profile/bookings" class="btn btn-outline-primary">
+                            <i class="fas fa-eye me-2"></i>View All Bookings
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                <% } else { %>
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <h4>No Bookings Yet</h4>
+                        <p class="text-muted">Start exploring and book your first stay!</p>
+                        <a href="/listings" class="btn btn-primary mt-3">
+                            <i class="fas fa-compass me-2"></i>Explore Listings
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Activity Timeline (Optional Section) -->
+            <% if (recentBookings && recentBookings.length > 0) { %>
+            <div class="info-section mt-4">
+                <h3 class="section-title">
+                    <i class="fas fa-chart-line me-2"></i>Activity Overview
+                </h3>
+                <div class="row text-center">
+                    <div class="col-4">
+                        <div class="p-3">
+                            <i class="fas fa-suitcase fa-2x mb-2" style="color: #667eea;"></i>
+                            <h5><%= totalBookings %></h5>
+                            <small class="text-muted">Total Trips</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-3">
+                            <i class="fas fa-clock fa-2x mb-2" style="color: #764ba2;"></i>
+                            <h5><%= recentBookings.length %></h5>
+                            <small class="text-muted">Upcoming</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-3">
+                            <i class="fas fa-star fa-2x mb-2" style="color: #f093fb;"></i>
+                            <h5>0</h5>
+                            <small class="text-muted">Reviews</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<!-- Add Font Awesome if not already included -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<script>
+// Add smooth scroll animations
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate stats on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe stat items
+    document.querySelectorAll('.stat-item, .info-item, .recent-booking').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+    });
+
+    // Add ripple effect to buttons
+    document.querySelectorAll('.edit-profile-btn, .btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            
+            const x = e.clientX - e.target.offsetLeft;
+            const y = e.clientY - e.target.offsetTop;
+            
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+});
+
+// Add ripple effect styles dynamically
+const style = document.createElement('style');
+style.textContent = `
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: scale(0);
+        animation: ripple-animation 0.6s ease-out;
+        pointer-events: none;
+    }
+    
+    @keyframes ripple-animation {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
