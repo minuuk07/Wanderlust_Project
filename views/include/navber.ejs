@@ -157,6 +157,39 @@
 Wishlist
 
 </a>
+<div class="dropdown ms-2">
+            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+              <i class="fa-regular fa-user me-2"></i>
+              <%= currUser.username %>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item" href="/profile">
+                  <i class="fa-regular fa-user"></i>
+                  My Profile
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="/listings/mybooking">
+                  <i class="fa-regular fa-calendar"></i>
+                  My Bookings
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="/listings">
+                  <i class="fa-regular fa-building"></i>
+                  My Listings
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item text-danger" href="/logout">
+                  <i class="fa-solid fa-sign-out-alt"></i>
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
        <% }%>
       </div>
 
