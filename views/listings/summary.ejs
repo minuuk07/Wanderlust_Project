@@ -1,143 +1,909 @@
 <% layout("/layout/boilerplate") %>
 
 <style>
-  body{
-    background: linear-gradient(-45deg,#f8f9fa,#e9f7ef,#ffffff,#f1f3f6);
-    background-size:400% 400%;
-    animation:bgMove 14s ease infinite;
-  }
-
-  @keyframes bgMove{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-  }
-
-  .card{
-    border-radius:1.5rem;
-    transform:translateY(50px);
-    opacity:0;
-    animation:fadeUp 1s ease forwards;
-    transition:0.4s ease;
-  }
-
-  @keyframes fadeUp{
-    to{
-      transform:translateY(0);
-      opacity:1;
+    /* ===== Modern CSS with Professional Animations ===== */
+    :root {
+        --primary: #4361ee;
+        --secondary: #3a0ca3;
+        --success: #4cc9f0;
+        --danger: #f72585;
+        --warning: #f8961e;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        --shadow-sm: 0 5px 20px rgba(0,0,0,0.08);
+        --shadow-md: 0 10px 30px rgba(0,0,0,0.12);
+        --shadow-lg: 0 20px 50px rgba(0,0,0,0.15);
+        --shadow-hover: 0 30px 70px rgba(102,126,234,0.3);
     }
-  }
 
-  .card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 25px 50px rgba(0,0,0,0.2);
-  }
+    body {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-  h2{
-    animation:glowText 2s infinite alternate;
-  }
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
-  @keyframes glowText{
-    from{ text-shadow:0 0 5px rgba(25,135,84,0.3); }
-    to{ text-shadow:0 0 20px rgba(25,135,84,0.7); }
-  }
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
 
-  hr{
-    animation:expandLine 1s ease;
-  }
+    /* ===== Page Header ===== */
+    .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        animation: slideDown 1s ease;
+    }
 
-  @keyframes expandLine{
-    from{width:0; opacity:0;}
-    to{width:100%; opacity:1;}
-  }
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-  .mb-2{
-    transition:0.3s ease;
-    padding:6px 0;
-  }
+    .page-header h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #fff, #f0f0f0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        margin-bottom: 1rem;
+        position: relative;
+        display: inline-block;
+    }
 
-  .mb-2:hover{
-    transform:translateX(6px);
-    color:#198754;
-  }
+    .page-header h1::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: var(--gradient-1);
+        border-radius: 2px;
+        animation: expandLine 1s ease 0.5s forwards;
+        width: 0;
+    }
 
-  h4{
-    animation:pulseAmount 2s infinite;
-  }
+    @keyframes expandLine {
+        to { width: 100px; }
+    }
 
-  @keyframes pulseAmount{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.05);}
-    100%{transform:scale(1);}
-  }
+    .page-header p {
+        color: rgba(255,255,255,0.9);
+        font-size: 1.2rem;
+        animation: fadeIn 1s ease 0.3s both;
+    }
 
-  .btn{
-    border-radius:50rem;
-    transition:0.3s ease;
-  }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
 
-  .btn:hover{
-    transform:scale(1.08);
-    box-shadow:0 10px 25px rgba(0,0,0,0.25);
-  }
+    /* ===== Stats Cards ===== */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+        animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .stat-card {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 1.8rem 1.5rem;
+        text-align: center;
+        box-shadow: var(--shadow-lg);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+        transition: transform 0.6s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .stat-card:hover::before {
+        transform: rotate(45deg);
+    }
+
+    .stat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .stat-value {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #333;
+        line-height: 1.2;
+    }
+
+    .stat-label {
+        color: #666;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* ===== Booking Cards ===== */
+    .booking-card {
+        background: rgba(255,255,255,0.98);
+        backdrop-filter: blur(10px);
+        border-radius: 30px;
+        padding: 2rem;
+        box-shadow: var(--shadow-lg);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.2);
+        animation: cardAppear 0.6s ease backwards;
+    }
+
+    .booking-card:nth-child(1) { animation-delay: 0.1s; }
+    .booking-card:nth-child(2) { animation-delay: 0.2s; }
+    .booking-card:nth-child(3) { animation-delay: 0.3s; }
+    .booking-card:nth-child(4) { animation-delay: 0.4s; }
+    .booking-card:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes cardAppear {
+        0% {
+            opacity: 0;
+            transform: scale(0.8) translateY(30px);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    .booking-card:hover {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: var(--shadow-hover);
+    }
+
+    /* Card Header */
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .booking-number {
+        background: var(--gradient-1);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .booking-status {
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        animation: slideInRight 0.5s ease;
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .status-paid {
+        background: linear-gradient(135deg, #84fab0, #8fd3f4);
+        color: #1a5a1a;
+    }
+
+    .status-pending {
+        background: linear-gradient(135deg, #fad0c4, #ffd1ff);
+        color: #b45b0f;
+    }
+
+    .status-cancelled {
+        background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+        color: #b30000;
+    }
+
+    /* Listing Title */
+    .listing-title {
+        font-size: 2rem;
+        font-weight: 800;
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .listing-title::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: var(--gradient-1);
+        transition: width 0.3s ease;
+    }
+
+    .booking-card:hover .listing-title::after {
+        width: 100%;
+    }
+
+    /* Decorative Line */
+    .decorative-line {
+        height: 2px;
+        background: var(--gradient-1);
+        margin: 1.5rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .decorative-line::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+        100% { left: 100%; }
+    }
+
+    /* Info Grid */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+    }
+
+    .info-item {
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+        animation: slideInLeft 0.5s ease backwards;
+    }
+
+    .info-item:nth-child(1) { animation-delay: 0.1s; }
+    .info-item:nth-child(2) { animation-delay: 0.2s; }
+    .info-item:nth-child(3) { animation-delay: 0.3s; }
+    .info-item:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .info-item:hover {
+        background: white;
+        border-left-color: #667eea;
+        transform: translateX(10px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .info-label {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .info-label i {
+        color: #667eea;
+        width: 20px;
+    }
+
+    .info-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+        padding-left: 1.8rem;
+    }
+
+    /* Price Section */
+    .price-section {
+        background: var(--gradient-1);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+        from { box-shadow: 0 5px 20px rgba(102,126,234,0.3); }
+        to { box-shadow: 0 10px 40px rgba(102,126,234,0.6); }
+    }
+
+    .price-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+        animation: rotate 10s linear infinite;
+    }
+
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    .price-label {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+    }
+
+    .price-value {
+        font-size: 2.2rem;
+        font-weight: 800;
+        position: relative;
+        z-index: 1;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* Buttons */
+    .button-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+
+    .btn {
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .btn-primary {
+        background: var(--gradient-1);
+        color: white;
+        box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(102,126,234,0.5);
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(108,117,125,0.4);
+    }
+
+    .btn i {
+        transition: transform 0.3s ease;
+    }
+
+    .btn:hover i {
+        transform: translateX(5px);
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 4rem;
+        background: rgba(255,255,255,0.95);
+        border-radius: 40px;
+        box-shadow: var(--shadow-lg);
+        animation: bounceIn 1s ease;
+    }
+
+    @keyframes bounceIn {
+        0% {
+            opacity: 0;
+            transform: scale(0.3);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        70% {
+            transform: scale(0.95);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .empty-state i {
+        font-size: 5rem;
+        color: #667eea;
+        margin-bottom: 1.5rem;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .empty-state h2 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+        color: #666;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .page-header h1 {
+            font-size: 2.5rem;
+        }
+        
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .price-section {
+            flex-direction: column;
+            text-align: center;
+            gap: 1rem;
+        }
+        
+        .button-group {
+            flex-direction: column;
+        }
+        
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #764ba2, #667eea);
+    }
 </style>
 
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>
+            <i class="fas fa-suitcase me-3"></i>
+            Booking Summary
+        </h1>
+        <p>Your complete travel history at a glance ✨</p>
+    </div>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-
-            <div class="card shadow-lg border-0 rounded-4 p-4">
-
-                <h2 class="text-success text-center mb-3">
-                    🧾 Booking Summary
-                </h2>
-
-                <hr>
-
-                <div class="mb-2">
-                    <strong>Listing:</strong> <%= booking.listing.title %>
+    <% if (bookings && bookings.length > 0) { 
+        // Calculate statistics
+        const totalBookings = bookings.length;
+        const totalSpent = bookings.reduce((sum, b) => sum + (b.totalPrice || 0), 0);
+        const totalNights = bookings.reduce((sum, b) => sum + (b.totalDays || 0), 0);
+        const uniquePlaces = new Set(bookings.map(b => b.listing?._id?.toString())).size;
+    %>
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-check"></i>
                 </div>
-
-                <div class="mb-2">
-                    <strong>Name:</strong> <%= booking.name %>
+                <div class="stat-value"><%= totalBookings %></div>
+                <div class="stat-label">Total Bookings</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-map-marked-alt"></i>
                 </div>
-
-                <div class="mb-2">
-                    <strong>Email:</strong> <%= booking.email %>
+                <div class="stat-value"><%= uniquePlaces %></div>
+                <div class="stat-label">Places Visited</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-moon"></i>
                 </div>
-
-                <div class="mb-2">
-                    <strong>Check In:</strong> 
-                    <%= booking.checkIn.toDateString() %>
+                <div class="stat-value"><%= totalNights %></div>
+                <div class="stat-label">Total Nights</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-rupee-sign"></i>
                 </div>
-
-                <div class="mb-2">
-                    <strong>Check Out:</strong> 
-                    <%= booking.checkOut.toDateString() %>
-                </div>
-
-                <div class="mb-2">
-                    <strong>Total Nights:</strong> 
-                    <%= booking.totalDays > 0 ? booking.totalDays : 1 %>
-                </div>
-
-                <h4 class="text-danger mt-3">
-                    Total Amount: ₹
-                    <%= booking.totalPrice > 0 ? booking.totalPrice : 500 %>
-                </h4>
-
-                <!-- ✅ Buttons Section -->
-                <div class="d-flex justify-content-center gap-3 mt-4">
-
-                    <a href="/listings"
-                       class="btn btn-outline-secondary px-4">
-                       Back to Listings
-                    </a>
-
-                </div>
-
+                <div class="stat-value">₹<%= totalSpent.toLocaleString('en-IN') %></div>
+                <div class="stat-label">Total Spent</div>
             </div>
         </div>
-    </div>
+
+        <!-- Booking Cards -->
+        <% bookings.forEach((booking, index) => { %>
+            <div class="row justify-content-center">
+                <div class="col-md-10 mb-4">
+                    <div class="booking-card">
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <span class="booking-number">
+                                <i class="fas fa-hashtag me-1"></i>
+                                Booking #<%= bookings.length - index %>
+                            </span>
+                            <span class="booking-status status-<%= booking.paymentStatus?.toLowerCase() || 'pending' %>">
+                                <i class="fas fa-circle me-1" style="font-size: 0.6rem;"></i>
+                                <%= booking.paymentStatus || 'Pending' %>
+                            </span>
+                        </div>
+
+                        <!-- Listing Title -->
+                        <h2 class="listing-title">
+                            <i class="fas fa-home me-2"></i>
+                            <%= booking.listing?.title || 'Unknown Property' %>
+                        </h2>
+
+                        <!-- Decorative Line -->
+                        <div class="decorative-line"></div>
+
+                        <!-- Info Grid -->
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-user"></i> Guest Name
+                                </div>
+                                <div class="info-value">
+                                    <%= booking.name %>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-envelope"></i> Email
+                                </div>
+                                <div class="info-value">
+                                    <%= booking.email %>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-calendar-alt"></i> Check In
+                                </div>
+                                <div class="info-value">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date(booking.checkIn).toLocaleDateString('en-IN', { 
+                                        weekday: 'short',
+                                        day: 'numeric', 
+                                        month: 'short', 
+                                        year: 'numeric' 
+                                    }) %>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-calendar-alt"></i> Check Out
+                                </div>
+                                <div class="info-value">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date(booking.checkOut).toLocaleDateString('en-IN', { 
+                                        weekday: 'short',
+                                        day: 'numeric', 
+                                        month: 'short', 
+                                        year: 'numeric' 
+                                    }) %>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-moon"></i> Duration
+                                </div>
+                                <div class="info-value">
+                                    <strong><%= booking.totalDays || 1 %></strong> nights
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-user-friends"></i> Guests
+                                </div>
+                                <div class="info-value">
+                                    <%= booking.adults || 0 %> Adults
+                                    <% if(booking.children > 0) { %>
+                                        , <%= booking.children %> Children
+                                    <% } %>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-tag"></i> Booking ID
+                                </div>
+                                <div class="info-value" style="font-size: 0.9rem;">
+                                    <%= booking._id.toString().substring(0, 15) %>...
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="far fa-clock"></i> Booked On
+                                </div>
+                                <div class="info-value">
+                                    <%= new Date(booking.createdAt).toLocaleDateString('en-IN', { 
+                                        day: 'numeric', 
+                                        month: 'short', 
+                                        year: 'numeric' 
+                                    }) %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Price Section -->
+                        <div class="price-section">
+                            <span class="price-label">
+                                <i class="fas fa-credit-card me-2"></i>
+                                Total Amount
+                            </span>
+                            <span class="price-value">
+                                ₹ <%= (booking.totalPrice || 0).toLocaleString('en-IN') %>
+                            </span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="button-group">
+                            <a href="/listings/<%= booking.listing?._id %>" class="btn btn-primary">
+                                <i class="fas fa-eye me-2"></i>
+                                View Property
+                                <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                            
+                            <a href="/listings" class="btn btn-secondary">
+                                <i class="fas fa-compass me-2"></i>
+                                Browse More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+        
+    <% } else { %>
+        <!-- Empty State -->
+        <div class="empty-state">
+            <i class="fas fa-calendar-times"></i>
+            <h2>No Bookings Found</h2>
+            <p>You haven't made any bookings yet. Start planning your next adventure!</p>
+            <a href="/listings" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1.2rem;">
+                <i class="fas fa-compass me-2"></i>
+                Explore Properties
+                <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    <% } %>
 </div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Smooth Scroll JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Add scroll reveal animation
+    const cards = document.querySelectorAll('.booking-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0) scale(1)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px) scale(0.95)';
+        card.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        observer.observe(card);
+    });
+
+    // Add hover sound effect (optional - remove if not needed)
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // Confetti effect for paid bookings (optional)
+    const paidBookings = document.querySelectorAll('.status-paid');
+    if (paidBookings.length > 0 && Math.random() > 0.7) { // 30% chance
+        // Simple confetti effect
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.width = '8px';
+            confetti.style.height = '8px';
+            confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            confetti.style.borderRadius = '50%';
+            confetti.style.zIndex = '9999';
+            confetti.style.pointerEvents = 'none';
+            confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => confetti.remove(), 5000);
+        }
+    }
+
+    // Add keyframe for confetti
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
