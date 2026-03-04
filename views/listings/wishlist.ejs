@@ -1,18 +1,127 @@
 <% layout("/layout/boilerplate") %>
 
-<h2>Your Wishlist ❤️</h2>
+<style>
+/* ===== Wishlist Title ===== */
+.wishlist-title{
+  font-weight:700;
+  margin-bottom:25px;
+  text-align:center;
+  letter-spacing:1px;
+  animation:fadeDown 0.8s ease;
+}
 
-<div class="row">
+/* ===== Card Design ===== */
+.wishlist-card{
+  border:none;
+  border-radius:15px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  transition:all 0.35s ease;
+  transform:translateY(0);
+}
+
+.wishlist-card:hover{
+  transform:translateY(-10px) scale(1.02);
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* ===== Image ===== */
+.wishlist-img{
+  height:220px;
+  object-fit:cover;
+  transition:transform 0.4s ease;
+}
+
+.wishlist-card:hover .wishlist-img{
+  transform:scale(1.1);
+}
+
+/* ===== Title ===== */
+.wishlist-body{
+  padding:15px;
+}
+
+.wishlist-body h5{
+  font-weight:600;
+  margin:0;
+  color:#333;
+  transition:color 0.3s;
+}
+
+.wishlist-card:hover h5{
+  color:#ff385c;
+}
+
+/* ===== Link remove style ===== */
+.wishlist-link{
+  text-decoration:none;
+  color:inherit;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeDown{
+  from{
+    opacity:0;
+    transform:translateY(-20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ===== Card Appear Animation ===== */
+.col-4{
+  animation:cardAppear 0.8s ease;
+}
+
+@keyframes cardAppear{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ===== Mobile Responsive ===== */
+@media(max-width:992px){
+  .col-4{
+    width:50%;
+  }
+}
+
+@media(max-width:576px){
+  .col-4{
+    width:100%;
+  }
+}
+</style>
+
+
+<h2 class="wishlist-title">Your Wishlist ❤️</h2>
+
+<div class="container">
+<div class="row g-4">
 
 <% wishlist.forEach(item=>{ %>
 
 <div class="col-4">
 
-<a href="/listings/<%= item.listing._id %>">
+<a href="/listings/<%= item.listing._id %>" class="wishlist-link">
 
-<img src="<%= item.listing.image.url %>" width="100%">
+<div class="wishlist-card">
 
+<img src="<%= item.listing.image.url %>" class="wishlist-img w-100">
+
+<div class="wishlist-body">
 <h5><%= item.listing.title %></h5>
+</div>
+
+</div>
 
 </a>
 
@@ -20,4 +129,5 @@
 
 <% }) %>
 
+</div>
 </div>
