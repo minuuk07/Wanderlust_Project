@@ -225,6 +225,9 @@ const username = "<%= currUser ? currUser.username : 'Guest' %>";
          class="text-decoration-none text-dark">
 
         <div class="card listing-card shadow-sm position-relative">
+<div class="wishlist-btn" data-id="<%= listing._id %>">
+    <i class="fa-regular fa-heart"></i>
+</div>
 
           <div class="price-tag">
             ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>
