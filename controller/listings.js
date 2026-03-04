@@ -369,28 +369,43 @@ module.exports.showMyLatestBooking = async (req, res) => {
         req.flash("error", "Please login first!");
         return res.redirect("/login");
     }
-const { name, email, adults, children, checkIn, checkOut } = req.body;
-
-        const totalDays = Math.ceil(
-            (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
-        );
-
-        const totalPrice = totalDays * listing.price;
     
-    const booking = await Booking.findOne({ user: req.user._id })
-        .sort({ createdAt: -1 })   // newest first
-        .populate("listing");
+    try {
+        const bookings = await Booking.find({ user: req.user._id })
+            .sort({ createdAt: -1 })   // newest first
+            .populate("listing");
+    
+        if (!bookings || bookings.length === 0) {
+            req.flash("error", "No bookings found!");
+            return res.redirect("/listings");
+        }
+    
+        res.render("listings/summary", { 
+            bookings,
+            totalPrice: 0 // This might not be needed for all bookings
+        });
+    } catch (err) {
+        console.error("Error fetching bookings:", err);
+        req.flash("error", "Could not load bookings");
+        res.redirect("/listings");
+    }
+};
+// Payment Success Controller
+module.exports.paymentSuccess = async (req, res) => {
+    const { id } = req.params;
+
+    const booking = await Booking.findById(id);
 
     if (!booking) {
-        req.flash("error", "No booking found!");
+        req.flash("error", "Booking not found!");
         return res.redirect("/listings");
     }
 
-    // res.render("listings/summary", { booking });
-    res.render("listings/summary", { 
-    booking,
-    totalPrice 
-});
+    booking.paymentStatus = "Paid";
+    await booking.save();
+
+    req.flash("success", "Payment Successful!");
+    res.redirect("/listings");
 };
 // Payment Success Controller
 module.exports.paymentSuccess = async (req, res) => {
