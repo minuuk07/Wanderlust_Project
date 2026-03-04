@@ -1,0 +1,23 @@
+<% layout("/layout/boilerplate") %>
+
+<h2>Your Wishlist ❤️</h2>
+
+<div class="row">
+
+<% wishlist.forEach(item=>{ %>
+
+<div class="col-4">
+
+<a href="/listings/<%= item.listing._id %>">
+
+<img src="<%= item.listing.image.url %>" width="100%">
+
+<h5><%= item.listing.title %></h5>
+
+</a>
+
+</div>
+
+<% }) %>
+
+</div>
