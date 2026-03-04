@@ -1,0 +1,1088 @@
+<% layout("/layout/boilerplate") %>
+
+<style>
+    /* ===== Modern CSS with Professional Animations ===== */
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --success-gradient: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        --warning-gradient: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%);
+        --shadow-sm: 0 5px 15px rgba(0,0,0,0.08);
+        --shadow-md: 0 10px 30px rgba(0,0,0,0.12);
+        --shadow-lg: 0 20px 50px rgba(0,0,0,0.15);
+        --shadow-hover: 0 30px 70px rgba(102, 126, 234, 0.25);
+    }
+
+    body {
+        background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        min-height: 100vh;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .edit-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+        animation: fadeInUp 1s ease;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ===== Header Section ===== */
+    .edit-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+    }
+
+    .edit-header h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #fff, #f0f0f0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        margin-bottom: 1rem;
+        animation: slideDown 0.8s ease;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .edit-header p {
+        color: rgba(255,255,255,0.9);
+        font-size: 1.2rem;
+        animation: fadeIn 1s ease 0.3s both;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* ===== Progress Steps ===== */
+    .progress-steps {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+    }
+
+    .step {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(10px);
+        padding: 0.8rem 1.5rem;
+        border-radius: 50px;
+        color: white;
+        border: 1px solid rgba(255,255,255,0.2);
+        animation: slideInLeft 0.5s ease backwards;
+    }
+
+    .step:nth-child(1) { animation-delay: 0.1s; }
+    .step:nth-child(2) { animation-delay: 0.2s; }
+    .step:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .step.active {
+        background: var(--primary-gradient);
+        box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+    }
+
+    .step-number {
+        width: 30px;
+        height: 30px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    .step.active .step-number {
+        background: white;
+        color: #667eea;
+    }
+
+    /* ===== Edit Form Card ===== */
+    .edit-card {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 40px;
+        padding: 3rem;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid rgba(255,255,255,0.2);
+        animation: cardPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes cardPop {
+        0% {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* ===== Profile Picture Section ===== */
+    .profile-picture-section {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 2px solid rgba(102,126,234,0.2);
+    }
+
+    .profile-picture-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-preview {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid white;
+        box-shadow: var(--shadow-lg);
+        transition: all 0.3s ease;
+        animation: avatarPulse 3s infinite;
+    }
+
+    @keyframes avatarPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .change-photo-btn {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background: var(--primary-gradient);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        border: 3px solid white;
+        box-shadow: var(--shadow-md);
+        transition: all 0.3s ease;
+    }
+
+    .change-photo-btn:hover {
+        transform: scale(1.1) rotate(90deg);
+        box-shadow: var(--shadow-hover);
+    }
+
+    #profilePicture {
+        display: none;
+    }
+
+    .upload-hint {
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+
+    /* ===== Form Sections ===== */
+    .form-section {
+        margin-bottom: 2.5rem;
+        padding: 2rem;
+        background: rgba(102,126,234,0.05);
+        border-radius: 25px;
+        transition: all 0.3s ease;
+    }
+
+    .form-section:hover {
+        background: rgba(102,126,234,0.08);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .section-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--primary-gradient);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        box-shadow: 0 10px 20px rgba(102,126,234,0.3);
+        animation: iconBounce 2s infinite;
+    }
+
+    @keyframes iconBounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+
+    .section-header h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+        margin: 0;
+    }
+
+    .section-header::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--primary-gradient);
+        transition: width 0.3s ease;
+    }
+
+    .form-section:hover .section-header::after {
+        width: 100px;
+    }
+
+    /* ===== Form Grid ===== */
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+        animation: slideInRight 0.5s ease backwards;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .form-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-label i {
+        color: #667eea;
+        width: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 1rem 1.2rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 15px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 10px 20px rgba(102,126,234,0.1);
+        transform: translateY(-2px);
+    }
+
+    .form-control:hover {
+        border-color: #667eea;
+    }
+
+    textarea.form-control {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    /* ===== Select Styling ===== */
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        padding-right: 2.5rem;
+    }
+
+    /* ===== Checkbox Styling ===== */
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        accent-color: #667eea;
+    }
+
+    /* ===== Address Grid ===== */
+    .address-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    /* ===== Social Links ===== */
+    .social-input-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .social-icon {
+        width: 45px;
+        height: 45px;
+        background: var(--primary-gradient);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+    }
+
+    .social-input-group .form-control {
+        flex: 1;
+    }
+
+    /* ===== Form Actions ===== */
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1.5rem;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 2px solid rgba(102,126,234,0.2);
+    }
+
+    .btn {
+        padding: 1rem 2.5rem;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .btn-primary {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: 0 10px 20px rgba(102,126,234,0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(102,126,234,0.4);
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(108,117,125,0.3);
+    }
+
+    .btn i {
+        transition: transform 0.3s ease;
+    }
+
+    .btn:hover i {
+        transform: translateX(5px);
+    }
+
+    /* ===== Success Message ===== */
+    .success-message {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--success-gradient);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        box-shadow: var(--shadow-lg);
+        z-index: 9999;
+        animation: slideInRight 0.5s ease;
+    }
+
+    /* ===== Loading Spinner ===== */
+    .spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    /* ===== Responsive Design ===== */
+    @media (max-width: 768px) {
+        .edit-card {
+            padding: 1.5rem;
+        }
+
+        .form-grid,
+        .address-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .progress-steps {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    /* ===== Validation Styles ===== */
+    .form-control.is-invalid {
+        border-color: #f5576c;
+        animation: shake 0.5s ease;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+
+    .invalid-feedback {
+        color: #f5576c;
+        font-size: 0.85rem;
+        margin-top: 0.3rem;
+        display: none;
+    }
+
+    .form-control.is-invalid + .invalid-feedback {
+        display: block;
+    }
+</style>
+
+<div class="edit-container">
+    <!-- Header -->
+    <div class="edit-header">
+        <h1><i class="fas fa-user-edit me-3"></i>Edit Profile</h1>
+        <p>Update your personal information and preferences</p>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="progress-steps">
+        <div class="step active">
+            <span class="step-number">1</span>
+            <span>Personal Info</span>
+        </div>
+        <div class="step">
+            <span class="step-number">2</span>
+            <span>Address & Social</span>
+        </div>
+        <div class="step">
+            <span class="step-number">3</span>
+            <span>Preferences</span>
+        </div>
+    </div>
+
+    <!-- Edit Form -->
+    <div class="edit-card">
+        <form action="/profile/update" method="POST" enctype="multipart/form-data" id="editProfileForm">
+            
+            <!-- Profile Picture Section -->
+            <div class="profile-picture-section">
+                <div class="profile-picture-container">
+                    <img src="<%= profile?.profilePicture?.url || '/default-avatar.png' %>" 
+     alt="Profile" 
+     class="profile-preview" 
+     id="profilePicture">
+                    <label for="profilePicture" class="change-photo-btn">
+                        <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" id="profilePicture" name="profilePicture" accept="image/*">
+                </div>
+                <div class="upload-hint">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Click the camera icon to change your profile picture
+                </div>
+            </div>
+
+            <!-- Personal Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Personal Information</h3>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user-tag"></i>
+                            Full Name
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               name="fullName" 
+                               value="<%= profile.fullName || '' %>"
+                               placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-phone"></i>
+                            Phone Number
+                        </label>
+                        <input type="tel" 
+                               class="form-control" 
+                               name="phone" 
+                               value="<%= profile.phone || '' %>"
+                               placeholder="Enter your phone number">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-calendar"></i>
+                            Date of Birth
+                        </label>
+                        <input type="date" 
+                               class="form-control" 
+                               name="dateOfBirth" 
+                               value="<%= profile.dateOfBirth ? new Date(profile.dateOfBirth).toISOString().split('T')[0] : '' %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-venus-mars"></i>
+                            Gender
+                        </label>
+                        <select class="form-control" name="gender">
+                            <option value="">Select Gender</option>
+                            <option value="Male" <%= profile.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                            <option value="Female" <%= profile.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                            <option value="Other" <%= profile.gender === 'Other' ? 'selected' : '' %>>Other</option>
+                            <option value="Prefer not to say" <%= profile.gender === 'Prefer not to say' ? 'selected' : '' %>>Prefer not to say</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="form-label">
+                            <i class="fas fa-info-circle"></i>
+                            Bio
+                        </label>
+                        <textarea class="form-control" 
+                                  name="bio" 
+                                  placeholder="Tell us about yourself..."><%= profile.bio || '' %></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Address Information</h3>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="form-label">
+                            <i class="fas fa-road"></i>
+                            Street Address
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               name="address[street]" 
+                               value="<%= profile.address?.street || '' %>"
+                               placeholder="Enter street address">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-city"></i>
+                            City
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               name="address[city]" 
+                               value="<%= profile.address?.city || '' %>"
+                               placeholder="City">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-flag"></i>
+                            State
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               name="address[state]" 
+                               value="<%= profile.address?.state || '' %>"
+                               placeholder="State">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-globe"></i>
+                            Country
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               name="address[country]" 
+                               value="<%= profile.address?.country || '' %>"
+                               placeholder="Country">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-mail-bulk"></i>
+                            Zip Code
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               name="address[zipCode]" 
+                               value="<%= profile.address?.zipCode || '' %>"
+                               placeholder="Zip Code">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Links Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3>Social Links</h3>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <div class="social-input-group">
+                            <span class="social-icon"><i class="fas fa-globe"></i></span>
+                            <input type="url" 
+                                   class="form-control" 
+                                   name="socialLinks[website]" 
+                                   value="<%= profile.socialLinks?.website || '' %>"
+                                   placeholder="Website URL">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="social-input-group">
+                            <span class="social-icon"><i class="fab fa-facebook-f"></i></span>
+                            <input type="url" 
+                                   class="form-control" 
+                                   name="socialLinks[facebook]" 
+                                   value="<%= profile.socialLinks?.facebook || '' %>"
+                                   placeholder="Facebook URL">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="social-input-group">
+                            <span class="social-icon"><i class="fab fa-twitter"></i></span>
+                            <input type="url" 
+                                   class="form-control" 
+                                   name="socialLinks[twitter]" 
+                                   value="<%= profile.socialLinks?.twitter || '' %>"
+                                   placeholder="Twitter URL">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="social-input-group">
+                            <span class="social-icon"><i class="fab fa-instagram"></i></span>
+                            <input type="url" 
+                                   class="form-control" 
+                                   name="socialLinks[instagram]" 
+                                   value="<%= profile.socialLinks?.instagram || '' %>"
+                                   placeholder="Instagram URL">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preferences Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>Preferences</h3>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-language"></i>
+                            Language
+                        </label>
+                        <select class="form-control" name="preferences[language]">
+                            <option value="English" <%= profile.preferences?.language === 'English' ? 'selected' : '' %>>English</option>
+                            <option value="Hindi" <%= profile.preferences?.language === 'Hindi' ? 'selected' : '' %>>Hindi</option>
+                            <option value="Bengali" <%= profile.preferences?.language === 'Bengali' ? 'selected' : '' %>>Bengali</option>
+                            <option value="Spanish" <%= profile.preferences?.language === 'Spanish' ? 'selected' : '' %>>Spanish</option>
+                            <option value="French" <%= profile.preferences?.language === 'French' ? 'selected' : '' %>>French</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-rupee-sign"></i>
+                            Currency
+                        </label>
+                        <select class="form-control" name="preferences[currency]">
+                            <option value="INR" <%= profile.preferences?.currency === 'INR' ? 'selected' : '' %>>INR (₹)</option>
+                            <option value="USD" <%= profile.preferences?.currency === 'USD' ? 'selected' : '' %>>USD ($)</option>
+                            <option value="EUR" <%= profile.preferences?.currency === 'EUR' ? 'selected' : '' %>>EUR (€)</option>
+                            <option value="GBP" <%= profile.preferences?.currency === 'GBP' ? 'selected' : '' %>>GBP (£)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="form-label">
+                            <i class="fas fa-bell"></i>
+                            Notifications
+                        </label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" 
+                                       name="preferences[notifications][email]" 
+                                       <%= profile.preferences?.notifications?.email ? 'checked' : '' %>>
+                                <i class="fas fa-envelope"></i>
+                                Email Notifications
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" 
+                                       name="preferences[notifications][sms]" 
+                                       <%= profile.preferences?.notifications?.sms ? 'checked' : '' %>>
+                                <i class="fas fa-sms"></i>
+                                SMS Notifications
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <a href="/profile" class="btn btn-secondary">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </a>
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <i class="fas fa-save"></i>
+                    Save Changes
+                    <span class="spinner" style="display: none;"></span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Image preview
+    const imageInput = document.getElementById('profilePicture');
+    const imagePreview = document.getElementById('imagePreview');
+
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                // Add animation
+                imagePreview.style.animation = 'avatarPulse 0.5s';
+                setTimeout(() => {
+                    imagePreview.style.animation = 'avatarPulse 3s infinite';
+                }, 500);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Form submission with loading state
+    const form = document.getElementById('editProfileForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const spinner = submitBtn.querySelector('.spinner');
+
+    form.addEventListener('submit', function(e) {
+        submitBtn.disabled = true;
+        spinner.style.display = 'inline-block';
+        submitBtn.querySelector('i.fa-save').style.display = 'none';
+    });
+
+    // Scroll reveal animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateX(0)';
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.form-group').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateX(30px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+    });
+
+    // Step navigation
+    const steps = document.querySelectorAll('.step');
+    const sections = document.querySelectorAll('.form-section');
+    
+    steps.forEach((step, index) => {
+        step.addEventListener('click', function() {
+            steps.forEach(s => s.classList.remove('active'));
+            this.classList.add('active');
+            
+            sections[index].scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    });
+
+    // Form validation
+    const inputs = document.querySelectorAll('.form-control[required]');
+    inputs.forEach(input => {
+        input.addEventListener('invalid', function() {
+            this.classList.add('is-invalid');
+        });
+        
+        input.addEventListener('input', function() {
+            if (this.validity.valid) {
+                this.classList.remove('is-invalid');
+            }
+        });
+    });
+
+    // Auto-save draft (optional)
+    let autoSaveTimer;
+    form.addEventListener('input', function() {
+        clearTimeout(autoSaveTimer);
+        autoSaveTimer = setTimeout(() => {
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            localStorage.setItem('profileDraft', JSON.stringify(data));
+            
+            // Show auto-save notification
+            showNotification('Draft saved', 'success');
+        }, 2000);
+    });
+
+    // Load draft from localStorage
+    const savedDraft = localStorage.getItem('profileDraft');
+    if (savedDraft) {
+        const data = JSON.parse(savedDraft);
+        // Populate form with saved data
+        // This would require mapping to form fields
+    }
+
+    // Notification function
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `success-message`;
+        notification.innerHTML = `
+            <i class="fas fa-check-circle me-2"></i>
+            ${message}
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+
+    // Character counter for bio
+    const bioTextarea = document.querySelector('textarea[name="bio"]');
+    if (bioTextarea) {
+        const counter = document.createElement('small');
+        counter.className = 'text-muted float-end';
+        bioTextarea.parentNode.appendChild(counter);
+        
+        bioTextarea.addEventListener('input', function() {
+            const remaining = 500 - this.value.length;
+            counter.textContent = `${remaining} characters remaining`;
+            if (remaining < 50) {
+                counter.style.color = '#f5576c';
+            } else {
+                counter.style.color = '#666';
+            }
+        });
+        
+        bioTextarea.dispatchEvent(new Event('input'));
+    }
+
+    // Ripple effect on buttons
+    document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            
+            const x = e.clientX - this.offsetLeft;
+            const y = e.clientY - this.offsetTop;
+            
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+});
+
+// Add ripple effect styles
+const style = document.createElement('style');
+style.textContent = `
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: scale(0);
+        animation: ripple-animation 0.6s ease-out;
+        pointer-events: none;
+        z-index: 1000;
+    }
+    
+    @keyframes ripple-animation {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
