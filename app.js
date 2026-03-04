@@ -1,11 +1,12 @@
 if(process.env.NODE_ENV!="production"){
-    require('dotenv').config();
+require('dotenv').config();
 }
 
 console.log(process.env.SECRET);
 const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
+
 
 const mongo="mongodb://127.0.0.1:27017/wanderlust";
 const dburl=process.env.ATLASDB_URL;
@@ -30,114 +31,97 @@ const userRouter=require("./router/user.js");
 const { error } = require('console');
 const sendBookingMail = require("./utils/sendMail");
 
-// this is create when using ejs file
+// this is create when you using ejs file
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.set("trust proxy", 1);
 app.use(express.urlencoded({extended:true}));
+
 app.use(method("_method"));
 app.engine('ejs', ejsmate);
 app.use(express.static(path.join(__dirname,"public")));
 app.use(express.json());
+ 
+const store=MongoStore.create({
+  // change here full change
+   mongoUrl:dburl,
+   crypto:{
+  secret: process.env.SECRET,
+  touchAfter:24*3600,
+   }
+})
 
-const listingController = require("./controller/listings.js");
+store.on("error", ()=>{
+  console.log("error in mongo session store", err);
+})
+const sessionOption = {
+  store:store,
+  secret:  process.env.SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie:{
+    expires:Date.now()+1000*60*60*24*3,
+    maxAge:1000*60*60*24*3,
+  httpOnly:true
+  },
+};
 
-// MongoDB connection
+
+
+// app.get("/",  (req, res)=>{
+//     res.send("success");
+// });
+
+app.use(session(sessionOption));
+app.use(flash());
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+// here may comes to error
+passport.use(new LocalStratigy(user.authenticate()));
+
+passport.serializeUser(user.serializeUser());
+passport.deserializeUser(user.deserializeUser());
+
+app.use((req,res,next)=>{
+res.locals.success=req.flash("success");
+res.locals.error=req.flash("error");
+res.locals.currUser=req.user;
+next();
+});
+// this create mongo db server 
 main().then(()=>{
     console.log("connection successfull");
 })
 .catch(err => console.log(err));
-
+// change here
 async function main() {
-    await mongoose.connect(mongo);
+  await mongoose.connect(dburl);
 }
 
-// Session store configuration
-const store = MongoStore.create({
-    mongoUrl: mongo,
-    crypto: {
-        secret: "jdfhdsjkfh",
-        touchAfter: 24 * 3600,
-    }
-});
-
-store.on("error", (err) => {
-    console.log("error in mongo session store", err);
-});
-
-const sessionOption = {
-    store: store,
-    secret: "gjilgdsf",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 3,
-        maxAge: 1000 * 60 * 60 * 24 * 3,
-        httpOnly: true
-    },
-};
-
-// ============================================
-// IMPORTANT: ORDER OF MIDDLEWARE MATTERS!
-// ============================================
-
-// 1. Session middleware (must come before passport)
-app.use(session(sessionOption));
-app.use(flash());
-
-// 2. Passport middleware (must come after session)
-app.use(passport.initialize());
-app.use(passport.session());
-
-// 3. Passport configuration
-passport.use(new LocalStratigy(user.authenticate()));
-passport.serializeUser(user.serializeUser());
-passport.deserializeUser(user.deserializeUser());
-
-// 4. ✅ CRITICAL: This middleware MUST be here - sets up locals for ALL views
-app.use((req, res, next) => {
-    console.log("Setting up locals - req.user:", req.user ? req.user.username : "No user");
-    res.locals.success = req.flash("success");
-    res.locals.error = req.flash("error");
-    res.locals.currUser = req.user;  // This makes currUser available in ALL templates
-    res.locals.wishlistCount = 0;     // Default value
-    next();
-});
-
-// 5. Wishlist count middleware (optional, runs after user is set)
-app.use(async (req, res, next) => {
-    if (req.user) {
-        try {
-            const Wishlist = require("./models/wishlist");
-            const count = await Wishlist.countDocuments({ user: req.user._id });
-            res.locals.wishlistCount = count;
-            console.log("Wishlist count for user:", count);
-        } catch (err) {
-            console.error("Error getting wishlist count:", err);
-            res.locals.wishlistCount = 0;
-        }
-    }
-    next();
-});
-
-// 6. Routes (must come AFTER all middleware)
 app.use("/listings", listingrouter);
+app.use("/profile", require("./router/profile"));
 app.use("/listings/:id/reviews", reviewrouter);
 app.use("/", userRouter);
-app.use("/profile", require("./router/profile"));
 
-// 7. 404 handler
-app.all(/.*/, (req, res, next) => {
-    next(new ExpressError(404, "Page Not Foundddddd"));
-});
 
-// 8. Error handler
-app.use((err, req, res, next) => {
-    const { statusCode = 500, message = "Something went wrong" } = err;
-    res.status(statusCode).render("error.ejs", { message });
-});
+// this is root route
 
-// Start server
-app.listen(8080, () => {
+
+
+
+app.listen(8080,()=>{
     console.log("listing is start port is 8080");
+});
+
+
+app.all(/.*/, (req, res, next) => {
+   next(new ExpressError(404, "Page Not Foundddddd"));
+});
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message = "Something went wrong" } = err;
+  res.status(statusCode).render("error.ejs", { message});
+  // res.status(statusCode).send(message);
 });
