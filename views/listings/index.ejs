@@ -1,260 +1,230 @@
 <% layout("/layout/boilerplate") %>
+
 <script>
 const username = "<%= currUser ? currUser.username : 'Guest' %>";
 </script>
+
 <style>
-  body{
-    background: linear-gradient(-45deg,#f8f9fa,#eef2f7,#fdfbfb,#e2ebf0);
-    background-size: 400% 400%;
-    animation: gradientBG 12s ease infinite;
-  }
 
-  @keyframes gradientBG {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-  }
+.wishlist-btn{
+position:absolute;
+top:10px;
+left:10px;
+background:white;
+width:35px;
+height:35px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 3px 10px rgba(0,0,0,0.2);
+z-index:10;
+}
 
-  #filters{
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:1.2rem;
-    padding:1rem 0;
-    justify-content:center;
-    animation: fadeDown 1s ease;
-  }
+.wishlist-btn.active{
+color:red;
+}
 
-  @keyframes fadeDown{
-    from{opacity:0; transform:translateY(-30px);}
-    to{opacity:1; transform:translateY(0);}
-  }
+/* Smooth Scroll */
 
-  .filter{
-    text-align:center;
-    padding:0.7rem 1rem;
-    border-radius:15px;
-    background:white;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    cursor:pointer;
-    transition:all 0.4s ease;
-    width:90px;
-    position:relative;
-    overflow:hidden;
-  }
+html{
+scroll-behavior:smooth;
+}
 
-  .filter::before{
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:linear-gradient(45deg,#fe424d,#ff7a7a);
-    top:0;
-    left:-100%;
-    transition:0.4s ease;
-    z-index:0;
-  }
+/* Scrollbar */
 
-  .filter:hover::before{
-    left:0;
-  }
+::-webkit-scrollbar{
+width:10px;
+}
 
-  /* ICON SIZE REDUCED */
-  .filter i{
-    font-size:1rem;   /* আগে ছিল 1.4rem */
-    margin-bottom:4px;
-    color:#fe424d;
-    position:relative;
-    z-index:1;
-    transition:0.3s;
-  }
+::-webkit-scrollbar-thumb{
+background:linear-gradient(45deg,#fe424d,#ff7a7a);
+border-radius:20px;
+}
 
-  .filter p{
-    position:relative;
-    z-index:1;
-    transition:0.3s;
-    margin:0;
-    font-size:0.8rem;
-    font-weight:500;
-  }
+/* Background */
 
-  .filter:hover i,
-  .filter:hover p{
-    color:white;
-    transform:scale(1.1);
-  }
+body{
+background: linear-gradient(-45deg,#f8f9fa,#eef2f7,#fdfbfb,#e2ebf0);
+background-size:400% 400%;
+animation: gradientBG 12s ease infinite;
+}
 
-  .filter:hover{
-    transform:translateY(-8px) scale(1.05);
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
-  }
+@keyframes gradientBG{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
 
-  .tax-switch{
-    background:white;
-    padding:0.6rem 1.2rem;
-    border-radius:30px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.1);
-    display:flex;
-    align-items:center;
-    transition:0.3s;
-  }
+/* Filters */
 
-  .tax-switch:hover{
-    transform:scale(1.05);
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
-  }
+#filters{
+display:flex;
+flex-wrap:wrap;
+align-items:center;
+gap:1.2rem;
+padding:1rem 0;
+justify-content:center;
+}
 
-  .booking-btn{
-    border-radius:30px;
-    padding:0.6rem 1.4rem;
-    font-weight:600;
-    transition:0.3s ease;
-  }
+.filter{
+text-align:center;
+padding:0.7rem 1rem;
+border-radius:15px;
+background:white;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+cursor:pointer;
+transition:0.4s;
+width:90px;
+}
 
-  .booking-btn:hover{
-    transform:translateY(-5px);
-    box-shadow:0 8px 20px rgba(0,0,0,0.25);
-  }
+.filter:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
 
-  .listing-card{
-    border:none;
-    border-radius:20px;
-    overflow:hidden;
-    transition:0.5s ease;
-    opacity:0;
-    transform:translateY(40px);
-    animation: fadeUp 0.8s ease forwards;
-  }
+/* Cards */
 
-  @keyframes fadeUp{
-    to{
-      opacity:1;
-      transform:translateY(0);
-    }
-  }
+.listing-card{
+border:none;
+border-radius:20px;
+overflow:hidden;
+transition:0.5s;
+}
 
-  .listing-card:hover{
-    transform:translateY(-10px) scale(1.02);
-    box-shadow:0 20px 40px rgba(0,0,0,0.25);
-  }
+.listing-card:hover{
+transform:translateY(-10px);
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
 
-  .listing-card img{
-    height:18rem;
-    object-fit:cover;
-    transition:0.5s ease;
-  }
+.listing-card img{
+height:18rem;
+object-fit:cover;
+}
+.wishlist-btn.active {
+    color: #fe424d;
+}
 
-  .listing-card:hover img{
-    transform:scale(1.08);
-  }
+.wishlist-btn.active i {
+    color: #fe424d;
+}
+/* Price */
 
-  .price-tag{
-    position:absolute;
-    top:10px;
-    right:10px;
-    background:linear-gradient(45deg,#fe424d,#ff7a7a);
-    color:white;
-    padding:6px 14px;
-    border-radius:20px;
-    font-size:0.85rem;
-    animation:pulse 2s infinite;
-  }
+.price-tag{
+position:absolute;
+top:10px;
+right:10px;
+background:linear-gradient(45deg,#fe424d,#ff7a7a);
+color:white;
+padding:6px 14px;
+border-radius:20px;
+font-size:0.85rem;
+}
 
-  @keyframes pulse{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.1);}
-    100%{transform:scale(1);}
-  }
+.tax-info{
+display:none;
+font-size:0.85rem;
+}
 
-  .tax-info{
-    display:none;
-    font-size:0.85rem;
-    color:#6c757d;
-  }
 </style>
 
 
-<!-- FILTER SECTION -->
+<!-- FILTERS -->
+
 <div id="filters">
 
-  <% const categories=[
-    {name:"Trending",icon:"fa-fire",value:"trending"},
-    {name:"Room",icon:"fa-bed",value:"room"},
-    {name:"Iconic City",icon:"fa-mountain-city",value:"iconic-city"},
-    {name:"Mountain",icon:"fa-mountain-sun",value:"mountain"},
-    {name:"Pool",icon:"fa-person-swimming",value:"pool"},
-    {name:"Camping",icon:"fa-campground",value:"camping"},
-    {name:"Farms",icon:"fa-cow",value:"farms"},
-    {name:"Arctic",icon:"fa-snowflake",value:"arctic"},
-    {name:"Boats",icon:"fa-sailboat",value:"boats"}
-  ]; %>
+<% const categories=[
 
-  <% categories.forEach(cat=>{ %>
-    <div class="filter" data-category="<%=cat.value%>">
-      <i class="fa-solid <%=cat.icon%>"></i>
-      <p><%=cat.name%></p>
-    </div>
-  <% }) %>
+{name:"Trending",icon:"fa-fire",value:"trending"},
+{name:"Room",icon:"fa-bed",value:"room"},
+{name:"Iconic City",icon:"fa-mountain-city",value:"iconic-city"},
+{name:"Mountain",icon:"fa-mountain-sun",value:"mountain"},
+{name:"Pool",icon:"fa-person-swimming",value:"pool"},
+{name:"Camping",icon:"fa-campground",value:"camping"},
+{name:"Farms",icon:"fa-cow",value:"farms"},
+{name:"Arctic",icon:"fa-snowflake",value:"arctic"},
+{name:"Boats",icon:"fa-sailboat",value:"boats"}
 
-  <a href="/listings/mybooking"
-     class="btn btn-dark booking-btn">
-     <i class="fa-solid fa-calendar-check"></i>
-     Your Booking
-  </a>
+]; %>
 
-  <div class="tax-switch">
-    <div class="form-check form-switch m-0">
-      <input class="form-check-input"
-             type="checkbox"
-             id="switchCheckDefault">
-      <label class="form-check-label ms-2">
-        Show GST
-      </label>
-    </div>
-  </div>
+<% categories.forEach(cat=>{ %>
+
+<div class="filter" data-category="<%=cat.value%>">
+<i class="fa-solid <%=cat.icon%>"></i>
+<p><%=cat.name%></p>
+</div>
+
+<% }) %>
+
+<a href="/listings/mybooking" class="btn btn-dark booking-btn">
+<i class="fa-solid fa-calendar-check"></i>
+Your Booking
+</a>
+
+<div class="tax-switch">
+
+<div class="form-check form-switch m-0">
+
+<input class="form-check-input" type="checkbox" id="switchCheckDefault">
+
+<label class="form-check-label ms-2">
+Show GST
+</label>
 
 </div>
 
-<!-- LISTINGS GRID (same as before) -->
+</div>
+
+</div>
+
+
+<!-- LISTINGS -->
+
 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4 mt-3">
 
-  <% for(let listing of allListings){ %>
+<% for(let listing of allListings){ %>
 
-    <div class="col">
-      <a href="/listings/<%=listing._id%>"
-         class="text-decoration-none text-dark">
+<div class="col">
 
-        <div class="card listing-card shadow-sm position-relative">
+<a href="/listings/<%=listing._id%>" class="text-decoration-none text-dark">
+
+<div class="card listing-card shadow-sm position-relative">
+
+<!-- ❤️ Wishlist Button -->
+
 <div class="wishlist-btn" data-id="<%= listing._id %>">
     <i class="fa-regular fa-heart"></i>
 </div>
+<div class="price-tag">
+₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>
+</div>
 
-          <div class="price-tag">
-            ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>
-          </div>
+<img src="<%= listing.image.url %>" class="card-img-top">
 
-          <img src="<%= listing.image.url %>"
-               class="card-img-top">
+<div class="card-body">
 
-          <div class="card-body">
-            <h5 class="fw-semibold">
-              <%= listing.title %>
-            </h5>
+<h5 class="fw-semibold">
+<%= listing.title %>
+</h5>
 
-            <p class="mb-1">
-              ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> / Night
-              <span class="tax-info"> +18% GST</span>
-            </p>
-          </div>
-
-        </div>
-
-      </a>
-    </div>
-
-  <% } %>
+<p class="mb-1">
+₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> / Night
+<span class="tax-info"> +18% GST</span>
+</p>
 
 </div>
+
+</div>
+
+</a>
+
+</div>
+
+<% } %>
+
+</div>
+
 
 <script>
 
