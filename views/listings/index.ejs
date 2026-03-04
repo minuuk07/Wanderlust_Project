@@ -257,50 +257,164 @@ const username = "<%= currUser ? currUser.username : 'Guest' %>";
 </div>
 
 <script>
-  let taxSwitch=document.getElementById("switchCheckDefault");
 
-  taxSwitch.addEventListener("click", ()=>{
-    let taxinfo=document.getElementsByClassName("tax-info");
-    for(let info of taxinfo){
-      info.style.display =
-        info.style.display==="inline" ? "none" : "inline";
-    }
-  });
-</script>
+/* GST Toggle */
 
-<script>
-  document.addEventListener("DOMContentLoaded",()=>{
-    const filters=document.querySelectorAll(".filter");
-    filters.forEach(filter=>{
-      filter.addEventListener("click",()=>{
-        const category=filter.dataset.category;
-        if(!category) return;
-        window.location.href=
-          `/listings/filter/${encodeURIComponent(category)}`;
-      });
-    });
-  });
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+let taxSwitch=document.getElementById("switchCheckDefault");
 
-  const hasWelcomed = sessionStorage.getItem("welcomed");
+taxSwitch.addEventListener("click", ()=>{
 
-  if(!hasWelcomed){
+let taxinfo=document.getElementsByClassName("tax-info");
 
-    const message = new SpeechSynthesisUtterance(
-      `Welcome ${username} to Wanderlust`
-    );
+for(let info of taxinfo){
 
-    message.lang="en-US";
-    message.rate=1;
-    message.pitch=1;
+info.style.display=
+info.style.display==="inline" ? "none" : "inline";
 
-    speechSynthesis.speak(message);
-
-    sessionStorage.setItem("welcomed", "true");
-  }
+}
 
 });
 
 </script>
+
+
+<script>
+
+/* Category Filter */
+
+document.querySelectorAll(".filter").forEach(filter=>{
+
+filter.addEventListener("click",()=>{
+
+const category=filter.dataset.category;
+
+if(!category) return;
+
+window.location.href=`/listings/filter/${encodeURIComponent(category)}`;
+
+});
+
+});
+
+</script>
+
+
+<script>
+
+/* Wishlist Toggle */
+
+
+
+
+<script>
+/* Welcome Voice */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+const hasWelcomed=sessionStorage.getItem("welcomed");
+
+if(!hasWelcomed){
+
+const message=new SpeechSynthesisUtterance(
+`Welcome ${username} to Wanderlust`
+);
+
+speechSynthesis.speak(message);
+
+sessionStorage.setItem("welcomed","true");
+
+}
+
+});
+
+</script>
+
+<!-- tjis for wishlist -->
+<script>
+/* Wishlist Toggle - Fixed Version */
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("Wishlist script loaded");
+    
+    const wishlistBtns = document.querySelectorAll(".wishlist-btn");
+    console.log("Found", wishlistBtns.length, "wishlist buttons");
+    
+    wishlistBtns.forEach(btn => {
+        btn.addEventListener("click", async function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const listingId = this.dataset.id;
+            const heartIcon = this.querySelector("i");
+            
+            console.log("Wishlist button clicked for listing:", listingId);
+            
+            // Check if user is logged in (you can add a check here)
+            <% if (!currUser) { %>
+                window.location.href = "/login";
+                return;
+            <% } %>
+            
+            try {
+                const res = await fetch(`/listings/wishlist/toggle/${listingId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+                
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                
+                const data = await res.json();
+                console.log("Response:", data);
+                
+                if (data.status === "added") {
+                    // Change to solid heart
+                    heartIcon.classList.remove("fa-regular");
+                    heartIcon.classList.add("fa-solid");
+                    btn.classList.add("active");
+                    // Optional: Show success message
+                    // alert("Added to wishlist!");
+                } else if (data.status === "removed") {
+                    // Change to regular heart
+                    heartIcon.classList.remove("fa-solid");
+                    heartIcon.classList.add("fa-regular");
+                    btn.classList.remove("active");
+                    // Optional: Show success message
+                    // alert("Removed from wishlist!");
+                }
+                
+            } catch (err) {
+                console.error("Wishlist error:", err);
+                alert("Something went wrong. Please try again.");
+            }
+        });
+    });
+    
+    // Check which items are already in wishlist (if you want to pre-fill hearts)
+    async function checkWishlistStatus() {
+        <% if (currUser) { %>
+            try {
+                const res = await fetch("/listings/wishlist/status");
+                const data = await res.json();
+                
+                data.wishlistIds.forEach(id => {
+                    const btn = document.querySelector(`.wishlist-btn[data-id="${id}"]`);
+                    if (btn) {
+                        const heartIcon = btn.querySelector("i");
+                        heartIcon.classList.remove("fa-regular");
+                        heartIcon.classList.add("fa-solid");
+                        btn.classList.add("active");
+                    }
+                });
+            } catch (err) {
+                console.error("Error checking wishlist status:", err);
+            }
+        <% } %>
+    }
+    
+    // Uncomment if you want to check initial status
+    // checkWishlistStatus();
+});
+</script> ai puro code ta fix kore dou
