@@ -99,6 +99,47 @@
         to { opacity: 1; }
     }
 
+    /* ===== Filter Tabs ===== */
+    .filter-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        animation: fadeInUp 1s ease 0.1s both;
+    }
+
+    .filter-btn {
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.3);
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .filter-btn:hover {
+        background: rgba(255,255,255,0.3);
+        transform: translateY(-3px);
+    }
+
+    .filter-btn.active {
+        background: white;
+        color: #667eea;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .filter-btn i {
+        font-size: 1.1rem;
+    }
+
     /* ===== Stats Cards ===== */
     .stats-grid {
         display: grid;
@@ -192,6 +233,17 @@
         overflow: hidden;
         border: 1px solid rgba(255,255,255,0.2);
         animation: cardAppear 0.6s ease backwards;
+        margin-bottom: 1.5rem;
+    }
+
+    .booking-card.expired {
+        opacity: 0.7;
+        filter: grayscale(0.3);
+        border-left: 4px solid #dc3545;
+    }
+
+    .booking-card.expired:hover {
+        opacity: 0.9;
     }
 
     .booking-card:nth-child(1) { animation-delay: 0.1s; }
@@ -212,8 +264,28 @@
     }
 
     .booking-card:hover {
-        transform: translateY(-15px) scale(1.02);
+        transform: translateY(-10px) scale(1.02);
         box-shadow: var(--shadow-hover);
+    }
+
+    .booking-card.expired:hover {
+        transform: translateY(-5px) scale(1.01);
+    }
+
+    /* Expired Badge */
+    .expired-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #dc3545, #f72585);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        z-index: 10;
+        box-shadow: 0 5px 15px rgba(220,53,69,0.3);
+        animation: pulse 2s infinite;
     }
 
     /* Card Header */
@@ -223,6 +295,8 @@
         align-items: center;
         margin-bottom: 1.5rem;
         position: relative;
+        flex-wrap: wrap;
+        gap: 1rem;
     }
 
     .booking-number {
@@ -275,6 +349,11 @@
     .status-cancelled {
         background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
         color: #b30000;
+    }
+
+    .status-expired {
+        background: linear-gradient(135deg, #dc3545, #f72585);
+        color: white;
     }
 
     /* Listing Title */
@@ -389,6 +468,32 @@
         padding-left: 1.8rem;
     }
 
+    .expired .info-value {
+        color: #6c757d;
+    }
+
+    /* Countdown Timer */
+    .countdown-timer {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        animation: pulse 2s infinite;
+    }
+
+    .countdown-timer.expired-timer {
+        background: linear-gradient(135deg, #dc3545, #f72585);
+    }
+
+    .countdown-timer i {
+        font-size: 1rem;
+    }
+
     /* Price Section */
     .price-section {
         background: var(--gradient-1);
@@ -402,6 +507,11 @@
         position: relative;
         overflow: hidden;
         animation: glow 2s infinite alternate;
+    }
+
+    .expired .price-section {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        animation: none;
     }
 
     @keyframes glow {
@@ -446,6 +556,7 @@
         gap: 1rem;
         justify-content: center;
         margin-top: 1.5rem;
+        flex-wrap: wrap;
     }
 
     .btn {
@@ -501,6 +612,11 @@
     .btn-secondary:hover {
         transform: translateY(-3px);
         box-shadow: 0 10px 25px rgba(108,117,125,0.4);
+    }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545, #f72585);
+        color: white;
     }
 
     .btn i {
@@ -589,6 +705,21 @@
             width: 100%;
             justify-content: center;
         }
+
+        .filter-tabs {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .filter-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
     }
 
     /* Scrollbar */
@@ -609,6 +740,16 @@
     ::-webkit-scrollbar-thumb:hover {
         background: linear-gradient(135deg, #764ba2, #667eea);
     }
+
+    /* Auto-hide animation */
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-20px); height: 0; margin: 0; padding: 0; }
+    }
+
+    .booking-card.hide-expired {
+        animation: fadeOut 0.5s ease forwards;
+    }
 </style>
 
 <div class="container">
@@ -621,21 +762,47 @@
         <p>Your complete travel history at a glance ✨</p>
     </div>
 
-    <% if (bookings && bookings.length > 0) { 
-        // Calculate statistics
-        const totalBookings = bookings.length;
-        const totalSpent = bookings.reduce((sum, b) => sum + (b.totalPrice || 0), 0);
-        const totalNights = bookings.reduce((sum, b) => sum + (b.totalDays || 0), 0);
-        const uniquePlaces = new Set(bookings.map(b => b.listing?._id?.toString())).size;
+    <% 
+        // Filter out expired bookings (checkout date passed)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        const activeBookings = bookings ? bookings.filter(booking => {
+            const checkoutDate = new Date(booking.checkOut);
+            checkoutDate.setHours(0, 0, 0, 0);
+            return checkoutDate >= today;
+        }) : [];
+        
+        const expiredBookings = bookings ? bookings.filter(booking => {
+            const checkoutDate = new Date(booking.checkOut);
+            checkoutDate.setHours(0, 0, 0, 0);
+            return checkoutDate < today;
+        }) : [];
+        
+        const totalActiveBookings = activeBookings.length;
+        const totalExpiredBookings = expiredBookings.length;
+        const totalSpent = activeBookings.reduce((sum, b) => sum + (b.totalPrice || 0), 0);
+        const totalNights = activeBookings.reduce((sum, b) => sum + (b.totalDays || 0), 0);
+        const uniquePlaces = new Set(activeBookings.map(b => b.listing?._id?.toString())).size;
     %>
-        <!-- Statistics Cards -->
+
+    <% if (bookings && bookings.length > 0) { %>
+        <!-- Statistics Cards (Only active bookings) -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">
                     <i class="fas fa-calendar-check"></i>
                 </div>
-                <div class="stat-value"><%= totalBookings %></div>
-                <div class="stat-label">Total Bookings</div>
+                <div class="stat-value"><%= totalActiveBookings %></div>
+                <div class="stat-label">Active Bookings</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="stat-value"><%= totalExpiredBookings %></div>
+                <div class="stat-label">Past Bookings</div>
             </div>
             
             <div class="stat-card">
@@ -663,154 +830,313 @@
             </div>
         </div>
 
-        <!-- Booking Cards -->
-        <% bookings.forEach((booking, index) => { %>
-            <div class="row justify-content-center">
-                <div class="col-md-10 mb-4">
-                    <div class="booking-card">
-                        <!-- Card Header -->
-                        <div class="card-header">
-                            <span class="booking-number">
-                                <i class="fas fa-hashtag me-1"></i>
-                                Booking #<%= bookings.length - index %>
-                            </span>
-                            <span class="booking-status status-<%= booking.paymentStatus?.toLowerCase() || 'pending' %>">
-                                <i class="fas fa-circle me-1" style="font-size: 0.6rem;"></i>
-                                <%= booking.paymentStatus || 'Pending' %>
-                            </span>
-                        </div>
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-btn active" onclick="filterBookings('all')" id="filterAll">
+                <i class="fas fa-calendar-alt"></i> All Bookings
+            </button>
+            <button class="filter-btn" onclick="filterBookings('active')" id="filterActive">
+                <i class="fas fa-check-circle"></i> Active (<%= totalActiveBookings %>)
+            </button>
+            <button class="filter-btn" onclick="filterBookings('expired')" id="filterExpired">
+                <i class="fas fa-history"></i> Expired (<%= totalExpiredBookings %>)
+            </button>
+        </div>
 
-                        <!-- Listing Title -->
-                        <h2 class="listing-title">
-                            <i class="fas fa-home me-2"></i>
-                            <%= booking.listing?.title || 'Unknown Property' %>
-                        </h2>
+        <!-- Active Bookings -->
+        <% if (activeBookings.length > 0) { %>
+            <div id="activeBookings">
+                <% activeBookings.forEach((booking, index) => { 
+                    const checkoutDate = new Date(booking.checkOut);
+                    const timeDiff = checkoutDate - today;
+                    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                %>
+                    <div class="row justify-content-center booking-item active-booking">
+                        <div class="col-md-10 mb-4">
+                            <div class="booking-card">
+                                <!-- Countdown Timer -->
+                                <% if (daysLeft <= 3) { %>
+                                    <div class="countdown-timer">
+                                        <i class="fas fa-hourglass-half"></i>
+                                        <%= daysLeft %> day<%= daysLeft > 1 ? 's' : '' %> left for checkout
+                                    </div>
+                                <% } %>
 
-                        <!-- Decorative Line -->
-                        <div class="decorative-line"></div>
+                                <!-- Card Header -->
+                                <div class="card-header">
+                                    <span class="booking-number">
+                                        <i class="fas fa-hashtag me-1"></i>
+                                        Booking #<%= bookings.length - index %>
+                                    </span>
+                                    <span class="booking-status status-<%= booking.paymentStatus?.toLowerCase() || 'pending' %>">
+                                        <i class="fas fa-circle me-1" style="font-size: 0.6rem;"></i>
+                                        <%= booking.paymentStatus || 'Pending' %>
+                                    </span>
+                                </div>
 
-                        <!-- Info Grid -->
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <div class="info-label">
-                                    <i class="fas fa-user"></i> Guest Name
+                                <!-- Listing Title -->
+                                <h2 class="listing-title">
+                                    <i class="fas fa-home me-2"></i>
+                                    <%= booking.listing?.title || 'Unknown Property' %>
+                                </h2>
+
+                                <!-- Decorative Line -->
+                                <div class="decorative-line"></div>
+
+                                <!-- Info Grid -->
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fas fa-user"></i> Guest Name
+                                        </div>
+                                        <div class="info-value">
+                                            <%= booking.name %>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fas fa-envelope"></i> Email
+                                        </div>
+                                        <div class="info-value">
+                                            <%= booking.email %>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fas fa-calendar-alt"></i> Check In
+                                        </div>
+                                        <div class="info-value">
+                                            <i class="far fa-calendar me-1"></i>
+                                            <%= new Date(booking.checkIn).toLocaleDateString('en-IN', { 
+                                                weekday: 'short',
+                                                day: 'numeric', 
+                                                month: 'short', 
+                                                year: 'numeric' 
+                                            }) %>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fas fa-calendar-alt"></i> Check Out
+                                        </div>
+                                        <div class="info-value">
+                                            <i class="far fa-calendar me-1"></i>
+                                            <%= new Date(booking.checkOut).toLocaleDateString('en-IN', { 
+                                                weekday: 'short',
+                                                day: 'numeric', 
+                                                month: 'short', 
+                                                year: 'numeric' 
+                                            }) %>
+                                            <span class="badge bg-info ms-2"><%= daysLeft %> days left</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fas fa-moon"></i> Duration
+                                        </div>
+                                        <div class="info-value">
+                                            <strong><%= booking.totalDays || 1 %></strong> nights
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fas fa-user-friends"></i> Guests
+                                        </div>
+                                        <div class="info-value">
+                                            <%= booking.adults || 0 %> Adults
+                                            <% if(booking.children > 0) { %>
+                                                , <%= booking.children %> Children
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fas fa-tag"></i> Booking ID
+                                        </div>
+                                        <div class="info-value" style="font-size: 0.9rem;">
+                                            <%= booking._id.toString().substring(0, 15) %>...
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="far fa-clock"></i> Booked On
+                                        </div>
+                                        <div class="info-value">
+                                            <%= new Date(booking.createdAt).toLocaleDateString('en-IN', { 
+                                                day: 'numeric', 
+                                                month: 'short', 
+                                                year: 'numeric' 
+                                            }) %>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="info-value">
-                                    <%= booking.name %>
+
+                                <!-- Price Section -->
+                                <div class="price-section">
+                                    <span class="price-label">
+                                        <i class="fas fa-credit-card me-2"></i>
+                                        Total Amount
+                                    </span>
+                                    <span class="price-value">
+                                        ₹ <%= (booking.totalPrice || 0).toLocaleString('en-IN') %>
+                                    </span>
                                 </div>
-                            </div>
-                            
-                            <div class="info-item">
-                                <div class="info-label">
-                                    <i class="fas fa-envelope"></i> Email
-                                </div>
-                                <div class="info-value">
-                                    <%= booking.email %>
-                                </div>
-                            </div>
-                            
-                            <div class="info-item">
-                                <div class="info-label">
-                                    <i class="fas fa-calendar-alt"></i> Check In
-                                </div>
-                                <div class="info-value">
-                                    <i class="far fa-calendar me-1"></i>
-                                    <%= new Date(booking.checkIn).toLocaleDateString('en-IN', { 
-                                        weekday: 'short',
-                                        day: 'numeric', 
-                                        month: 'short', 
-                                        year: 'numeric' 
-                                    }) %>
-                                </div>
-                            </div>
-                            
-                            <div class="info-item">
-                                <div class="info-label">
-                                    <i class="fas fa-calendar-alt"></i> Check Out
-                                </div>
-                                <div class="info-value">
-                                    <i class="far fa-calendar me-1"></i>
-                                    <%= new Date(booking.checkOut).toLocaleDateString('en-IN', { 
-                                        weekday: 'short',
-                                        day: 'numeric', 
-                                        month: 'short', 
-                                        year: 'numeric' 
-                                    }) %>
-                                </div>
-                            </div>
-                            
-                            <div class="info-item">
-                                <div class="info-label">
-                                    <i class="fas fa-moon"></i> Duration
-                                </div>
-                                <div class="info-value">
-                                    <strong><%= booking.totalDays || 1 %></strong> nights
-                                </div>
-                            </div>
-                            
-                            <div class="info-item">
-                                <div class="info-label">
-                                    <i class="fas fa-user-friends"></i> Guests
-                                </div>
-                                <div class="info-value">
-                                    <%= booking.adults || 0 %> Adults
-                                    <% if(booking.children > 0) { %>
-                                        , <%= booking.children %> Children
+
+                                <!-- Action Buttons -->
+                                <div class="button-group">
+                                    <a href="/listings/<%= booking.listing?._id %>" class="btn btn-primary">
+                                        <i class="fas fa-eye me-2"></i>
+                                        View Property
+                                    </a>
+                                    
+                                    <a href="/listings" class="btn btn-secondary">
+                                        <i class="fas fa-compass me-2"></i>
+                                        Browse More
+                                    </a>
+
+                                    <% if (booking.paymentStatus?.toLowerCase() === 'pending') { %>
+                                        <a href="/listings/<%= booking._id %>/upi" class="btn btn-danger">
+                                            <i class="fas fa-credit-card me-2"></i>
+                                            Pay Now
+                                        </a>
                                     <% } %>
                                 </div>
                             </div>
-                            
-                            <div class="info-item">
-                                <div class="info-label">
-                                    <i class="fas fa-tag"></i> Booking ID
-                                </div>
-                                <div class="info-value" style="font-size: 0.9rem;">
-                                    <%= booking._id.toString().substring(0, 15) %>...
-                                </div>
-                            </div>
-                            
-                            <div class="info-item">
-                                <div class="info-label">
-                                    <i class="far fa-clock"></i> Booked On
-                                </div>
-                                <div class="info-value">
-                                    <%= new Date(booking.createdAt).toLocaleDateString('en-IN', { 
-                                        day: 'numeric', 
-                                        month: 'short', 
-                                        year: 'numeric' 
-                                    }) %>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Price Section -->
-                        <div class="price-section">
-                            <span class="price-label">
-                                <i class="fas fa-credit-card me-2"></i>
-                                Total Amount
-                            </span>
-                            <span class="price-value">
-                                ₹ <%= (booking.totalPrice || 0).toLocaleString('en-IN') %>
-                            </span>
-                        </div>
-
-                        <!-- Action Buttons -->
-                        <div class="button-group">
-                            <a href="/listings/<%= booking.listing?._id %>" class="btn btn-primary">
-                                <i class="fas fa-eye me-2"></i>
-                                View Property
-                                <i class="fas fa-arrow-right ms-2"></i>
-                            </a>
-                            
-                            <a href="/listings" class="btn btn-secondary">
-                                <i class="fas fa-compass me-2"></i>
-                                Browse More
-                            </a>
                         </div>
                     </div>
-                </div>
+                <% }) %>
             </div>
-        <% }) %>
+        <% } %>
+
+        <!-- Expired Bookings (Hidden by default, shown when filter clicked) -->
+        <% if (expiredBookings.length > 0) { %>
+            <div id="expiredBookings" style="display: none;">
+                <% expiredBookings.forEach((booking, index) => { 
+                    const checkoutDate = new Date(booking.checkOut);
+                    const daysPassed = Math.ceil((today - checkoutDate) / (1000 * 60 * 60 * 24));
+                %>
+                    <div class="row justify-content-center booking-item expired-booking">
+                        <div class="col-md-10 mb-4">
+                            <div class="booking-card expired">
+                                <!-- Expired Badge -->
+                                <div class="expired-badge">
+                                    <i class="fas fa-hourglass-end me-1"></i>
+                                    Expired
+                                </div>
+
+                                <!-- Card Header -->
+                                <div class="card-header">
+                                    <span class="booking-number">
+                                        <i class="fas fa-hashtag me-1"></i>
+                                        Booking #<%= bookings.length - index %>
+                                    </span>
+                                    <span class="booking-status status-expired">
+                                        <i class="fas fa-circle me-1" style="font-size: 0.6rem;"></i>
+                                        Expired
+                                    </span>
+                                </div>
+
+                                <!-- Listing Title -->
+                                <h2 class="listing-title" style="opacity: 0.7;">
+                                    <i class="fas fa-home me-2"></i>
+                                    <%= booking.listing?.title || 'Unknown Property' %>
+                                </h2>
+
+                                <!-- Decorative Line -->
+                                <div class="decorative-line" style="opacity: 0.5;"></div>
+
+                                <!-- Info Grid -->
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fas fa-user"></i> Guest Name
+                                        </div>
+                                        <div class="info-value">
+                                            <%= booking.name %>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fas fa-calendar-alt"></i> Check Out
+                                        </div>
+                                        <div class="info-value">
+                                            <%= new Date(booking.checkOut).toLocaleDateString('en-IN', { 
+                                                day: 'numeric', 
+                                                month: 'short', 
+                                                year: 'numeric' 
+                                            }) %>
+                                            <span class="badge bg-secondary ms-2"><%= daysPassed %> days ago</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fas fa-moon"></i> Duration
+                                        </div>
+                                        <div class="info-value">
+                                            <strong><%= booking.totalDays || 1 %></strong> nights
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-label">
+                                            <i class="fas fa-user-friends"></i> Guests
+                                        </div>
+                                        <div class="info-value">
+                                            <%= booking.adults || 0 %> Adults
+                                            <% if(booking.children > 0) { %>
+                                                , <%= booking.children %> Children
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Price Section (Grayscale) -->
+                                <div class="price-section" style="background: linear-gradient(135deg, #6c757d, #495057);">
+                                    <span class="price-label">
+                                        <i class="fas fa-credit-card me-2"></i>
+                                        Total Paid
+                                    </span>
+                                    <span class="price-value">
+                                        ₹ <%= (booking.totalPrice || 0).toLocaleString('en-IN') %>
+                                    </span>
+                                </div>
+
+                                <!-- Action Buttons for Expired -->
+                                <div class="button-group">
+                                    <a href="/listings/<%= booking.listing?._id %>" class="btn btn-secondary">
+                                        <i class="fas fa-eye me-2"></i>
+                                        View Property
+                                    </a>
+                                    
+                                    <a href="/listings/<%= booking.listing?._id %>/booking" class="btn btn-primary">
+                                        <i class="fas fa-redo me-2"></i>
+                                        Book Again
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+
+        <!-- Auto-hide expired bookings message -->
+        <% if (expiredBookings.length > 0) { %>
+            <div class="alert alert-info text-center" style="background: rgba(255,255,255,0.9); border-radius: 15px; padding: 1rem; margin-top: 1rem;">
+                <i class="fas fa-info-circle me-2"></i>
+                <%= expiredBookings.length %> expired booking<%= expiredBookings.length > 1 ? 's' : '' %> automatically hidden. 
+                <a href="#" onclick="showExpiredBookings(); return false;" style="color: #667eea; font-weight: 600;">Click here to view</a>
+            </div>
+        <% } %>
         
     <% } else { %>
         <!-- Empty State -->
@@ -830,9 +1156,15 @@
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<!-- Smooth Scroll JavaScript -->
+<!-- JavaScript for Auto-hide Expired Bookings and Filtering -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Auto-hide expired bookings on page load
+    checkExpiredBookings();
+    
+    // Set interval to check every minute
+    setInterval(checkExpiredBookings, 60000);
+    
     // Add smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -862,10 +1194,12 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(card);
     });
 
-    // Add hover sound effect (optional - remove if not needed)
+    // Add hover effects
     cards.forEach(card => {
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
+            if (!this.classList.contains('expired')) {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            }
         });
         
         card.addEventListener('mouseleave', function() {
@@ -873,37 +1207,138 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Confetti effect for paid bookings (optional)
-    const paidBookings = document.querySelectorAll('.status-paid');
-    if (paidBookings.length > 0 && Math.random() > 0.7) { // 30% chance
-        // Simple confetti effect
-        for (let i = 0; i < 50; i++) {
-            const confetti = document.createElement('div');
-            confetti.style.position = 'fixed';
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.top = '-10px';
-            confetti.style.width = '8px';
-            confetti.style.height = '8px';
-            confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            confetti.style.borderRadius = '50%';
-            confetti.style.zIndex = '9999';
-            confetti.style.pointerEvents = 'none';
-            confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
-            document.body.appendChild(confetti);
-            
-            setTimeout(() => confetti.remove(), 5000);
-        }
+    // Filter buttons active state
+    const filterAll = document.getElementById('filterAll');
+    const filterActive = document.getElementById('filterActive');
+    const filterExpired = document.getElementById('filterExpired');
+    
+    if (filterAll) {
+        filterAll.classList.add('active');
     }
+});
 
-    // Add keyframe for confetti
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(720deg);
+// Function to check and hide expired bookings
+function checkExpiredBookings() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    document.querySelectorAll('.booking-card').forEach(card => {
+        const checkoutElement = card.querySelector('.info-item:nth-child(4) .info-value');
+        if (checkoutElement) {
+            const checkoutText = checkoutElement.innerText;
+            // Parse date from text (assuming format like "Mon, 15 Mar 2026")
+            const dateMatch = checkoutText.match(/\d{1,2}\s\w+\s\d{4}/);
+            if (dateMatch) {
+                const checkoutDate = new Date(dateMatch[0]);
+                checkoutDate.setHours(0, 0, 0, 0);
+                
+                if (checkoutDate < today) {
+                    // Booking is expired
+                    card.closest('.booking-item').classList.add('expired-item');
+                    
+                    // If currently showing all or active, hide expired ones
+                    const activeFilter = document.querySelector('.filter-btn.active')?.id;
+                    if (activeFilter === 'filterAll') {
+                        // In all view, mark as expired but don't hide
+                        card.classList.add('expired');
+                    } else if (activeFilter === 'filterActive') {
+                        // In active view, hide expired
+                        card.closest('.booking-item').style.display = 'none';
+                    }
+                }
             }
         }
-    `;
-    document.head.appendChild(style);
+    });
+}
+
+// Filter bookings by type
+function filterBookings(type) {
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.getElementById(`filter${type.charAt(0).toUpperCase() + type.slice(1)}`).classList.add('active');
+    
+    const activeBookings = document.querySelectorAll('.active-booking');
+    const expiredBookings = document.querySelectorAll('.expired-booking');
+    
+    if (type === 'all') {
+        // Show all bookings
+        activeBookings.forEach(item => item.style.display = '');
+        expiredBookings.forEach(item => item.style.display = '');
+    } else if (type === 'active') {
+        // Show only active bookings
+        activeBookings.forEach(item => item.style.display = '');
+        expiredBookings.forEach(item => item.style.display = 'none');
+    } else if (type === 'expired') {
+        // Show only expired bookings
+        activeBookings.forEach(item => item.style.display = 'none');
+        expiredBookings.forEach(item => item.style.display = '');
+    }
+}
+
+// Show expired bookings (called from alert link)
+function showExpiredBookings() {
+    filterBookings('expired');
+}
+
+// Function to manually remove expired bookings
+function removeExpiredBookings() {
+    if (confirm('Are you sure you want to remove all expired bookings from view?')) {
+        document.querySelectorAll('.expired-booking').forEach(item => {
+            item.style.display = 'none';
+        });
+        
+        // Show success message
+        const toast = document.createElement('div');
+        toast.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3';
+        toast.style.zIndex = '9999';
+        toast.style.animation = 'slideDown 0.5s ease';
+        toast.innerHTML = '<i class="fas fa-check-circle me-2"></i>Expired bookings removed';
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.remove(), 3000);
+    }
+}
+
+// Add keyframe for toast animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideDown {
+        from { transform: translateY(-100%) translateX(-50%); }
+        to { transform: translateY(0) translateX(-50%); }
+    }
+    
+    @keyframes fall {
+        to {
+            transform: translateY(100vh) rotate(720deg);
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Confetti effect for paid bookings (optional)
+document.addEventListener('DOMContentLoaded', function() {
+    const paidBookings = document.querySelectorAll('.status-paid');
+    if (paidBookings.length > 0 && Math.random() > 0.7) { // 30% chance
+        for (let i = 0; i < 50; i++) {
+            setTimeout(() => {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.width = '8px';
+                confetti.style.height = '8px';
+                confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.borderRadius = '50%';
+                confetti.style.zIndex = '9999';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 5000);
+            }, i * 50);
+        }
+    }
 });
 </script>
