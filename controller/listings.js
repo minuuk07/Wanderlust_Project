@@ -16,6 +16,9 @@ module.exports.index=async(req,res)=>{
   // folder name dite hole ./ dite hobe
   res.render("./listings/index.ejs", {allListings});
 };
+module.exports.uhome=async(req,res)=>{
+res.render("./listings/home.ejs");
+};
 // index updated vertion
 // module.exports.index = async (req, res) => {
 //   try {
