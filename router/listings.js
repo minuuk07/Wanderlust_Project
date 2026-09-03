@@ -45,7 +45,7 @@ router.post("/contact", isLoggedin,wrapAsync( listingController.sendContact));
 router.get("/terms", isLoggedin,wrapAsync (listingController.renderTerms));
 router.route("/")
 // index route
-  .get(wrapAsync(listingController.index))
+  .get(isLoggedin,wrapAsync(listingController.index))
  
   // show route
   .post(isLoggedin,  upload.single('listing[image]'), validateListing,wrapAsync(listingController.createListing)
