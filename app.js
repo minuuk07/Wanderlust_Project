@@ -108,7 +108,10 @@ app.use("/", userRouter);
 
 // this is root route
 
-
+// this is root route
+app.get("/",async(req,res)=>{
+res.render("listings/home.ejs");
+});
 
 
 app.listen(8080,()=>{
