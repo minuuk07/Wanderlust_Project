@@ -6,7 +6,7 @@ const sendEmail = require("../utils/sendEmail");
 // Render Signup
 // ===============================
 module.exports.randerSignup = (req, res) => {
-  res.render("users/signup.ejs");
+  res.render("listings/home.ejs");
 };
 
 
@@ -14,7 +14,7 @@ module.exports.randerSignup = (req, res) => {
 // Render Login
 // ===============================
 module.exports.randerLogin = (req, res) => {
-  res.render("users/login.ejs");
+  res.render("listings/home.ejs");
 };
 
 
@@ -59,7 +59,7 @@ module.exports.logout = (req, res, next) => {
     if (err) return next(err);
 
     req.flash("success", "You are logged out");
-    res.redirect("/listings");
+    res.redirect("/");
   });
 };
 
