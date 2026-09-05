@@ -16,6 +16,14 @@
       <h2 class="fw-bold mb-3 animate__animated animate__fadeInDown">
         <%= listing.title %>
       </h2>
+ <!-- SHARE BUTTON (creative) -->
+        <button class="btn btn-outline-dark rounded-pill px-4 animate__animated animate__fadeInDown" 
+                onclick="shareListing()" 
+                style="border: 2px solid #ff385c; color: #ff385c; font-weight: 600; transition: all 0.3s ease;"
+                onmouseover="this.style.background='#ff385c'; this.style.color='white';" 
+                onmouseout="this.style.background='transparent'; this.style.color='#ff385c';">
+          <i class="fa-solid fa-share-nodes me-2"></i> Share
+        </button>
     </div>
   </div>
 
@@ -163,5 +171,45 @@
   </div>
 
 </div>
+// share function working java script
+<script>
+function shareListing() {
+  // Get current page URL
+  const url = window.location.href;
+  const title = "<%= listing.title %>";
+  const text = `Check out this amazing place: ${title}! ✨`;
+  
+  // Check if Web Share API is supported
+  if (navigator.share) {
+    navigator.share({
+      title: title,
+      text: text,
+      url: url
+    }).catch((err) => {
+      if (err.name !== 'AbortError') {
+        console.error('Share error:', err);
+        fallbackShare(url, text);
+      }
+    });
+  } else {
+    fallbackShare(url, text);
+  }
+}
 
-<script src="/js/map.js"></script>
+function fallbackShare(url, text) {
+  // Create a temporary input to copy to clipboard
+  const shareText = `${text}\n${url}`;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(shareText).then(() => {
+      alert('✅ Link copied to clipboard! Share it anywhere.');
+    }).catch(() => {
+      // Fallback: prompt with the link
+      prompt('Copy this link to share:', shareText);
+    });
+  } else {
+    prompt('Copy this link to share:', shareText);
+  }
+}
+</script>
+<script src="/js/map.js">
+</script>
