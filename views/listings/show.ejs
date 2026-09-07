@@ -8,15 +8,19 @@
   const listing = <%- JSON.stringify(listing) %>;
 </script>
 
+
 <div class="container mt-4">
 
-  <!-- Title -->
+  <!-- Title with Share Button -->
   <div class="row">
     <div class="col-lg-8 offset-lg-2">
-      <h2 class="fw-bold mb-3 animate__animated animate__fadeInDown">
-        <%= listing.title %>
-      </h2>
- <!-- SHARE BUTTON (creative) -->
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h2 class="fw-bold mb-3 animate__animated animate__fadeInDown">
+          <i class="fa-solid fa-house-chimney me-2" style="color: #ff385c;"></i>
+          <%= listing.title %>
+        </h2>
+        
+        <!-- SHARE BUTTON (creative) -->
         <button class="btn btn-outline-dark rounded-pill px-4 animate__animated animate__fadeInDown" 
                 onclick="shareListing()" 
                 style="border: 2px solid #ff385c; color: #ff385c; font-weight: 600; transition: all 0.3s ease;"
@@ -24,6 +28,7 @@
                 onmouseout="this.style.background='transparent'; this.style.color='#ff385c';">
           <i class="fa-solid fa-share-nodes me-2"></i> Share
         </button>
+      </div>
     </div>
   </div>
 
@@ -39,52 +44,268 @@
 
         <div class="card-body p-4">
 
-          <p class="mb-2">
-            <strong>Owner:</strong> 
-            <%= listing.owner ? listing.owner.username : "Unknown" %>
-          </p>
+          <!-- Professional Meta Info with Icons -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <div class="d-flex align-items-center gap-2">
+                <i class="fa-solid fa-user" style="color: #ff385c; font-size: 1.2rem;"></i>
+                <span><strong>Owner:</strong> <%= listing.owner ? listing.owner.username : "Unknown" %></span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="d-flex align-items-center gap-2">
+                <i class="fa-solid fa-tag" style="color: #ff385c; font-size: 1.2rem;"></i>
+                <span class="fs-5 fw-semibold text-danger">₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> <small style="font-weight:400; font-size:0.8rem;">/ Night</small></span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="d-flex align-items-center gap-2">
+                <i class="fa-solid fa-location-dot" style="color: #ff385c; font-size: 1.2rem;"></i>
+                <span class="text-muted"><%= listing.location %>, <%= listing.country %></span>
+              </div>
+            </div>
+          </div>
 
-          <p class="mb-2"><%= listing.description %></p>
+          <!-- Description -->
+          <p class="mb-3"><%= listing.description %></p>
 
-          <p class="fs-5 fw-semibold text-danger">
-            ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> / Night
-          </p>
+          <!-- Rating Display with Star Count -->
+          <div class="mb-3">
+            <span class="badge bg-success rounded-pill px-3 py-2" style="font-size: 1rem;">
+              <i class="fa-solid fa-star me-1" style="color: #ffc107;"></i> 
+              <%= listing.reviews && listing.reviews.length > 0 ? (listing.reviews.reduce((sum, r) => sum + r.rating, 0) / listing.reviews.length).toFixed(1) : "4.9" %> ★ 
+              (<%= listing.reviews ? listing.reviews.length : 24 %> reviews)
+            </span>
+          </div>
 
-          <p class="text-muted mb-1">
-            <i class="fa-solid fa-location-dot"></i> 
-            <%= listing.location %>, <%= listing.country %>
-          </p>
+          <!-- ====== 20 FREE FEATURES SECTION (With Icons) ====== -->
+          <div class="mt-4 mb-4 p-3 bg-light rounded-4 border">
+            <h6 class="fw-bold mb-3">
+              <i class="fa-solid fa-gift me-2" style="color: #ff385c;"></i> 
+              20 Free Features Included
+            </h6>
+            <div class="row g-2">
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-wifi" style="color: #28a745;"></i>
+                  <small>Free WiFi</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-parking" style="color: #28a745;"></i>
+                  <small>Free Parking</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-mug-saucer" style="color: #28a745;"></i>
+                  <small>Breakfast</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-tv" style="color: #28a745;"></i>
+                  <small>Smart TV</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-snowflake" style="color: #28a745;"></i>
+                  <small>AC</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-hot-tub" style="color: #28a745;"></i>
+                  <small>Hot Tub</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-dumbbell" style="color: #28a745;"></i>
+                  <small>Gym</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-swimmer" style="color: #28a745;"></i>
+                  <small>Pool</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-utensils" style="color: #28a745;"></i>
+                  <small>Kitchen</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-fire-extinguisher" style="color: #28a745;"></i>
+                  <small>Safety</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-shield" style="color: #28a745;"></i>
+                  <small>Security</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-broom" style="color: #28a745;"></i>
+                  <small>Cleaning</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-towel" style="color: #28a745;"></i>
+                  <small>Towels</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-soap" style="color: #28a745;"></i>
+                  <small>Toiletries</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-washing-machine" style="color: #28a745;"></i>
+                  <small>Laundry</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-iron" style="color: #28a745;"></i>
+                  <small>Iron</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-baby" style="color: #28a745;"></i>
+                  <small>Baby Care</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-wheelchair" style="color: #28a745;"></i>
+                  <small>Accessible</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-tree" style="color: #28a745;"></i>
+                  <small>Garden</small>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="d-flex align-items-center gap-2 p-1">
+                  <i class="fa-solid fa-fire" style="color: #28a745;"></i>
+                  <small>Fireplace</small>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <!-- Edit/Delete Buttons -->
           <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
             <div class="d-flex gap-3 mt-3 animate__animated animate__fadeInUp">
               <a href="/listings/<%=listing._id%>/edit" 
                  class="btn btn-outline-dark rounded-pill px-4">
-                 Edit
+                 <i class="fa-solid fa-pen me-1"></i> Edit
               </a>
 
               <form method="POST" 
                     action="/listings/<%=listing._id%>?_method=DELETE">
                 <button class="btn btn-dark rounded-pill px-4">
-                  Delete
+                  <i class="fa-solid fa-trash me-1"></i> Delete
                 </button>
               </form>
             </div>
           <% } %>
 
-          <!-- Booking Button -->
-          <div class="mt-4 text-center">
-            <a href="/listings/<%= listing._id %>/booking" 
-               class="btn btn-danger btn-lg rounded-pill px-5 shadow animate__animated animate__pulse animate__infinite">
-               Book Now
-            </a>
+          <!-- ====== PROFESSIONAL BOOKING SECTION (Airbnb Style) ====== -->
+          <div class="mt-4 p-4 bg-light rounded-4 border shadow-sm">
+            <div class="row g-3 align-items-end">
+              
+              <!-- Check-in Date -->
+              <div class="col-md-3">
+                <label class="fw-semibold mb-1" style="font-size: 0.9rem;">
+                  <i class="fa-regular fa-calendar me-1"></i> CHECK-IN
+                </label>
+                <input type="date" 
+                       id="checkIn" 
+                       class="form-control rounded-pill border-2" 
+                       style="border-color: #ddd; background: white;"
+                       value="<%= new Date().toISOString().split('T')[0] %>">
+              </div>
+
+              <!-- Check-out Date -->
+              <div class="col-md-3">
+                <label class="fw-semibold mb-1" style="font-size: 0.9rem;">
+                  <i class="fa-regular fa-calendar me-1"></i> CHECK-OUT
+                </label>
+                <input type="date" 
+                       id="checkOut" 
+                       class="form-control rounded-pill border-2" 
+                       style="border-color: #ddd; background: white;"
+                       value="<%= new Date(Date.now() + 86400000 * 3).toISOString().split('T')[0] %>">
+              </div>
+
+              <!-- Guests -->
+              <div class="col-md-3">
+                <label class="fw-semibold mb-1" style="font-size: 0.9rem;">
+                  <i class="fa-regular fa-user me-1"></i> GUESTS
+                </label>
+                <select id="guests" class="form-select rounded-pill border-2" style="border-color: #ddd; background: white;">
+                  <option value="1">1 Guest</option>
+                  <option value="2" selected>2 Guests</option>
+                  <option value="3">3 Guests</option>
+                  <option value="4">4 Guests</option>
+                  <option value="5">5 Guests</option>
+                  <option value="6">6+ Guests</option>
+                </select>
+              </div>
+
+              <!-- Book Now Button -->
+              <div class="col-md-3">
+                <a href="/listings/<%= listing._id %>/booking" 
+                   class="btn btn-danger btn-lg rounded-pill w-100 shadow animate__animated animate__pulse animate__infinite"
+                   style="background: #ff385c; border: none; font-weight: 700;">
+                   <i class="fa-regular fa-circle-check me-2"></i> Book Now
+                </a>
+              </div>
+            </div>
+
+            <!-- Price Summary (dynamic) - Shows 1 night price clearly -->
+            <div class="row mt-3">
+              <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded-3">
+                  <span class="text-muted">
+                    <i class="fa-regular fa-clock me-1"></i> 
+                    <span id="nightsCount">3</span> nights × ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "0" %> 
+                    <span id="priceBreakdown" class="text-muted" style="font-size: 0.9rem;"></span>
+                  </span>
+                  <span class="fw-bold text-danger" id="priceSummary">
+                    ₹<%= listing.price ? (listing.price * 3).toLocaleString("en-IN") : "N/A" %>
+                  </span>
+                </div>
+                <!-- Show 1 night price clearly -->
+                <div class="mt-2 text-center text-muted" style="font-size: 0.85rem;">
+                  <i class="fa-regular fa-circle-check me-1" style="color: #28a745;"></i> 
+                  <span id="oneNightPrice">₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "0" %></span> per night 
+                  <i class="fa-regular fa-moon ms-2 me-1"></i> 1 night stay
+                </div>
+              </div>
+            </div>
           </div>
+          <!-- ====== END BOOKING SECTION ====== -->
 
         </div>
       </div>
     </div>
   </div>
-
   <!-- Review Section -->
   <div class="row mt-5">
     <div class="col-lg-8 offset-lg-2">
